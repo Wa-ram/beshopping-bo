@@ -3,28 +3,21 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import ProductFormShippingCard from "./product-form-shipping-card";
-import ProductFormInventoryCard from "./product-form-inventory-card";
-import ProductFormPricingCard from "./product-form-pricing-card";
 import { ImageUpload } from "@/components/ui/image-upload";
 
-const ProductPricingAndOptions = () => {
+const CollectionGeneralInfo = () => {
   return (
     <>
-      <ProductBasicsInfoCard />
-      <ProductMediaCard />
-      <ProductFormPricingCard />
-      <ProductFormInventoryCard />
-      <ProductFormShippingCard />
-      <ProductVariantCard />
-      <ProductSEOCard />
+      <CollectionBasicsInfoCard />
+      <CollectionMediaCard />
+      <CollectionSEOCard />
     </>
   );
 };
 
-export default ProductPricingAndOptions;
+export default CollectionGeneralInfo;
 
-const ProductBasicsInfoCard = () => {
+const CollectionBasicsInfoCard = () => {
   return (
     <Card>
       <CardContent className="space-y-4 mt-4">
@@ -37,8 +30,8 @@ const ProductBasicsInfoCard = () => {
             // error={errors.title?.message}
           />
           {/* {errors.title?.message && (
-              <span className="">{errors.title?.message as ReactNode}</span>
-            )} */}
+                <span className="">{errors.title?.message as ReactNode}</span>
+              )} */}
         </div>
         <div className="space-y-1">
           <Label htmlFor="description">Description</Label>
@@ -52,7 +45,7 @@ const ProductBasicsInfoCard = () => {
   );
 };
 
-const ProductMediaCard = () => {
+const CollectionMediaCard = () => {
   const [images, setImages] = useState<string[]>([]);
 
   return (
@@ -61,30 +54,13 @@ const ProductMediaCard = () => {
         <CardTitle>Media</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <ImageUpload values={images} onChange={setImages} maxFiles={5} />
+        <ImageUpload values={images} onChange={setImages} maxFiles={1} />
       </CardContent>
     </Card>
   );
 };
 
-const ProductVariantCard = () => {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Variantes</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div>
-          <span className="text-[#3574F2]">
-            <span>+</span> Ajouter des options comme la taille et la couleur
-          </span>
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
-
-const ProductSEOCard = () => {
+const CollectionSEOCard = () => {
   const product = {
     title: "custum-mug",
     description:
