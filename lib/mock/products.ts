@@ -1,4 +1,4 @@
-import { Product } from "@/lib/types/product"
+import { Product } from "@/lib/types/product";
 
 export const mockProducts: Product[] = [
   {
@@ -29,15 +29,15 @@ export const mockProducts: Product[] = [
         quantity: 30,
         options: [
           { name: "Size", value: "Small" },
-          { name: "Color", value: "White" }
-        ]
-      }
+          { name: "Color", value: "White" },
+        ],
+      },
     ],
     seo: {
       title: "Classic White T-Shirt | Your Brand",
       description: "Premium cotton t-shirt for everyday comfort",
-      keywords: ["t-shirt", "cotton", "basics"]
-    }
-  }
+      keywords: ["t-shirt", "cotton", "basics"],
+    },
+  },
   // Add more mock products as needed
-]
+];

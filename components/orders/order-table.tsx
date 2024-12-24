@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
 import {
   Table,
   TableBody,
@@ -8,33 +8,33 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Badge } from "@/components/ui/badge"
-import { useOrderStore } from "@/lib/stores/order-store"
-import { Order } from "@/lib/types/order"
-import { formatCurrency } from "@/lib/utils"
+} from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { useOrderStore } from "@/lib/stores/order-store";
+import { Order } from "@/lib/types/order";
+import { formatCurrency } from "@/lib/utils";
 
 interface OrderTableProps {
-  orders: Order[]
+  orders: Order[];
 }
 
 export function OrderTable({ orders }: OrderTableProps) {
-  const router = useRouter()
-  const { selectedOrders, toggleOrderSelection } = useOrderStore()
+  const router = useRouter();
+  const { selectedOrders, toggleOrderSelection } = useOrderStore();
 
-  const getStatusBadgeVariant = (status: Order['fulfillmentStatus']) => {
+  const getStatusBadgeVariant = (status: Order["fulfillmentStatus"]) => {
     switch (status) {
-      case 'fulfilled':
-        return 'default'
-      case 'partially_fulfilled':
-        return 'secondary'
-      case 'unfulfilled':
-        return 'destructive'
+      case "fulfilled":
+        return "default";
+      case "partially_fulfilled":
+        return "secondary";
+      case "unfulfilled":
+        return "destructive";
       default:
-        return 'outline'
+        return "outline";
     }
-  }
+  };
 
   return (
     <div className="rounded-md border">
@@ -46,10 +46,11 @@ export function OrderTable({ orders }: OrderTableProps) {
             </TableHead>
             <TableHead>Order</TableHead>
             <TableHead>Date</TableHead>
-            <TableHead>Customer</TableHead>
-            <TableHead>Fulfillment</TableHead>
-            <TableHead>Payment</TableHead>
-            <TableHead className="text-right">Total</TableHead>
+            <TableHead>Client</TableHead>
+            <TableHead>Total</TableHead>
+            <TableHead>Articles</TableHead>
+            <TableHead>Statut d'accomplissement</TableHead>
+            <TableHead>Statut de la livraison</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -57,7 +58,7 @@ export function OrderTable({ orders }: OrderTableProps) {
             <TableRow
               key={order.id}
               className="cursor-pointer"
-              onClick={() => router.push(`/orders/${order.id}`)}
+              onClick={() => router.push(`/dashboard/orders/${order.id}`)}
             >
               <TableCell onClick={(e) => e.stopPropagation()}>
                 <Checkbox
@@ -68,14 +69,10 @@ export function OrderTable({ orders }: OrderTableProps) {
               <TableCell>
                 <div>
                   <div className="font-medium">{order.orderNumber}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {order.items.length} items
-                  </div>
+                  <div className="text-sm text-muted-foreground"></div>
                 </div>
               </TableCell>
-              <TableCell>
-                {order.createdAt.toLocaleDateString()}
-              </TableCell>
+              <TableCell>{order.createdAt.toLocaleDateString()}</TableCell>
               <TableCell>
                 <div>
                   <div className="font-medium">{order.customerName}</div>
@@ -84,23 +81,20 @@ export function OrderTable({ orders }: OrderTableProps) {
                   </div>
                 </div>
               </TableCell>
+              <TableCell>{formatCurrency(order.total)}</TableCell>
+              <TableCell>{order.items.length}</TableCell>
               <TableCell>
                 <Badge variant={getStatusBadgeVariant(order.fulfillmentStatus)}>
-                  {order.fulfillmentStatus.replace('_', ' ')}
+                  {order.fulfillmentStatus.replace("_", " ")}
                 </Badge>
               </TableCell>
               <TableCell>
-                <Badge variant={order.paymentStatus === 'paid' ? 'default' : 'destructive'}>
-                  {order.paymentStatus}
-                </Badge>
-              </TableCell>
-              <TableCell className="text-right">
-                {formatCurrency(order.total)}
+                {order.shippingDetails && order.shippingDetails?.shippingMethod}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }

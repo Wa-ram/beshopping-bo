@@ -51,7 +51,7 @@ export function OrderFulfillment({ order }: OrderFulfillmentProps) {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label htmlFor="carrier">Shipping Carrier</Label>
             <Input
               id="carrier"
@@ -60,7 +60,7 @@ export function OrderFulfillment({ order }: OrderFulfillmentProps) {
               placeholder="Enter shipping carrier"
             />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label htmlFor="tracking">Tracking Number</Label>
             <Input
               id="tracking"

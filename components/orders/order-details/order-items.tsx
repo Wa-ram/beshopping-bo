@@ -1,16 +1,16 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Order } from "@/lib/types/order"
-import { formatCurrency } from "@/lib/utils"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Order } from "@/lib/types/order";
+import { formatCurrency } from "@/lib/utils";
 
 interface OrderItemsProps {
-  order: Order
+  order: Order;
 }
 
 export function OrderItems({ order }: OrderItemsProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Order Items</CardTitle>
+        <CardTitle>Produits</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -31,5 +31,5 @@ export function OrderItems({ order }: OrderItemsProps) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

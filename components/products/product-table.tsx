@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,34 +8,35 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Badge } from "@/components/ui/badge"
-import { useProductStore } from "@/lib/stores/product-store"
-import { Product } from "@/lib/types/product"
-import { formatCurrency } from "@/lib/utils"
-import { useRouter } from "next/navigation"
+} from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { useProductStore } from "@/lib/stores/product-store";
+import { Product } from "@/lib/types/product";
+import { formatCurrency } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 interface ProductTableProps {
-  products: Product[]
+  products: Product[];
 }
 
 export function ProductTable({ products }: ProductTableProps) {
-  const router = useRouter()
-  const { selectedProducts, toggleProductSelection } = useProductStore()
+  const router = useRouter();
+  const { selectedProducts, toggleProductSelection } = useProductStore();
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border overflow-hidden">
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead className="w-12">
               <Checkbox />
             </TableHead>
-            <TableHead>Product</TableHead>
+            <TableHead className="w-20"></TableHead>
+            <TableHead>Nom du produit</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Inventory</TableHead>
-            <TableHead className="text-right">Price</TableHead>
+            <TableHead>Inventaire</TableHead>
+            <TableHead>Catégorie</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -43,7 +44,7 @@ export function ProductTable({ products }: ProductTableProps) {
             <TableRow
               key={product.id}
               className="cursor-pointer"
-              onClick={() => router.push(`/products/${product.id}`)}
+              onClick={() => router.push(`/dashboard/products/${product.id}`)}
             >
               <TableCell onClick={(e) => e.stopPropagation()}>
                 <Checkbox
@@ -60,11 +61,13 @@ export function ProductTable({ products }: ProductTableProps) {
                       className="h-10 w-10 rounded-md object-cover"
                     />
                   )}
-                  <div>
-                    <div className="font-medium">{product.title}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {product.sku}
-                    </div>
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className="flex flex-col gap-3">
+                  <div className="font-medium">{product.title}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {product.sku}
                   </div>
                 </div>
               </TableCell>
@@ -86,13 +89,11 @@ export function ProductTable({ products }: ProductTableProps) {
                   ? `${product.quantity} in stock`
                   : "Not tracked"}
               </TableCell>
-              <TableCell className="text-right">
-                {formatCurrency(product.price)}
-              </TableCell>
+              <TableCell>{formatCurrency(product.price)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }

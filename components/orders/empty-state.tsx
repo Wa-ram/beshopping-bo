@@ -1,7 +1,6 @@
-"use client"
+"use client";
 
-import { ShoppingCart } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { ShoppingCart } from "lucide-react";
 
 export function EmptyState() {
   return (
@@ -9,17 +8,12 @@ export function EmptyState() {
       <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
         <ShoppingCart className="h-10 w-10" />
       </div>
-      <h2 className="mt-6 text-xl font-semibold">No orders yet</h2>
-      <p className="mt-2 text-sm text-muted-foreground max-w-sm">
-        When customers place orders, they'll appear here. You can process orders,
-        manage fulfillment, and track shipping status.
+      <h2 className="mt-6 text-xl font-semibold">Aucune commande</h2>
+      <p className="mt-2 text-sm text-muted-foreground max-w-xl">
+        Lorsque les clients passent des commandes, celles-ci apparaissent ici.
+        Vous pouvez traiter les commandes, gérer l'exécution et suivre l'état
+        des expéditions.
       </p>
-      <Button
-        variant="outline"
-        className="mt-6"
-      >
-        Learn about order management
-      </Button>
     </div>
-  )
+  );
 }

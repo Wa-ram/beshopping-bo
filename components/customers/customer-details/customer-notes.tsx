@@ -1,20 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Order } from "@/lib/types/order";
-import { useState } from "react";
+import { useCustomerStore } from "@/lib/stores/customer-store";
+import { Customer } from "@/lib/types/customer";
+import React, { useState } from "react";
 
-interface OrderNotesProps {
-  order: Order;
+interface CustomerInfoProps {
+  customer: Customer;
 }
 
-export function OrderNotes({ order }: OrderNotesProps) {
+const CustomerNotes = ({ customer }: CustomerInfoProps) => {
   const [isEditNote, setIsEditNote] = useState(false);
-  const [actualNote, setActualNote] = useState(order.notes);
-  const [notes, setNotes] = useState(order.notes);
-  // if (!order.notes) {
-  //   return null;
-  // }
+  const [actualNote, setActualNote] = useState(customer.notes);
+
+  const { updateCustomerNote } = useCustomerStore();
 
   return (
     <Card>
@@ -30,25 +29,28 @@ export function OrderNotes({ order }: OrderNotesProps) {
           </span>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-6">
         {!isEditNote && (
           <div>
-            {order.notes === "" || order.notes === undefined
+            {customer.notes === "" || customer.notes === undefined
               ? "Ce client n’a encore aucune note"
-              : order.notes}
+              : customer.notes}
           </div>
         )}
         {isEditNote && (
           <>
             <Textarea
               placeholder="Add a note about this customer..."
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              className="min-h-[80px]"
+              value={customer.notes || ""}
+              onChange={(e) => updateCustomerNote(customer.id, e.target.value)}
+              className="min-h-[100px]"
             />
             <div>
               <Button
                 onClick={() => {
+                  if (actualNote !== undefined) {
+                    updateCustomerNote(customer.id, actualNote);
+                  }
                   setIsEditNote(false);
                 }}
               >
@@ -61,4 +63,6 @@ export function OrderNotes({ order }: OrderNotesProps) {
       </CardContent>
     </Card>
   );
-}
+};
+
+export default CustomerNotes;

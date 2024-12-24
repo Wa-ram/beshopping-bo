@@ -41,7 +41,7 @@ export function CollectionTable({ collections }: CollectionTableProps) {
             <TableRow
               key={collection.id}
               className="cursor-pointer"
-              onClick={() => router.push(`/products/collections/${collection.id}`)}
+              onClick={() => router.push(`/dashboard/products/collections/${collection.id}`)}
             >
               <TableCell onClick={(e) => e.stopPropagation()}>
                 <Checkbox

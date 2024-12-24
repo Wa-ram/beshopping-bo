@@ -48,7 +48,7 @@ export function ProductHeader() {
           </Button>
           <Button
             size="sm"
-            onClick={() => router.push("/products/new")}
+            onClick={() => router.push("/dashboard/products/add-new")}
           >
             <Plus className="h-4 w-4 mr-2" />
             Add Product

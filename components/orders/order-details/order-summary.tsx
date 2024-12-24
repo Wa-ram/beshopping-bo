@@ -9,11 +9,11 @@ interface OrderSummaryProps {
 export function OrderSummary({ order }: OrderSummaryProps) {
   return (
     <Card>
-      <CardHeader>
+      {/* <CardHeader>
         <CardTitle>Order Summary</CardTitle>
-      </CardHeader>
+      </CardHeader> */}
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-4 mt-6">
           <div className="flex justify-between text-sm">
             <span>Subtotal</span>
             <span>{formatCurrency(order.subtotal)}</span>

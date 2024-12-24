@@ -57,13 +57,13 @@ export function BulkFulfillment() {
           <DialogTitle>Bulk Fulfill Orders</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 pt-4">
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label>Selected Orders</Label>
             <div className="text-sm text-muted-foreground">
               {selectedOrders.length} orders selected
             </div>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label htmlFor="carrier">Shipping Carrier</Label>
             <Input
               id="carrier"
