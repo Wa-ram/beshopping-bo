@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   DropdownMenu,
@@ -7,16 +7,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useRouter } from "next/navigation"
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Search } from "@/components/search";
+import { useRouter } from "next/navigation";
 
 export function UserNav() {
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <div className="ml-auto flex items-center space-x-4">
+      <Search />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -36,11 +38,17 @@ export function UserNav() {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => router.push("/profile")}>
-            Profile
+          <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+            Dashboard
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push("/settings")}>
-            Settings
+          <DropdownMenuItem onClick={() => router.push("/store-details")}>
+            Store Details
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/shipping")}>
+            Shipping & Delivery
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/taxes")}>
+            Taxes & Duties
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => router.push("/login")}>
@@ -49,5 +57,5 @@ export function UserNav() {
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-  )
+  );
 }

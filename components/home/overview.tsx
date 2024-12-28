@@ -1,6 +1,13 @@
-"use client"
+"use client";
 
-import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import {
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 const data = [
   { name: "Jan", total: 2400 },
@@ -10,33 +17,33 @@ const data = [
   { name: "May", total: 4800 },
   { name: "Jun", total: 3800 },
   { name: "Jul", total: 4300 },
-]
+];
 
 export function Overview() {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <LineChart data={data}>
-        <XAxis 
+        <XAxis
           dataKey="name"
           stroke="#888888"
           fontSize={12}
-          tickLine={false}
           axisLine={false}
+          tickLine={false}
         />
         <YAxis
           stroke="#888888"
           fontSize={12}
-          tickLine={false}
           axisLine={false}
+          tickLine={false}
           tickFormatter={(value) => `$${value}`}
         />
-        <Tooltip 
-          contentStyle={{ 
-            background: 'hsl(var(--background))',
-            border: '1px solid hsl(var(--border))',
-            borderRadius: 'var(--radius)',
+        <Tooltip
+          contentStyle={{
+            background: "hsl(var(--background))",
+            border: "1px solid hsl(var(--border))",
+            borderRadius: "var(--radius)",
           }}
-          labelStyle={{ color: 'hsl(var(--foreground))' }}
+          labelStyle={{ color: "hsl(var(--foreground))" }}
         />
         <Line
           type="monotone"
@@ -47,5 +54,5 @@ export function Overview() {
         />
       </LineChart>
     </ResponsiveContainer>
-  )
+  );
 }

@@ -7,10 +7,10 @@ import {
 import { Label } from "@/components/ui/label";
 import { TagInputOOTB } from "@/components/ui/tag-input-ootb";
 import Link from "next/link";
-import React, { useState } from "react";    
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const ProductFormOrganisation = () => {
+const ProductFormOrganisation = (formik: any) => {
   const [tags, setTags] = useState<{ label: string; value: string }[]>([]);
 
   const suggestions = [

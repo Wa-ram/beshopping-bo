@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import React, { useRef, useState } from "react";
 
-const ProductFormPublishingCard = () => {
+const ProductFormPublishingCard = (formik: any) => {
   const [publishingPeriod, setPublishingPeriod] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
 

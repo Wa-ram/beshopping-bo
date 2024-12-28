@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const ProductformStatutCard = () => {
+const ProductformStatutCard = (formik:any) => {
   return (
     <Card>
       <CardHeader>

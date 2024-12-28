@@ -8,7 +8,7 @@ import ProductFormInventoryCard from "./product-form-inventory-card";
 import ProductFormPricingCard from "./product-form-pricing-card";
 import { ImageUpload } from "@/components/ui/image-upload";
 
-const ProductPricingAndOptions = () => {
+const ProductPricingAndOptions = (formik: any) => {
   return (
     <>
       <ProductBasicsInfoCard />
