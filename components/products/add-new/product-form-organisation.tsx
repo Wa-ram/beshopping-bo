@@ -10,7 +10,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const ProductFormOrganisation = (formik: any) => {
+const ProductFormOrganisation = () => {
   const [tags, setTags] = useState<{ label: string; value: string }[]>([]);
 
   const suggestions = [

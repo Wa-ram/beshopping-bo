@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,8 +7,10 @@ import ProductFormShippingCard from "./product-form-shipping-card";
 import ProductFormInventoryCard from "./product-form-inventory-card";
 import ProductFormPricingCard from "./product-form-pricing-card";
 import { ImageUpload } from "@/components/ui/image-upload";
+import { ProductVariantCard } from "./product-variant-card";
+import { useFormikContext } from "formik";
 
-const ProductPricingAndOptions = (formik: any) => {
+const ProductPricingAndOptions = () => {
   return (
     <>
       <ProductBasicsInfoCard />
@@ -25,6 +27,8 @@ const ProductPricingAndOptions = (formik: any) => {
 export default ProductPricingAndOptions;
 
 const ProductBasicsInfoCard = () => {
+  const { values, errors, touched, handleChange, handleBlur } =
+    useFormikContext<any>();
   return (
     <Card>
       <CardContent className="space-y-4 mt-4">
@@ -33,19 +37,25 @@ const ProductBasicsInfoCard = () => {
           <Input
             id="title"
             placeholder="Titre du produit"
-            // {...register("title")}
-            // error={errors.title?.message}
+            value={values.title}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
-          {/* {errors.title?.message && (
-              <span className="">{errors.title?.message as ReactNode}</span>
-            )} */}
+          {errors.title && touched.title && (
+            <div className="text-red-500">{errors.title as ReactNode}</div>
+          )}
         </div>
         <div className="space-y-1">
           <Label htmlFor="description">Description</Label>
           <Textarea
             id="description"
-            // {...register("description")}
+            value={values.description}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
+          {errors.description && touched.description && (
+            <div className="text-red-500">{errors.description as ReactNode}</div>
+          )}
         </div>
       </CardContent>
     </Card>
@@ -62,23 +72,6 @@ const ProductMediaCard = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         <ImageUpload values={images} onChange={setImages} maxFiles={5} />
-      </CardContent>
-    </Card>
-  );
-};
-
-const ProductVariantCard = () => {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Variantes</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div>
-          <span className="text-[#3574F2]">
-            <span>+</span> Ajouter des options comme la taille et la couleur
-          </span>
-        </div>
       </CardContent>
     </Card>
   );

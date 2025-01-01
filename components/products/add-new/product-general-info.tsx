@@ -3,12 +3,12 @@ import ProductFormPublishingCard from "./product-form-publishing-card";
 import ProductformStatutCard from "./product-form-statut-card";
 import ProductFormOrganisation from "./product-form-organisation";
 
-const ProductGeneralInfo = (formik: any) => {
+const ProductGeneralInfo = () => {
   return (
     <>
-      <ProductformStatutCard formik={formik}/>
-      <ProductFormPublishingCard formik={formik}/>
-      <ProductFormOrganisation formik={formik}/>
+      <ProductformStatutCard />
+      <ProductFormPublishingCard />
+      <ProductFormOrganisation />
     </>
   );
 };

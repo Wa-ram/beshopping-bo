@@ -1,5 +1,5 @@
 "use client";
-import { useFormik } from "formik";
+import { Form, Formik, FormikHelpers, useFormik } from "formik";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarIcon, Loader2 } from "lucide-react";
@@ -8,11 +8,9 @@ import ProductPricingAndOptions from "./product-pricing-and-options";
 import * as Yup from "yup";
 
 interface ProductFormValues {
-  status: "Actif" | "Archivé" | "Draft";
-  publication: {
-    type: "instant" | "scheduled";
-    date?: string; // Optionnel pour la publication programmée
-  };
+  status: "actif" | "archive" | "draft";
+  is_published: boolean;
+  published_at?: Date;
   category: string;
   productType: string;
   collections: string[];
@@ -40,13 +38,6 @@ interface ProductFormValues {
   }>;
 }
 
-const productSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  description: z.string(),
-  status: z.enum(["draft", "active", "archived"]),
-  price: z.number().min(0),
-});
-
 interface ProductFormProps {
   onSubmit: (data: any) => Promise<void>;
   isLoading?: boolean;
@@ -59,11 +50,9 @@ export function ProductForm({
   initialData,
 }: ProductFormProps) {
   const initialValues: ProductFormValues = {
-    status: "Actif",
-    publication: {
-      type: "instant",
-      date: "",
-    },
+    status: "actif",
+    is_published: true,
+    published_at: undefined,
     category: "",
     productType: "",
     collections: [],
@@ -80,7 +69,7 @@ export function ProductForm({
     quantity: 0,
     hasSKU: false,
     sku: "",
-    isPhysical: true,
+    isPhysical: false,
     weight: undefined,
     weightUnit: "kg",
     variants: [],
@@ -90,16 +79,24 @@ export function ProductForm({
     status: Yup.string()
       .oneOf(["Actif", "Archivé", "Draft"])
       .required("Statut requis"),
-    publication: Yup.object({
-      type: Yup.string().oneOf(["instant", "scheduled"]).required(),
-      date: Yup.string().when("type", {
-        is: "scheduled",
-        then: (schema) =>
-          schema.required(
-            "La date est obligatoire pour une publication programmée"
-          ),
-      }),
+    is_published: Yup.boolean(),
+    published_at: Yup.date().when("is_published", {
+      is: "true",
+      then: (schema) =>
+        schema.required(
+          "La date est obligatoire pour une publication programmée"
+        ),
     }),
+    // publication: Yup.object({
+    //   type: Yup.string().oneOf(["instant", "scheduled"]).required(),
+    //   date: Yup.string().when("type", {
+    //     is: "scheduled",
+    //     then: (schema) =>
+    //       schema.required(
+    //         "La date est obligatoire pour une publication programmée"
+    //       ),
+    //   }),
+    // }),
     category: Yup.string().required("La catégorie est obligatoire"),
     productType: Yup.string().required("Le type de produit est obligatoire"),
     collections: Yup.array().of(Yup.string()),
@@ -152,6 +149,14 @@ export function ProductForm({
     ),
   });
 
+  const handleSubmit = (
+    values: typeof initialValues,
+    { setSubmitting }: FormikHelpers<typeof initialValues>
+  ) => {
+    console.log("Form Submitted:", values);
+    setSubmitting(false);
+  };
+
   const formik = useFormik<ProductFormValues>({
     initialValues,
     validationSchema,
@@ -161,25 +166,31 @@ export function ProductForm({
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="space-y-8">
-      <div className="flex gap-6">
-        <div className="lg:w-8/12 gap-6 flex flex-col order-2 lg:order-1">
-          <ProductPricingAndOptions formik={formik} />
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      <Form className="space-y-8">
+        <div className="flex gap-6">
+          <div className="lg:w-8/12 gap-6 flex flex-col order-2 lg:order-1">
+            <ProductPricingAndOptions />
+          </div>
+          <div className="lg:w-4/12 gap-6 flex flex-col order-1 lg:order-2">
+            <ProductGeneralInfo />
+          </div>
         </div>
-        <div className="lg:w-4/12 gap-6 flex flex-col order-1 lg:order-2">
-          <ProductGeneralInfo formik={formik} />
-        </div>
-      </div>
 
-      <div className="flex justify-end gap-4">
-        {/* <Button variant="outline" type="button">
+        <div className="flex justify-end gap-4">
+          {/* <Button variant="outline" type="button">
           Save as Draft
         </Button> */}
-        <Button type="submit" disabled={isLoading}>
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Publish Product
-        </Button>
-      </div>
-    </form>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Ajouter le produit
+          </Button>
+        </div>
+      </Form>
+    </Formik>
   );
 }

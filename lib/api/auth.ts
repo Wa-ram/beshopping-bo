@@ -13,6 +13,8 @@ api.interceptors.request.use((config) => {
     .find((row) => row.startsWith("XSRF-TOKEN"))
     ?.split("=")[1];
 
+  console.log(token);
+
   if (token) {
     config.headers["X-XSRF-TOKEN"] = token;
   }
@@ -29,26 +31,27 @@ interface RegisterData {
   lastName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
-interface AuthResponse {
-  token: string;
-  user: {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-  };
-}
+// interface AuthResponse {
+//   token: string;
+//   user: {
+//     id: string;
+//     email: string;
+//     firstName: string;
+//     lastName: string;
+//   };
+// }
 
-export async function login(
-  credentials: LoginCredentials
-): Promise<AuthResponse> {
+export async function login(credentials: LoginCredentials) {
+  // : Promise<AuthResponse>
   const response = await api.post("/api/login", credentials);
   return response.data;
 }
 
-export async function register(data: RegisterData): Promise<AuthResponse> {
+export async function register(data: RegisterData) {
+  // : Promise<AuthResponse>
   const response = await api.post("/api/register", data);
   return response.data;
 }

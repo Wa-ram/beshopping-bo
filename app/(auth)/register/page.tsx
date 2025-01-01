@@ -27,10 +27,11 @@ export default function RegisterPage() {
     lastName: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
   const router = useRouter();
   const { toast } = useToast();
-  const { login } = useAuth();
+  // const { login } = useAuth();
 
   const mutation = useMutation({
     mutationFn: async (formData: {
@@ -38,6 +39,7 @@ export default function RegisterPage() {
       lastName: string;
       email: string;
       password: string;
+      confirmPassword: string;
     }) => {
       // Get CSRF token before login attempt
       // await getCsrfToken();
@@ -45,7 +47,7 @@ export default function RegisterPage() {
     },
     // mutationFn: ,
     onSuccess: (data) => {
-      login(data.token, data.user);
+      // login(data.token, data.user);
       router.push("/dashboard");
     },
     onError: () => {
@@ -59,6 +61,8 @@ export default function RegisterPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    formData.confirmPassword = formData.password;
     mutation.mutate(formData);
   };
 
@@ -140,6 +144,7 @@ export default function RegisterPage() {
                   required
                 />
               </div>
+
               <Button
                 className="w-full"
                 type="submit"

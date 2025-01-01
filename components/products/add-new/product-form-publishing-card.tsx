@@ -9,9 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import React, { useRef, useState } from "react";
+import { useFormikContext } from "formik";
+import React, { ReactNode, useRef, useState } from "react";
 
-const ProductFormPublishingCard = (formik: any) => {
+const ProductFormPublishingCard = () => {
   const [publishingPeriod, setPublishingPeriod] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
 
@@ -31,6 +32,8 @@ const ProductFormPublishingCard = (formik: any) => {
     setSelectedDate(e.target.value);
   };
 
+  const { values, setFieldValue, handleChange, handleBlur, touched, errors } =
+    useFormikContext<any>();
   return (
     <Card>
       <CardHeader>
@@ -39,36 +42,52 @@ const ProductFormPublishingCard = (formik: any) => {
       <CardContent className="space-y-4">
         <div className="">
           <div className="flex gap-4 items-center">
-            <Select onValueChange={handleSelectChange}>
+            <Select
+              onValueChange={(value) => {
+                if (value === "instant") {
+                  setFieldValue("is_published", true);
+                  setFieldValue("published_at", undefined);
+                } else {
+                  setFieldValue("is_published", false);
+                }
+              }}
+              value={values.is_published ? "instant" : "scheduled"}
+            >
               <SelectTrigger className="SelectTrigger">
                 <SelectValue placeholder="Publication" />
               </SelectTrigger>
               <SelectContent className="SelectTrigger">
                 <SelectItem value="instant">Publication instantanée</SelectItem>
-                <SelectItem value="programmed">
+                <SelectItem value="scheduled">
                   Publication programmée
                 </SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div>
-            {publishingPeriod === "programmed" && (
+            {!values.is_published && (
               <div className="space-y-1 mt-4">
                 <Label htmlFor="title">Date de publication</Label>
 
                 <Input
                   type="date"
-                  value={selectedDate}
-                  onChange={handleDateChange}
+                  value={values.published_at}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                {errors.published_at && touched.published_at && (
+                  <div className="text-red-500">
+                    {errors.published_at as ReactNode}
+                  </div>
+                )}
               </div>
             )}
 
-            {selectedDate !== "" && (
+            {values.published_at !== undefined && (
               <div className="mt-1">
                 <span className="text-sm text-gray-600">
                   Date sélectionnée :{" "}
-                  {new Date(selectedDate).toLocaleDateString()}
+                  {new Date(values.published_at).toLocaleDateString()}
                 </span>
               </div>
             )}

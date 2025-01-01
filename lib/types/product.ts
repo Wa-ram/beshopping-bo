@@ -37,3 +37,52 @@ export interface ProductVariant {
     value: string;
   }[];
 }
+
+export interface VariantOption {
+  name: string;
+  values: string[];
+}
+
+export interface VariantCombination {
+  id: string;
+  combination: Record<string, string>;
+  price: string;
+  available: string;
+  onHand: string;
+  sku: string;
+}
+
+export interface ProductFormValues {
+  status: 'active' | 'archived' | 'draft';
+  publication: {
+    type: 'instant' | 'scheduled';
+    date?: string;
+  };
+  category: string;
+  productType: string;
+  collections: string[];
+  tags: string[];
+  title: string;
+  description: string;
+  images: string[];
+  price: number;
+  compareAtPrice?: number | null;
+  taxApplicable: boolean;
+  costPerItem: number;
+  profit: number;
+  trackQuantity: boolean;
+  quantity: number;
+  hasSKU: boolean;
+  sku?: string;
+  isPhysical: boolean;
+  weight?: number | null;
+  weightUnit?: string;
+  variants: Array<{
+    id: string;
+    combination: Record<string, string>;
+    price: string;
+    available: string;
+    onHand: string;
+    sku: string;
+  }>;
+}

@@ -3,21 +3,35 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React, { useState } from "react";
+import { useField, useFormikContext } from "formik";
+import React, { ReactNode, useState } from "react";
 
 const ProductFormInventoryCard = () => {
-  // États pour gérer la visibilité des inputs
-  const [isQuantityChecked, setIsQuantityChecked] = useState(false);
-  const [isSKUChecked, setIsSKUChecked] = useState(false);
+  // // États pour gérer la visibilité des inputs
+  // const [isQuantityChecked, setIsQuantityChecked] = useState(false);
+  // const [isSKUChecked, setIsSKUChecked] = useState(false);
 
-  // Gérer le changement d'état du premier checkbox (suivi des quantités)
-  const handleQuantityChange = () => {
-    setIsQuantityChecked((prevState) => !prevState);
+  // // Gérer le changement d'état du premier checkbox (suivi des quantités)
+  // const handleQuantityChange = () => {
+  //   setIsQuantityChecked((prevState) => !prevState);
+  // };
+
+  // // Gérer le changement d'état du deuxième checkbox (SKU ou code-barres)
+  // const handleSKUChange = () => {
+  //   setIsSKUChecked((prevState) => !prevState);
+  // };
+  const { handleBlur, handleChange, errors, values, touched, setFieldValue } =
+    useFormikContext<any>();
+
+  const [field, meta] = useField("trackQuantity");
+  const [fieldSku, metaSku] = useField("hasSKU");
+
+  const handleTrackQuantityChange = (checked: boolean) => {
+    setFieldValue("trackQuantity", checked); // Met à jour Formik avec la nouvelle valeur
   };
 
-  // Gérer le changement d'état du deuxième checkbox (SKU ou code-barres)
-  const handleSKUChange = () => {
-    setIsSKUChecked((prevState) => !prevState);
+  const handlehasSKUChange = (checked: boolean) => {
+    setFieldValue("hasSKU", checked); // Met à jour Formik avec la nouvelle valeur
   };
   return (
     <Card>
@@ -26,45 +40,55 @@ const ProductFormInventoryCard = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         <div>
-          <Checkbox
-            checked={isQuantityChecked}
-            onCheckedChange={handleQuantityChange}
-          />{" "}
-          <span>Suivi des quantités</span>
+          <Label>
+            <Checkbox
+              checked={field.value}
+              onCheckedChange={handleTrackQuantityChange}
+            />{" "}
+            <span>Suivi des quantités</span>
+          </Label>
         </div>
-        {isQuantityChecked && (
+        {field.value && (
           <div className="space-y-4">
             <div className="space-y-1">
-              <Label htmlFor="title">Quantité</Label>
+              <Label htmlFor="quantity">Quantité</Label>
               <Input
-                id="title"
+                id="quantity"
                 type="number"
+                value={values.quantity}
+                onChange={handleChange}
+                onBlur={handleBlur}
                 className="w-80"
-                // {...register("title")}
-                // error={errors.title?.message}
               />
-              {/* {errors.title?.message && (
-          <span className="">{errors.title?.message as ReactNode}</span>
-        )} */}
+              {errors.quantity && touched.quantity && (
+                <span className="text-red-500">
+                  {errors.quantity as ReactNode}
+                </span>
+              )}
             </div>
             <div>
-              <Checkbox
-                checked={isSKUChecked}
-                onCheckedChange={handleSKUChange}
-              />{" "}
-              <span>Ce produit à un SKU ou un code bar</span>
+              <Label>
+                <Checkbox
+                  checked={fieldSku.value}
+                  onCheckedChange={handlehasSKUChange}
+                />{" "}
+                <span>Ce produit à un SKU ou un code bar</span>
+              </Label>
             </div>
-            {isSKUChecked && (
+            {fieldSku.value && (
               <div className="space-y-1">
                 <Label htmlFor="title">Numéro SKU</Label>
                 <Input
                   id="title"
-                  // {...register("title")}
-                  // error={errors.title?.message}
+                  value={values.sku}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
-                {/* {errors.title?.message && (
-            <span className="">{errors.title?.message as ReactNode}</span>
-          )} */}
+                {errors.sku && touched.sku && (
+                  <span className="text-red-500">
+                    {errors.sku as ReactNode}
+                  </span>
+                )}
               </div>
             )}
           </div>

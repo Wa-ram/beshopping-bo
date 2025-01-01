@@ -10,15 +10,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useField, useFormikContext } from "formik";
 import React, { useState } from "react";
 
 const ProductFormShippingCard = () => {
   // État pour gérer la visibilité de l'input
-  const [isPhysicalProduct, setIsPhysicalProduct] = useState(false);
+  const { errors, values, handleBlur, handleChange, setFieldValue } =
+    useFormikContext<any>();
+  const [fieldisPhysicalProduct, metaIsPhysicalProduct] =
+    useField("isPhysicalProduct");
 
   // Gérer le changement d'état de la checkbox
-  const handleCheckboxChange = () => {
-    setIsPhysicalProduct((prevState) => !prevState);
+  const handleCheckboxChange = (checked: boolean) => {
+    setFieldValue("isPhysicalProduct", checked);
   };
   return (
     <Card>
@@ -27,13 +31,15 @@ const ProductFormShippingCard = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         <div>
-          <Checkbox
-            checked={isPhysicalProduct}
-            onCheckedChange={handleCheckboxChange}
-          />{" "}
-          <span>Ceci est un produit physique</span>
+          <Label>
+            <Checkbox
+              checked={fieldisPhysicalProduct.value}
+              onCheckedChange={handleCheckboxChange}
+            />{" "}
+            <span>Ceci est un produit physique</span>
+          </Label>
         </div>
-        {isPhysicalProduct && (
+        {fieldisPhysicalProduct.value && (
           <div className="space-y-1">
             <Label htmlFor="title">Poids</Label>
             <div className="flex gap-4">
@@ -41,15 +47,19 @@ const ProductFormShippingCard = () => {
                 id="title"
                 placeholder="0.0"
                 type="number"
-                // {...register("title")}
-                // error={errors.title?.message}
+                value={values.weight}
+                onChange={handleChange}
+                onBlur={handleBlur}
                 className="w-60"
               />
-              <Select>
-                <SelectTrigger className="SelectTrigger w-32" aria-label="Food">
+              <Select
+                value={values.weightUnit}
+                onValueChange={(value) => setFieldValue("weightUnit", value)}
+              >
+                <SelectTrigger className="SelectTrigger w-32" aria-label="weight-unit">
                   <SelectValue placeholder="Unités de mesure" />
                 </SelectTrigger>
-                <SelectContent className="SelectTrigger" aria-label="Food">
+                <SelectContent className="SelectTrigger" aria-label="weight-unit">
                   <SelectItem value="kg">kg</SelectItem>
                   <SelectItem value="lb">lb</SelectItem>
                   <SelectItem value="oz">oz</SelectItem>

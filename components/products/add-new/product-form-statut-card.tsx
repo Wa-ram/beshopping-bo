@@ -7,8 +7,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useFormikContext } from "formik";
 
-const ProductformStatutCard = (formik:any) => {
+const ProductformStatutCard = () => {
+  const { values, setFieldValue } = useFormikContext<any>();
   return (
     <Card>
       <CardHeader>
@@ -16,13 +18,16 @@ const ProductformStatutCard = (formik:any) => {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Select>
+          <Select
+            value={values.status}
+            onValueChange={(value) => setFieldValue("status", value)}
+          >
             <SelectTrigger className="SelectTrigger">
               <SelectValue placeholder="Statut" />
             </SelectTrigger>
             <SelectContent className="SelectTrigger">
               <SelectItem value="actif">Actif</SelectItem>
-              <SelectItem value="archivé">Archivé</SelectItem>
+              <SelectItem value="archive">Archivé</SelectItem>
               <SelectItem value="draft">Draft</SelectItem>
             </SelectContent>
           </Select>

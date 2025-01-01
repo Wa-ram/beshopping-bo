@@ -26,59 +26,64 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
-    const initCSRF = async () => {
-      try {
-        // Get CSRF token on initial load
-        await getCsrfToken();
-      } catch (error) {
-        console.error("Failed to initialize CSRF:", error);
-        // Don't redirect on error, let the middleware handle it
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const initCSRF = async () => {
+  //     try {
+  //       // Get CSRF token on initial load
+  //       await getCsrfToken();
+  //     } catch (error) {
+  //       console.error("Failed to initialize CSRF:", error);
+  //       // Don't redirect on error, let the middleware handle it
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-    initCSRF();
-  }, []);
+  //   initCSRF();
+  // }, []);
 
-  useEffect(() => {
-    const initAuth = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const userData = localStorage.getItem("user");
+  // useEffect(
+  //   () => {
+  //     const initAuth = async () => {
+  //       try {
+  //         const token = localStorage.getItem("token");
+  //         const userData = localStorage.getItem("user");
 
-        if (token && userData) {
-          try {
-            const parsedUser = JSON.parse(userData);
-            setUser(parsedUser);
-          } catch (e) {
-            // Invalid user data in localStorage
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            if (
-              !pathname.startsWith("/login") &&
-              !pathname.startsWith("/register")
-            ) {
-              router.push("/login");
-            }
-          }
-        } else if (
-          !pathname.startsWith("/login") &&
-          !pathname.startsWith("/register")
-        ) {
-          router.push("/login");
-        }
-      } catch (error) {
-        console.error("Failed to initialize auth:", error);
-        // Don't redirect on error, let the middleware handle it
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  //         if (token && userData) {
+  //           try {
+  //             const parsedUser = JSON.parse(userData);
+  //             setUser(parsedUser);
+  //           } catch (e) {
+  //             // Invalid user data in localStorage
+  //             localStorage.removeItem("token");
+  //             localStorage.removeItem("user");
+  //             if (
+  //               !pathname.startsWith("/login") &&
+  //               !pathname.startsWith("/register")
+  //             ) {
+  //               router.push("/login");
+  //             }
+  //           }
+  //         } else if (
+  //           !pathname.startsWith("/login") &&
+  //           !pathname.startsWith("/register")
+  //         ) {
+  //           router.push("/login");
+  //         }
+  //       } catch (error) {
+  //         console.error("Failed to initialize auth:", error);
+  //         // Don't redirect on error, let the middleware handle it
+  //       } finally {
+  //         setIsLoading(false);
+  //       }
+  //     };
 
-    initAuth();
-  }, [pathname, router]);
+  //     initAuth();
+  //   },
+  //   [
+  //     // pathname, router
+  //   ]
+  // );
 
   const login = (token: string, userData: User) => {
     try {
