@@ -1,27 +1,38 @@
-# Utiliser une image Node.js stable pour construire
+# Étape 1 : Build de l'application
 FROM node:18 AS builder
 
-# Définir le répertoire de travail
+# Définir le dossier de travail
 WORKDIR /app
 
 # Copier les fichiers nécessaires
-COPY package*.json ./
+COPY package.json package-lock.json ./
+
+# Installer les dépendances
+RUN npm install --production=false
+
+# Copier le reste des fichiers
 COPY . .
 
-# Installer les dépendances et construire l'application
-RUN npm install --legacy-peer-deps
+# Construire l'application Next.js
 RUN npm run build
 
-# Phase finale : utiliser une image optimisée pour servir l'application
+# Installer uniquement les dépendances de production
+RUN npm prune --production
+
+# Étape 2 : Serveur de production
 FROM node:18-alpine
 
+# Définir le dossier de travail
 WORKDIR /app
 
-# Copier les fichiers compilés depuis la phase de build
-COPY --from=builder /app ./
+# Copier les fichiers nécessaires depuis le builder
+COPY --from=builder /app/package.json /app/package-lock.json ./
+COPY --from=builder /app/.next /app/.next
+COPY --from=builder /app/public /app/public
+COPY --from=builder /app/node_modules /app/node_modules
 
-# Exposer le port utilisé par Next.js
+# Exposer le port pour Next.js
 EXPOSE 3000
 
-# Démarrer l'application Next.js
-CMD ["npm", "start"]
+# Commande de démarrage
+CMD ["npm", "run", "start"]
