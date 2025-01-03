@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { FormikCheckbox } from "@/components/ui/formik-checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFormikContext } from "formik";
@@ -21,6 +22,7 @@ const ProductFormPricingCard = () => {
             <Input
               id="price"
               placeholder="0.00"
+              name="price"
               type="number"
               value={values.price}
               onChange={handleChange}
@@ -31,45 +33,45 @@ const ProductFormPricingCard = () => {
             )}
           </div>
           <div className="space-y-1">
-            <Label htmlFor="compareAt">Prix de comparaison</Label>
+            <Label htmlFor="compare_at_price">Prix de comparaison</Label>
             <Input
-              id="compareAt"
+              id="compare_at_price"
               placeholder="0.00"
               type="number"
-              value={values.compareAtPrice}
+              name="compare_at_price"
+              value={values.compare_at_price}
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            {errors.compareAtPrice && touched.compareAtPrice && (
+            {errors.compare_at_price && touched.compare_at_price && (
               <span className="text-red-500">
-                {errors.compareAtPrice as ReactNode}
+                {errors.compare_at_price as ReactNode}
               </span>
             )}
           </div>
         </div>
         <div>
           <Label>
-            <Checkbox
-              checked={values.taxApplicable}
-              onCheckedChange={handleChange}
+            <FormikCheckbox
+              name="tax_applicable"
+              checked={values.tax_applicable}
             />{" "}
             <span>Prélever la taxe sur ce produit</span>
           </Label>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1">
-            <Label htmlFor="costPerArticle">Coût par article</Label>
+            <Label htmlFor="cost_per_item">Coût par article</Label>
             <Input
-              id="costPerArticle"
-              placeholder="0.00"
               type="number"
+              name="cost_per_item"
+              placeholder="0.00"
+              value={values.cost_per_item}
               onChange={handleChange}
-              value={values.costPerItem}
-              onBlur={handleBlur}
             />
-            {errors.costPerItem && touched.costPerItem && (
+            {errors.cost_per_item && touched.cost_per_item && (
               <span className="text-red-500">
-                {errors.costPerItem as ReactNode}
+                {errors.cost_per_item as ReactNode}
               </span>
             )}
           </div>

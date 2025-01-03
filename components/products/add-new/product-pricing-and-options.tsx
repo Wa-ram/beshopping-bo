@@ -36,6 +36,7 @@ const ProductBasicsInfoCard = () => {
           <Label htmlFor="title">Titre</Label>
           <Input
             id="title"
+            name="title"
             placeholder="Titre du produit"
             value={values.title}
             onChange={handleChange}
@@ -49,6 +50,7 @@ const ProductBasicsInfoCard = () => {
           <Label htmlFor="description">Description</Label>
           <Textarea
             id="description"
+            name="description"
             value={values.description}
             onChange={handleChange}
             onBlur={handleBlur}

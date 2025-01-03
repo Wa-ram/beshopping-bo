@@ -1,6 +1,7 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { FormikCheckbox } from "@/components/ui/formik-checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useField, useFormikContext } from "formik";
@@ -23,15 +24,15 @@ const ProductFormInventoryCard = () => {
   const { handleBlur, handleChange, errors, values, touched, setFieldValue } =
     useFormikContext<any>();
 
-  const [field, meta] = useField("trackQuantity");
-  const [fieldSku, metaSku] = useField("hasSKU");
+  const [field, meta] = useField("track_quantity");
+  const [fieldSku, metaSku] = useField("has_sku");
 
   const handleTrackQuantityChange = (checked: boolean) => {
-    setFieldValue("trackQuantity", checked); // Met à jour Formik avec la nouvelle valeur
+    setFieldValue("track_quantity", checked); // Met à jour Formik avec la nouvelle valeur
   };
 
   const handlehasSKUChange = (checked: boolean) => {
-    setFieldValue("hasSKU", checked); // Met à jour Formik avec la nouvelle valeur
+    setFieldValue("has_sku", checked); // Met à jour Formik avec la nouvelle valeur
   };
   return (
     <Card>
@@ -41,9 +42,9 @@ const ProductFormInventoryCard = () => {
       <CardContent className="space-y-4">
         <div>
           <Label>
-            <Checkbox
-              checked={field.value}
-              onCheckedChange={handleTrackQuantityChange}
+            <FormikCheckbox
+              name="track_quantity"
+              checked={values.track_quantity}
             />{" "}
             <span>Suivi des quantités</span>
           </Label>
@@ -55,6 +56,8 @@ const ProductFormInventoryCard = () => {
               <Input
                 id="quantity"
                 type="number"
+                name="quantity"
+                placeholder="0"
                 value={values.quantity}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -68,19 +71,22 @@ const ProductFormInventoryCard = () => {
             </div>
             <div>
               <Label>
-                <Checkbox
-                  checked={fieldSku.value}
-                  onCheckedChange={handlehasSKUChange}
+                <FormikCheckbox
+                name="has_sku"
+                  checked={values.has_sku}
                 />{" "}
                 <span>Ce produit à un SKU ou un code bar</span>
               </Label>
             </div>
             {fieldSku.value && (
               <div className="space-y-1">
-                <Label htmlFor="title">Numéro SKU</Label>
+                <Label htmlFor="sku">Numéro SKU</Label>
                 <Input
-                  id="title"
+                  id="sku"
+                  type="text"
                   value={values.sku}
+                  name="sku"
+                  placeholder="SKU"
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />

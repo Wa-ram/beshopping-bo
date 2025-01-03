@@ -10,17 +10,17 @@ import { ArrowLeft } from "lucide-react";
 export default function NewProductPage() {
   const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
-  const addProduct = useProductStore((state) => state.addProduct);
+  //const addProduct = useProductStore((state) => state.addProduct);
 
   const handleSave = async (productData: any) => {
     setIsSaving(true);
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      addProduct({
-        id: Math.random().toString(36).substr(2, 9),
-        ...productData,
-      });
+      //addProduct({
+        //id: Math.random().toString(36).substr(2, 9),
+        //...productData,
+      //});
       router.push("/products");
     } finally {
       setIsSaving(false);
@@ -36,7 +36,9 @@ export default function NewProductPage() {
         </Button>
         <h1 className="text-2xl font-bold">Ajouter un produit</h1>
       </div>
-      <ProductForm onSubmit={handleSave} isLoading={isSaving} />
+      <ProductForm 
+      //onSubmit={handleSave} isLoading={isSaving} 
+       />
     </div>
   );
 }

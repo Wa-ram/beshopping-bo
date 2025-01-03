@@ -1,6 +1,5 @@
 "use client";
 import { Form, Formik, FormikHelpers, useFormik } from "formik";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarIcon, Loader2 } from "lucide-react";
 import ProductGeneralInfo from "./product-general-info";
@@ -8,28 +7,28 @@ import ProductPricingAndOptions from "./product-pricing-and-options";
 import * as Yup from "yup";
 
 interface ProductFormValues {
+  title: string;
+  description: string;
+  price: string;
+  compare_at_price?: string;
+  cost_per_item?: string;
+  tax_applicable?: boolean;
+  track_quantity?: boolean;
+  quantity?: number;
+  has_sku?: boolean;
+  sku?: string;
+  is_physical?: boolean;
+  weight?: string;
+  weight_unit?: string;
   status: "actif" | "archive" | "draft";
   is_published: boolean;
   published_at?: Date;
   category: string;
-  productType: string;
+  product_type: string;
   collections: string[];
   tags: string[];
-  title: string;
-  description: string;
   images: File[];
-  price: number;
-  compareAtPrice?: number;
-  taxApplicable: boolean;
-  costPerItem: number;
-  profit: number;
-  trackQuantity: boolean;
-  quantity: number;
-  hasSKU: boolean;
-  sku?: string;
-  isPhysical: boolean;
-  weight?: number;
-  weightUnit?: string;
+  //profit: number;
   variants: Array<{
     option: string;
     value: string;
@@ -38,132 +37,109 @@ interface ProductFormValues {
   }>;
 }
 
-interface ProductFormProps {
+{
+  /*interface ProductFormProps {
   onSubmit: (data: any) => Promise<void>;
   isLoading?: boolean;
   initialData?: any;
+}*/
 }
 
-export function ProductForm({
+export function ProductForm(
+  {
+    /*{
   onSubmit,
   isLoading,
   initialData,
-}: ProductFormProps) {
+}*/
+  }
+) {
+  //: ProductFormProps
   const initialValues: ProductFormValues = {
+    title: "",
+    description: "",
+    price: "",
+    compare_at_price: "",
+    cost_per_item: "",
+    tax_applicable: false,
+    track_quantity: false,
+    quantity: 0,
+    has_sku: false,
+    sku: "",
+    is_physical: false,
+    weight: "",
+    weight_unit: "kg",
     status: "actif",
     is_published: true,
     published_at: undefined,
     category: "",
-    productType: "",
+    product_type: "",
     collections: [],
     tags: [],
-    title: "",
-    description: "",
     images: [],
-    price: 0,
-    compareAtPrice: undefined,
-    taxApplicable: false,
-    costPerItem: 0,
-    profit: 0,
-    trackQuantity: false,
-    quantity: 0,
-    hasSKU: false,
-    sku: "",
-    isPhysical: false,
-    weight: undefined,
-    weightUnit: "kg",
+    //profit: 0;
     variants: [],
   };
 
   const validationSchema = Yup.object({
-    status: Yup.string()
-      .oneOf(["Actif", "Archivé", "Draft"])
-      .required("Statut requis"),
-    is_published: Yup.boolean(),
-    published_at: Yup.date().when("is_published", {
-      is: "true",
-      then: (schema) =>
-        schema.required(
-          "La date est obligatoire pour une publication programmée"
-        ),
-    }),
-    // publication: Yup.object({
-    //   type: Yup.string().oneOf(["instant", "scheduled"]).required(),
-    //   date: Yup.string().when("type", {
-    //     is: "scheduled",
-    //     then: (schema) =>
-    //       schema.required(
-    //         "La date est obligatoire pour une publication programmée"
-    //       ),
-    //   }),
-    // }),
-    category: Yup.string().required("La catégorie est obligatoire"),
-    productType: Yup.string().required("Le type de produit est obligatoire"),
-    collections: Yup.array().of(Yup.string()),
-    tags: Yup.array().of(Yup.string()),
     title: Yup.string().required("Le titre est obligatoire"),
     description: Yup.string().required("La description est obligatoire"),
     price: Yup.number()
       .positive("Le prix doit être un nombre positif")
       .required("Le prix est obligatoire"),
-    compareAtPrice: Yup.number().positive(
-      "Le prix de comparaison doit être un nombre positif"
+    compare_at_price: Yup.mixed().test(
+      "compare-at-price-validation",
+      "Le prix de comparaison doit être supérieur au prix",
+      function (value) {
+        const { price } = this.parent; // Accéder à la valeur de price
+        // Valider seulement si `compare_at_price` n'est pas vide
+        if (value !== "" && value !== undefined) {
+          return value > price;
+        }
+        return true; // Ne pas valider si compare_at_price est vide
+      }
     ),
-    taxApplicable: Yup.boolean(),
-    costPerItem: Yup.number().positive("Le coût par article doit être positif"),
-    profit: Yup.number(),
-    trackQuantity: Yup.boolean(),
-    quantity: Yup.number().when("trackQuantity", {
+    cost_per_item: Yup.mixed().test(
+      "cost-per-item-validation",
+      "Ce montant doit être inférieur au prix du produit",
+      function (value) {
+        const { price } = this.parent; // Accéder à la valeur de price
+        // Valider seulement si `cost_per_item` n'est pas vide
+        if (value !== "" && value !== undefined) {
+          return value < price;
+        }
+        return true; // Ne pas valider si cost_per_item est vide
+      }
+    ),
+    tax_applicable: Yup.boolean(),
+    track_quantity: Yup.boolean(),
+    quantity: Yup.number().when("track_quantity", {
       is: true,
       then: (schema) =>
-        schema.min(0, "La quantité doit être au moins 0").required(),
+        schema.min(1, "La quantité doit être au moins 1").required(),
     }),
-    hasSKU: Yup.boolean(),
-    sku: Yup.string().when("hasSKU", {
+    has_sku: Yup.boolean(),
+    sku: Yup.string().when("has_sku", {
       is: true,
       then: (schema) => schema.required("Le SKU est obligatoire"),
     }),
-    isPhysical: Yup.boolean(),
-    weight: Yup.number().when("isPhysical", {
+    is_physical: Yup.boolean(),
+    weight: Yup.number().when("is_physical", {
       is: true,
       then: (schema) =>
         schema
           .positive("Le poids doit être positif")
           .required("Le poids est obligatoire"),
     }),
-    weightUnit: Yup.string().when("isPhysical", {
+    weight_unit: Yup.string().when("is_physical", {
       is: true,
       then: (schema) => schema.required("L'unité de mesure est obligatoire"),
     }),
-    variants: Yup.array().of(
-      Yup.object({
-        option: Yup.string().required("L'option est obligatoire"),
-        value: Yup.string().required("La valeur est obligatoire"),
-        price: Yup.number()
-          .positive("Le prix doit être positif")
-          .required("Le prix est obligatoire"),
-        quantity: Yup.number()
-          .min(0, "La quantité doit être au moins 0")
-          .required(),
-      })
-    ),
   });
 
-  const handleSubmit = (
-    values: typeof initialValues,
-    { setSubmitting }: FormikHelpers<typeof initialValues>
-  ) => {
+  const handleSubmit = (values: any) => {
     console.log("Form Submitted:", values);
-    setSubmitting(false);
   };
-
-  const formik = useFormik<ProductFormValues>({
-    initialValues,
-    validationSchema,
-    onSubmit: (values) => {
-      console.log("Form Submitted:", values);
-    },
-  });
 
   return (
     <Formik
@@ -185,8 +161,8 @@ export function ProductForm({
           {/* <Button variant="outline" type="button">
           Save as Draft
         </Button> */}
-          <Button type="submit" disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button type="submit">
+            {/*isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />*/}
             Ajouter le produit
           </Button>
         </div>
