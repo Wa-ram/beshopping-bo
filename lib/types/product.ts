@@ -43,14 +43,27 @@ export interface VariantOption {
   values: string[];
 }
 
+export interface VariantCombinationItem {
+  name: string;
+  value: string;
+}
+
 export interface VariantCombination {
   id: string;
-  combination: Record<string, string>;
+  combination: VariantCombinationItem[];
   price: string;
-  available: string;
-  onHand: string;
+  stock_quantity: string;
   sku: string;
 }
+
+//export interface VariantCombination {
+//id: string;
+//combination: Record<string, string>;
+//  price: string;
+//  available: string;
+//  onHand: string;
+//  sku: string;
+//}
 
 export interface ProductFormValues {
   status: 'active' | 'archived' | 'draft';

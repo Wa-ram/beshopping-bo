@@ -29,10 +29,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <>{children}</>
-        <Toaster />
-      </AuthProvider>
+      {/*<AuthProvider>*/}
+      <>{children}</>
+      <Toaster />
+      {/*</AuthProvider>*/}
     </QueryClientProvider>
   );
 }

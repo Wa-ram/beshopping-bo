@@ -57,7 +57,9 @@ const ProductBasicsInfoCard = () => {
             placeholder="Description du produit"
           />
           {errors.description && touched.description && (
-            <div className="text-red-500">{errors.description as ReactNode}</div>
+            <div className="text-red-500">
+              {errors.description as ReactNode}
+            </div>
           )}
         </div>
       </CardContent>
@@ -66,7 +68,10 @@ const ProductBasicsInfoCard = () => {
 };
 
 const ProductMediaCard = () => {
-  const [images, setImages] = useState<string[]>([]);
+  //const [images, setImages] = useState<string[]>([]);
+
+  const { values, setFieldValue } =
+    useFormikContext<any>();
 
   return (
     <Card>
@@ -74,7 +79,11 @@ const ProductMediaCard = () => {
         <CardTitle>Media</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <ImageUpload values={images} onChange={setImages} maxFiles={5} />
+        <ImageUpload
+          values={values.images}
+          onChange={(newImages: string[]) => setFieldValue("images", newImages)}
+          maxFiles={7}
+        />
       </CardContent>
     </Card>
   );

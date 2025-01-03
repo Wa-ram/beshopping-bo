@@ -84,7 +84,7 @@ const ProductFormPublishingCard = () => {
               </div>
             )}
 
-            {values.published_at !== undefined && (
+            {values.published_at !== "" && (
               <div className="mt-1">
                 <span className="text-sm text-gray-600">
                   Date sélectionnée :{" "}

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Plus } from "lucide-react";
+import { useFormikContext } from "formik";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { VariantOption } from "./variant-option";
@@ -9,11 +10,18 @@ import { VariantTable } from "./variant-table";
 import type {
   VariantOption as VariantOptionType,
   VariantCombination,
+  VariantCombinationItem,
 } from "@/lib/types/product";
 
+interface FormValues {
+  variants: VariantCombination[];
+  price?: string;
+  quantity?: string;
+}
+
 export function ProductVariantCard() {
+  const { setFieldValue, values } = useFormikContext<FormValues>();
   const [options, setOptions] = useState<VariantOptionType[]>([]);
-  const [variants, setVariants] = useState<VariantCombination[]>([]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   const addOption = () => {
@@ -54,21 +62,21 @@ export function ProductVariantCard() {
   const generateVariants = (currentOptions: VariantOptionType[]) => {
     const generateCombinations = (
       options: VariantOptionType[],
-      current: Record<string, string> = {},
+      current: VariantCombinationItem[] = [],
       index: number = 0
-    ): Record<string, string>[] => {
+    ): VariantCombinationItem[][] => {
       if (index === options.length) {
         return [current];
       }
 
-      const combinations: Record<string, string>[] = [];
+      const combinations: VariantCombinationItem[][] = [];
       const option = options[index];
 
       for (const value of option.values) {
         combinations.push(
           ...generateCombinations(
             options,
-            { ...current, [option.name]: value },
+            [...current, { name: option.name, value }],
             index + 1
           )
         );
@@ -79,26 +87,25 @@ export function ProductVariantCard() {
 
     const combinations = generateCombinations(currentOptions);
     const newVariants = combinations.map((combination) => ({
-      id: Object.values(combination).join("-"),
+      id: combination.map(item => `${item.name}-${item.value}`).join("-"),
       combination,
-      price: "",
-      available: "",
-      onHand: "",
+      price: values.price || "",
+      stock_quantity: values.quantity || "",
       sku: "",
     }));
 
-    setVariants(newVariants);
+    setFieldValue('variants', newVariants);
   };
 
   const updateVariant = (
     id: string,
-    field: "price" | "available" | "onHand" | "sku",
+    field: "price" | "stock_quantity" | "sku",
     value: string
   ) => {
-    const newVariants = variants.map((variant) =>
+    const newVariants = values.variants.map((variant) =>
       variant.id === id ? { ...variant, [field]: value } : variant
     );
-    setVariants(newVariants);
+    setFieldValue('variants', newVariants);
   };
 
   const handleSetEditing = (index: number | null) => {
@@ -114,6 +121,7 @@ export function ProductVariantCard() {
             onClick={addOption}
             variant="outline"
             className="flex items-center gap-2"
+            type="button"
           >
             <Plus className="h-4 w-4" />
             Add Option
@@ -135,12 +143,11 @@ export function ProductVariantCard() {
           />
         ))}
 
-        {variants.length > 0 && (
+        {values.variants?.length > 0 && (
           <div className="mt-6">
             <h3 className="text-lg font-semibold mb-4">Variant Combinations</h3>
             <VariantTable
-              options={options}
-              variants={variants}
+              variants={values.variants}
               onVariantUpdate={updateVariant}
             />
           </div>

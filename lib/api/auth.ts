@@ -25,17 +25,17 @@ interface RegisterData {
 
 export async function login(credentials: LoginCredentials) {
   // : Promise<AuthResponse>
-  const response = await api.post("/api/login", credentials);
+  const response = await api.post("api/login", credentials);
   return response.data;
 }
 
 export async function register(data: RegisterData) {
   // : Promise<AuthResponse>
-  const response = await api.post("/api/register", data);
+  const response = await api.post("api/register", data);
   return response.data;
 }
 
 // Get CSRF cookie - called once on app initialization
 export async function getCsrfToken() {
-  await api.get("/sanctum/csrf-cookie");
+  await api.get("sanctum/csrf-cookie");
 }

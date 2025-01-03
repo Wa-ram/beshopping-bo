@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -14,6 +14,8 @@ interface ImageUploadProps {
   maxFiles?: number;
 }
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
 export function ImageUpload({
   values = [],
   onChange,
@@ -21,8 +23,12 @@ export function ImageUpload({
   className,
   maxFiles = 5,
 }: ImageUploadProps) {
+  const [error, setError] = useState<string | null>(null); // added
+
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
+      setError(null); // Réinitialiser les erreurs
+      
       acceptedFiles.forEach((file) => {
         if (values.length >= maxFiles) return;
 

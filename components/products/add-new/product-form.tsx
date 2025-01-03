@@ -135,6 +135,15 @@ export function ProductForm(
       is: true,
       then: (schema) => schema.required("L'unité de mesure est obligatoire"),
     }),
+    is_published: Yup.boolean(),
+    published_at: Yup.date().when("is_published", {
+      is: "true",
+      then: (schema) =>
+        schema.required(
+          "La date est obligatoire pour une publication programmée"
+        ),
+    }),
+    images: Yup.mixed().required("Au moins une image est requise"),
   });
 
   const handleSubmit = (values: any) => {

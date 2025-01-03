@@ -9,6 +9,9 @@ import { TagInputOOTB } from "@/components/ui/tag-input-ootb";
 import Link from "next/link";
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCategories } from "@/lib/api/categories";
+import { fetchCollections } from "@/lib/api/collections";
 
 const ProductFormOrganisation = () => {
   const [tags, setTags] = useState<{ label: string; value: string }[]>([]);
@@ -24,12 +27,25 @@ const ProductFormOrganisation = () => {
     label: string;
     value: string;
   } | null>(null);
+
   const options = [
     { label: "Option 1", value: "option1" },
     { label: "Option 2", value: "option2" },
     { label: "Option 3", value: "option3" },
     { label: "Option 4", value: "option4" },
   ];
+
+  const {
+    data: categories,
+    isLoading: isLoadingCategories,
+    isError: isErrorCategories,
+  } = useQuery({ queryKey: ["categories"], queryFn: fetchCategories });
+
+  const {
+    data: collections,
+    isLoading: isLoadingCollections,
+    isError: isErrorCollections,
+  } = useQuery({ queryKey: ["collections"], queryFn: fetchCollections });
 
   const handleChange = (item: { value: string; label: string }) => {
     setSelectedItem(item);
@@ -42,14 +58,23 @@ const ProductFormOrganisation = () => {
       <CardContent className="space-y-4">
         <div className="space-y-1">
           <Label htmlFor="title">Catégorie</Label>
-          <InteractiveSelect value={selectedItem} onChange={handleChange}>
-            <SelectList
-              list={options}
-              onSelect={(item: { value: string; label: string }) => {
-                setSelectedItem({ value: item.value, label: item.label });
-              }}
-            />
-          </InteractiveSelect>
+          {isLoadingCategories ? (
+            <p>Chargement des catégories...</p>
+          ) : isErrorCategories ? (
+            <p>Une erreur est survenue lors du chargement des catégories.</p>
+          ) : (
+            <InteractiveSelect value={selectedItem} onChange={handleChange}>
+              <SelectList
+                list={categories.map((cat: any) => ({
+                  label: cat.name,
+                  value: cat.id,
+                }))}
+                onSelect={(item: { value: string; label: string }) => {
+                  setSelectedItem({ value: item.value, label: item.label });
+                }}
+              />
+            </InteractiveSelect>
+          )}
         </div>
 
         <div className="space-y-1">
@@ -76,12 +101,21 @@ const ProductFormOrganisation = () => {
 
         <div className="space-y-1">
           <Label htmlFor="title">Collection</Label>
-          <TagInputOOTB
-            suggestions={suggestions}
-            selectedTags={tags}
-            onTagsChange={setTags}
-            isAddPossible={false}
-          />
+          {isLoadingCollections ? (
+            <p>Chargement des collections...</p>
+          ) : isErrorCollections ? (
+            <p>Une erreur est survenue lors du chargement des collections.</p>
+          ) : (
+            <TagInputOOTB
+              suggestions={collections.map((coll: any) => ({
+                label: coll.name,
+                value: coll.id,
+              }))}
+              selectedTags={tags}
+              onTagsChange={setTags}
+              isAddPossible={false}
+            />
+          )}
         </div>
 
         <div className="space-y-1">

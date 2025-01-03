@@ -50,6 +50,7 @@ export function VariantOption({
               variant="ghost"
               size="icon"
               onClick={() => onSetEditing(false)}
+              type="button"
             >
               <Edit2 className="h-4 w-4" />
             </Button>
@@ -57,6 +58,7 @@ export function VariantOption({
               variant="ghost"
               size="icon"
               onClick={onRemoveOption}
+              type="button"
             >
               <Trash2 className="h-4 w-4" />
             </Button>
@@ -68,6 +70,7 @@ export function VariantOption({
               variant="ghost"
               size="icon"
               onClick={() => onSetEditing(true)}
+              type="button"
             >
               <Edit2 className="h-4 w-4" />
             </Button>
@@ -88,10 +91,7 @@ export function VariantOption({
             }}
             className="max-w-xs"
           />
-          <Button
-            variant="secondary"
-            onClick={handleAddValue}
-          >
+          <Button variant="secondary" onClick={handleAddValue} type="button">
             Add
           </Button>
         </div>
