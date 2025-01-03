@@ -53,13 +53,13 @@ const ProductFormOrganisation = () => {
         </div>
 
         <div className="space-y-1">
-          <Label htmlFor="title">Type de produit</Label>
+          {/*<Label htmlFor="title">Type de produit</Label>
           <Input
             id="title"
             placeholder="Publication instantanée"
             // {...register("title")}
             // error={errors.title?.message}
-          />
+          />*/}
           {/* {errors.title?.message && (
                 <span className="">{errors.title?.message as ReactNode}</span>
               )} */}

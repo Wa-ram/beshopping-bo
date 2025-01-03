@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  app:
+    image: node:18
+    working_dir: /app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - BASE_URL_API=https://beshopping-api.designtheflow.com/
+    ports:
+      - "3000:3000"
+    restart: always
+    env_file:
+      - .env
+
+
+volumes:
+  pgdata:

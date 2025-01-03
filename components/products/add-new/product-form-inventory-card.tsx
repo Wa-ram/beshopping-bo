@@ -55,11 +55,16 @@ const ProductFormInventoryCard = () => {
               <Label htmlFor="quantity">Quantité</Label>
               <Input
                 id="quantity"
-                type="number"
+                type="text"
                 name="quantity"
                 placeholder="0"
                 value={values.quantity}
-                onChange={handleChange}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  const numericValue = inputValue.replace(/[^0-9]/g, ""); // Supprime tout sauf les chiffres
+  
+                  setFieldValue("quantity", numericValue);
+                }}
                 onBlur={handleBlur}
                 className="w-80"
               />

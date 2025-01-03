@@ -1,25 +1,4 @@
-import axios from "axios";
-
-const api = axios.create({
-  baseURL: "https://beshopping-api.designtheflow.com/",
-  // process.env.BASE_URL_API ,
-  withCredentials: true, // This is required for cookies to be sent
-});
-
-// Add request interceptor to include CSRF token
-api.interceptors.request.use((config) => {
-  const token = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("XSRF-TOKEN"))
-    ?.split("=")[1];
-
-  console.log(token);
-
-  if (token) {
-    config.headers["X-XSRF-TOKEN"] = token;
-  }
-  return config;
-});
+import { api } from ".";
 
 interface LoginCredentials {
   email: string;

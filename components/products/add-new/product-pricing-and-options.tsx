@@ -19,7 +19,7 @@ const ProductPricingAndOptions = () => {
       <ProductFormInventoryCard />
       <ProductFormShippingCard />
       <ProductVariantCard />
-      <ProductSEOCard />
+      {/*<ProductSEOCard />*/}
     </>
   );
 };
@@ -54,6 +54,7 @@ const ProductBasicsInfoCard = () => {
             value={values.description}
             onChange={handleChange}
             onBlur={handleBlur}
+            placeholder="Description du produit"
           />
           {errors.description && touched.description && (
             <div className="text-red-500">{errors.description as ReactNode}</div>

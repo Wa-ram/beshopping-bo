@@ -26,8 +26,8 @@ const ProductformStatutCard = () => {
               <SelectValue placeholder="Statut" />
             </SelectTrigger>
             <SelectContent className="SelectTrigger">
-              <SelectItem value="actif">Actif</SelectItem>
-              <SelectItem value="archive">Archivé</SelectItem>
+              <SelectItem value="active">Actif</SelectItem>
+              <SelectItem value="archived">Archivé</SelectItem>
               <SelectItem value="draft">Draft</SelectItem>
             </SelectContent>
           </Select>

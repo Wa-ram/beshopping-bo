@@ -7,7 +7,7 @@ import { useFormikContext } from "formik";
 import React, { ReactNode } from "react";
 
 const ProductFormPricingCard = () => {
-  const { handleBlur, handleChange, values, errors, touched } =
+  const { handleBlur, handleChange, values, errors, touched, setFieldValue } =
     useFormikContext<any>();
 
   return (
@@ -23,9 +23,14 @@ const ProductFormPricingCard = () => {
               id="price"
               placeholder="0.00"
               name="price"
-              type="number"
+              type="test"
               value={values.price}
-              onChange={handleChange}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                const numericValue = inputValue.replace(/[^0-9]/g, ""); // Supprime tout sauf les chiffres
+
+                setFieldValue("price", numericValue);
+              }}
               onBlur={handleBlur}
             />
             {errors.price && touched.price && (
@@ -37,10 +42,15 @@ const ProductFormPricingCard = () => {
             <Input
               id="compare_at_price"
               placeholder="0.00"
-              type="number"
+              type="text"
               name="compare_at_price"
               value={values.compare_at_price}
-              onChange={handleChange}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                const numericValue = inputValue.replace(/[^0-9]/g, ""); // Supprime tout sauf les chiffres
+
+                setFieldValue("compare_at_price", numericValue);
+              }}
               onBlur={handleBlur}
             />
             {errors.compare_at_price && touched.compare_at_price && (
@@ -63,11 +73,17 @@ const ProductFormPricingCard = () => {
           <div className="space-y-1">
             <Label htmlFor="cost_per_item">Coût par article</Label>
             <Input
-              type="number"
+              type="text"
               name="cost_per_item"
               placeholder="0.00"
               value={values.cost_per_item}
-              onChange={handleChange}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                const numericValue = inputValue.replace(/[^0-9]/g, ""); // Supprime tout sauf les chiffres
+
+                setFieldValue("cost_per_item", numericValue);
+              }}
+              onBlur={handleBlur}
             />
             {errors.cost_per_item && touched.cost_per_item && (
               <span className="text-red-500">

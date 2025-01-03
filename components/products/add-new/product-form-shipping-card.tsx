@@ -1,6 +1,7 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { FormikCheckbox } from "@/components/ui/formik-checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -11,19 +12,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useField, useFormikContext } from "formik";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 
 const ProductFormShippingCard = () => {
   // État pour gérer la visibilité de l'input
-  const { errors, values, handleBlur, handleChange, setFieldValue } =
+  const { errors, values, touched, handleBlur, handleChange, setFieldValue } =
     useFormikContext<any>();
-  const [fieldisPhysicalProduct, metaIsPhysicalProduct] =
-    useField("isPhysicalProduct");
 
-  // Gérer le changement d'état de la checkbox
-  const handleCheckboxChange = (checked: boolean) => {
-    setFieldValue("isPhysicalProduct", checked);
-  };
+  const [fieldisPhysicalProduct, metaIsPhysicalProduct] =
+    useField("is_physical");
+
   return (
     <Card>
       <CardHeader>
@@ -32,40 +30,53 @@ const ProductFormShippingCard = () => {
       <CardContent className="space-y-4">
         <div>
           <Label>
-            <Checkbox
-              checked={fieldisPhysicalProduct.value}
-              onCheckedChange={handleCheckboxChange}
-            />{" "}
+            <FormikCheckbox name="is_physical" checked={values.is_physical} />{" "}
             <span>Ceci est un produit physique</span>
           </Label>
         </div>
         {fieldisPhysicalProduct.value && (
           <div className="space-y-1">
-            <Label htmlFor="title">Poids</Label>
+            <Label htmlFor="weight">Poids</Label>
             <div className="flex gap-4">
               <Input
-                id="title"
+                id="weight"
                 placeholder="0.0"
-                type="number"
+                type="text"
                 value={values.weight}
-                onChange={handleChange}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  const numericValue = inputValue.replace(/[^0-9]/g, ""); // Supprime tout sauf les chiffres
+  
+                  setFieldValue("weight", numericValue);
+                }}
                 onBlur={handleBlur}
                 className="w-60"
               />
               <Select
-                value={values.weightUnit}
-                onValueChange={(value) => setFieldValue("weightUnit", value)}
+                value={values.weight_unit}
+                onValueChange={(value) => setFieldValue("weight_unit", value)}
               >
-                <SelectTrigger className="SelectTrigger w-32" aria-label="weight-unit">
+                <SelectTrigger
+                  className="SelectTrigger w-32"
+                  aria-label="weight-unit"
+                >
                   <SelectValue placeholder="Unités de mesure" />
                 </SelectTrigger>
-                <SelectContent className="SelectTrigger" aria-label="weight-unit">
+                <SelectContent
+                  className="SelectTrigger"
+                  aria-label="weight-unit"
+                >
                   <SelectItem value="kg">kg</SelectItem>
                   <SelectItem value="lb">lb</SelectItem>
                   <SelectItem value="oz">oz</SelectItem>
                   <SelectItem value="g">G</SelectItem>
                 </SelectContent>
               </Select>
+              {errors.weight && touched.weight && (
+                <span className="text-red-500">
+                  {errors.weight as ReactNode}
+                </span>
+              )}
             </div>
             {/* {errors.title?.message && (
                   <span className="">{errors.title?.message as ReactNode}</span>

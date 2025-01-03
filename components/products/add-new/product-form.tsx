@@ -20,11 +20,11 @@ interface ProductFormValues {
   is_physical?: boolean;
   weight?: string;
   weight_unit?: string;
-  status: "actif" | "archive" | "draft";
+  status: "active" | "archived" | "draft";
   is_published: boolean;
-  published_at?: Date;
+  published_at?: string;
   category: string;
-  product_type: string;
+  //product_type: string;
   collections: string[];
   tags: string[];
   images: File[];
@@ -69,11 +69,11 @@ export function ProductForm(
     is_physical: false,
     weight: "",
     weight_unit: "kg",
-    status: "actif",
+    status: "active",
     is_published: true,
-    published_at: undefined,
+    published_at: "",
     category: "",
-    product_type: "",
+    //product_type: "",
     collections: [],
     tags: [],
     images: [],

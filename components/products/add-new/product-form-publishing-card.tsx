@@ -71,6 +71,7 @@ const ProductFormPublishingCard = () => {
 
                 <Input
                   type="date"
+                  name="published_at"
                   value={values.published_at}
                   onChange={handleChange}
                   onBlur={handleBlur}
