@@ -120,7 +120,7 @@ export function ProductForm(
   });
 
   const mutation = useMutation({
-    mutationFn: async (formData: ProductFormValues) => {
+    mutationFn: async (formData: FormData) => {
       return addProduct(formData);
     },
     // mutationFn: ,
@@ -143,7 +143,7 @@ export function ProductForm(
   });
 
   const handleSubmit = (values: ProductFormValues) => {
-    // console.log("Form Submitted:", values);
+    console.log("Form Submitted:", values);
 
     // Function to create FormData
     const createFormData = (values: ProductFormValues): FormData => {
@@ -151,7 +151,7 @@ export function ProductForm(
 
       // Iterate over each key in the values object
       (Object.keys(values) as (keyof ProductFormValues)[]).forEach((key) => {
-        const value = values[key];
+        const value = values[key] as unknown;
 
         if (key === "images" && Array.isArray(value)) {
           // Handle images array
@@ -163,14 +163,11 @@ export function ProductForm(
           value.forEach((item, index) => {
             formData.append(`${key}[${index}]`, String(item)); // Convert items to string
           });
-        } 
-        //else if (value && typeof value === "object") {
-          // Check if value is a non-null object
-          //if (value instanceof File || value instanceof Blob) {
-          //  formData.append(key, value);
-          //}
-        //}
-         else {
+        } else if (typeof value === "object" && value !== null) {
+          if (value instanceof File || value instanceof Blob) {
+            formData.append(key, value);
+          }
+        } else {
           // Handle primitive values or undefined/null
           formData.append(
             key,
@@ -184,10 +181,14 @@ export function ProductForm(
 
     // Create FormData from the form values
     const formData = createFormData(values);
-    //  console.log(formData)
+
+    // for (let pair of formData.entries()) {
+    //   console.log(pair[0], pair[1]);
+    // }
+    // console.log(formData);
 
     // Submit the FormData via mutation
-     mutation.mutate(values);
+    mutation.mutate(formData);
   };
 
   return (
