@@ -24,11 +24,11 @@ const ProductFormInventoryCard = () => {
   const { handleBlur, handleChange, errors, values, touched, setFieldValue } =
     useFormikContext<any>();
 
-  const [field, meta] = useField("track_quantity");
+  const [field, meta] = useField("is_tracking_quantity");
   const [fieldSku, metaSku] = useField("has_sku");
 
   const handleTrackQuantityChange = (checked: boolean) => {
-    setFieldValue("track_quantity", checked); // Met à jour Formik avec la nouvelle valeur
+    setFieldValue("is_tracking_quantity", checked); // Met à jour Formik avec la nouvelle valeur
   };
 
   const handlehasSKUChange = (checked: boolean) => {
@@ -43,8 +43,8 @@ const ProductFormInventoryCard = () => {
         <div>
           <Label>
             <FormikCheckbox
-              name="track_quantity"
-              checked={values.track_quantity}
+              name="is_tracking_quantity"
+              checked={values.is_tracking_quantity}
             />{" "}
             <span>Suivi des quantités</span>
           </Label>
@@ -52,34 +52,31 @@ const ProductFormInventoryCard = () => {
         {field.value && (
           <div className="space-y-4">
             <div className="space-y-1">
-              <Label htmlFor="quantity">Quantité</Label>
+              <Label htmlFor="stock_quantity">Quantité</Label>
               <Input
-                id="quantity"
+                id="stock_quantity"
                 type="text"
-                name="quantity"
+                name="stock_quantity"
                 placeholder="0"
-                value={values.quantity}
+                value={values.stock_quantity}
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   const numericValue = inputValue.replace(/[^0-9]/g, ""); // Supprime tout sauf les chiffres
-  
-                  setFieldValue("quantity", numericValue);
+
+                  setFieldValue("stock_quantity", numericValue);
                 }}
                 onBlur={handleBlur}
                 className="w-80"
               />
-              {errors.quantity && touched.quantity && (
+              {errors.stock_quantity && touched.stock_quantity && (
                 <span className="text-red-500">
-                  {errors.quantity as ReactNode}
+                  {errors.stock_quantity as ReactNode}
                 </span>
               )}
             </div>
             <div>
               <Label>
-                <FormikCheckbox
-                name="has_sku"
-                  checked={values.has_sku}
-                />{" "}
+                <FormikCheckbox name="has_sku" checked={values.has_sku} />{" "}
                 <span>Ce produit à un SKU ou un code bar</span>
               </Label>
             </div>

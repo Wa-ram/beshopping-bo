@@ -38,24 +38,24 @@ const ProductFormPricingCard = () => {
             )}
           </div>
           <div className="space-y-1">
-            <Label htmlFor="compare_at_price">Prix de comparaison</Label>
+            <Label htmlFor="comparison_price">Prix de comparaison</Label>
             <Input
-              id="compare_at_price"
+              id="comparison_price"
               placeholder="0.00"
               type="text"
-              name="compare_at_price"
-              value={values.compare_at_price}
+              name="comparison_price"
+              value={values.comparison_price}
               onChange={(e) => {
                 const inputValue = e.target.value;
                 const numericValue = inputValue.replace(/[^0-9]/g, ""); // Supprime tout sauf les chiffres
 
-                setFieldValue("compare_at_price", numericValue);
+                setFieldValue("comparison_price", numericValue);
               }}
               onBlur={handleBlur}
             />
-            {errors.compare_at_price && touched.compare_at_price && (
+            {errors.comparison_price && touched.comparison_price && (
               <span className="text-red-500">
-                {errors.compare_at_price as ReactNode}
+                {errors.comparison_price as ReactNode}
               </span>
             )}
           </div>
@@ -63,31 +63,31 @@ const ProductFormPricingCard = () => {
         <div>
           <Label>
             <FormikCheckbox
-              name="tax_applicable"
-              checked={values.tax_applicable}
+              name="is_taxed"
+              checked={values.is_taxed}
             />{" "}
             <span>Prélever la taxe sur ce produit</span>
           </Label>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1">
-            <Label htmlFor="cost_per_item">Coût par article</Label>
+            <Label htmlFor="item_price">Coût par article</Label>
             <Input
               type="text"
-              name="cost_per_item"
+              name="item_price"
               placeholder="0.00"
-              value={values.cost_per_item}
+              value={values.item_price}
               onChange={(e) => {
                 const inputValue = e.target.value;
                 const numericValue = inputValue.replace(/[^0-9]/g, ""); // Supprime tout sauf les chiffres
 
-                setFieldValue("cost_per_item", numericValue);
+                setFieldValue("item_price", numericValue);
               }}
               onBlur={handleBlur}
             />
-            {errors.cost_per_item && touched.cost_per_item && (
+            {errors.item_price && touched.item_price && (
               <span className="text-red-500">
-                {errors.cost_per_item as ReactNode}
+                {errors.item_price as ReactNode}
               </span>
             )}
           </div>

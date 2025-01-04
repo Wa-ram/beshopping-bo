@@ -29,14 +29,14 @@ export function ProductForm(
 ) {
   //: ProductFormProps
   const initialValues: ProductFormValues = {
-    title: "",
+    name: "",
     description: "",
     price: "",
-    compare_at_price: "",
-    cost_per_item: "",
-    tax_applicable: false,
-    track_quantity: false,
-    quantity: 0,
+    comparison_price: "",
+    item_price: "",
+    is_taxed: false,
+    is_tracking_quantity: false,
+    stock_quantity: 0,
     has_sku: false,
     sku: "",
     is_physical: false,
@@ -55,12 +55,12 @@ export function ProductForm(
   };
 
   const validationSchema = Yup.object({
-    title: Yup.string().required("Le titre est obligatoire"),
+    name: Yup.string().required("Le titre est obligatoire"),
     description: Yup.string().required("La description est obligatoire"),
     price: Yup.number()
       .positive("Le prix doit être un nombre positif")
       .required("Le prix est obligatoire"),
-    compare_at_price: Yup.mixed().test(
+    comparison_price: Yup.mixed().test(
       "compare-at-price-validation",
       "Le prix de comparaison doit être supérieur au prix",
       function (value) {
@@ -72,7 +72,7 @@ export function ProductForm(
         return true; // Ne pas valider si compare_at_price est vide
       }
     ),
-    cost_per_item: Yup.mixed().test(
+    item_price: Yup.mixed().test(
       "cost-per-item-validation",
       "Ce montant doit être inférieur au prix du produit",
       function (value) {
@@ -84,9 +84,9 @@ export function ProductForm(
         return true; // Ne pas valider si cost_per_item est vide
       }
     ),
-    tax_applicable: Yup.boolean(),
-    track_quantity: Yup.boolean(),
-    quantity: Yup.number().when("track_quantity", {
+    is_taxed: Yup.boolean(),
+    is_tracking_quantity: Yup.boolean(),
+    stock_quantity: Yup.number().when("is_tracking_quantity", {
       is: true,
       then: (schema) =>
         schema.min(1, "La quantité doit être au moins 1").required(),
@@ -120,7 +120,7 @@ export function ProductForm(
   });
 
   const mutation = useMutation({
-    mutationFn: async (formData:ProductFormValues) => {
+    mutationFn: async (formData: ProductFormValues) => {
       return addProduct(formData);
     },
     // mutationFn: ,
@@ -142,29 +142,52 @@ export function ProductForm(
     },
   });
 
-  const handleSubmit = (values: any) => {
-    const formData = new FormData();
-    console.log("Form Submitted:", values);
+  const handleSubmit = (values: ProductFormValues) => {
+    // console.log("Form Submitted:", values);
 
-    // Ajouter chaque champ au FormData
-    Object.keys(values).forEach((key) => {
-      const value = values[key];
+    // Function to create FormData
+    const createFormData = (values: ProductFormValues): FormData => {
+      const formData = new FormData();
 
-      if (key === "images" && Array.isArray(value)) {
-        // Si le champ est un tableau d'images
-        value.forEach((file, index) => {
-          formData.append(`images[${index}]`, file);
-        });
-      } else if (Array.isArray(value)) {
-        // Si le champ est un tableau non-image (tags, collections, etc.)
-        value.forEach((item, index) => {
-          formData.append(`${key}[${index}]`, item);
-        });
-      } else {
-        // Ajouter les autres champs directement
-        formData.append(key, value);
-      }
-    }); 
+      // Iterate over each key in the values object
+      (Object.keys(values) as (keyof ProductFormValues)[]).forEach((key) => {
+        const value = values[key];
+
+        if (key === "images" && Array.isArray(value)) {
+          // Handle images array
+          value.forEach((file, index) => {
+            formData.append(`images[${index}]`, file as Blob); // Cast to Blob or File
+          });
+        } else if (Array.isArray(value)) {
+          // Handle other arrays (e.g., tags, collections)
+          value.forEach((item, index) => {
+            formData.append(`${key}[${index}]`, String(item)); // Convert items to string
+          });
+        } 
+        //else if (value && typeof value === "object") {
+          // Check if value is a non-null object
+          //if (value instanceof File || value instanceof Blob) {
+          //  formData.append(key, value);
+          //}
+        //}
+         else {
+          // Handle primitive values or undefined/null
+          formData.append(
+            key,
+            value !== null && value !== undefined ? String(value) : ""
+          );
+        }
+      });
+
+      return formData;
+    };
+
+    // Create FormData from the form values
+    const formData = createFormData(values);
+    //  console.log(formData)
+
+    // Submit the FormData via mutation
+     mutation.mutate(values);
   };
 
   return (

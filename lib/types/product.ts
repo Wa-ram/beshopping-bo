@@ -66,14 +66,14 @@ export interface VariantCombination {
 //}
 
 export interface ProductFormValues {
-  title: string;
+  name: string;
   description: string;
   price: string;
-  compare_at_price?: string;
-  cost_per_item?: string;
-  tax_applicable?: boolean;
-  track_quantity?: boolean;
-  quantity?: number;
+  comparison_price?: string;
+  item_price?: string;
+  is_taxed?: boolean;
+  is_tracking_quantity?: boolean;
+  stock_quantity?: number;
   has_sku?: boolean;
   sku?: string;
   is_physical?: boolean;

@@ -33,17 +33,17 @@ const ProductBasicsInfoCard = () => {
     <Card>
       <CardContent className="space-y-4 mt-4">
         <div className="space-y-1">
-          <Label htmlFor="title">Titre</Label>
+          <Label htmlFor="name">Titre</Label>
           <Input
-            id="title"
-            name="title"
+            id="name"
+            name="name"
             placeholder="Titre du produit"
-            value={values.title}
+            value={values.name}
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.title && touched.title && (
-            <div className="text-red-500">{errors.title as ReactNode}</div>
+          {errors.name && touched.name && (
+            <div className="text-red-500">{errors.name as ReactNode}</div>
           )}
         </div>
         <div className="space-y-1">
