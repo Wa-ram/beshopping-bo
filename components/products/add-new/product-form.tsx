@@ -5,37 +5,10 @@ import { Calendar as CalendarIcon, Loader2 } from "lucide-react";
 import ProductGeneralInfo from "./product-general-info";
 import ProductPricingAndOptions from "./product-pricing-and-options";
 import * as Yup from "yup";
-
-interface ProductFormValues {
-  title: string;
-  description: string;
-  price: string;
-  compare_at_price?: string;
-  cost_per_item?: string;
-  tax_applicable?: boolean;
-  track_quantity?: boolean;
-  quantity?: number;
-  has_sku?: boolean;
-  sku?: string;
-  is_physical?: boolean;
-  weight?: string;
-  weight_unit?: string;
-  status: "active" | "archived" | "draft";
-  is_published: boolean;
-  published_at?: string;
-  category: string;
-  //product_type: string;
-  collections: string[];
-  tags: string[];
-  images: File[];
-  //profit: number;
-  variants: Array<{
-    option: string;
-    value: string;
-    price: number;
-    quantity: number;
-  }>;
-}
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "@/hooks/use-toast";
+import { addProduct } from "@/lib/api/products";
+import { ProductFormValues } from "@/lib/types/product";
 
 {
   /*interface ProductFormProps {
@@ -146,8 +119,52 @@ export function ProductForm(
     images: Yup.mixed().required("Au moins une image est requise"),
   });
 
+  const mutation = useMutation({
+    mutationFn: async (formData:ProductFormValues) => {
+      return addProduct(formData);
+    },
+    // mutationFn: ,
+    onSuccess: (data) => {
+      toast({
+        variant: "default",
+        title: "Succes",
+        description: "Le produit a bien été ajouté",
+      });
+      // login(data.token, data.user);
+      //router.push("/dashboard");
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Le produit n'a pas pu être ajouté",
+      });
+    },
+  });
+
   const handleSubmit = (values: any) => {
+    const formData = new FormData();
     console.log("Form Submitted:", values);
+
+    // Ajouter chaque champ au FormData
+    Object.keys(values).forEach((key) => {
+      const value = values[key];
+
+      if (key === "images" && Array.isArray(value)) {
+        // Si le champ est un tableau d'images
+        value.forEach((file, index) => {
+          formData.append(`images[${index}]`, file);
+        });
+      } else if (Array.isArray(value)) {
+        // Si le champ est un tableau non-image (tags, collections, etc.)
+        value.forEach((item, index) => {
+          formData.append(`${key}[${index}]`, item);
+        });
+      } else {
+        // Ajouter les autres champs directement
+        formData.append(key, value);
+      }
+    }); 
   };
 
   return (

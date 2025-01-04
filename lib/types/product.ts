@@ -66,36 +66,32 @@ export interface VariantCombination {
 //}
 
 export interface ProductFormValues {
-  status: 'active' | 'archived' | 'draft';
-  publication: {
-    type: 'instant' | 'scheduled';
-    date?: string;
-  };
-  category: string;
-  productType: string;
-  collections: string[];
-  tags: string[];
   title: string;
   description: string;
-  images: string[];
-  price: number;
-  compareAtPrice?: number | null;
-  taxApplicable: boolean;
-  costPerItem: number;
-  profit: number;
-  trackQuantity: boolean;
-  quantity: number;
-  hasSKU: boolean;
+  price: string;
+  compare_at_price?: string;
+  cost_per_item?: string;
+  tax_applicable?: boolean;
+  track_quantity?: boolean;
+  quantity?: number;
+  has_sku?: boolean;
   sku?: string;
-  isPhysical: boolean;
-  weight?: number | null;
-  weightUnit?: string;
+  is_physical?: boolean;
+  weight?: string;
+  weight_unit?: string;
+  status: "active" | "archived" | "draft";
+  is_published: boolean;
+  published_at?: string;
+  category: string;
+  //product_type: string;
+  collections: string[];
+  tags: string[];
+  images: File[];
+  //profit: number;
   variants: Array<{
-    id: string;
-    combination: Record<string, string>;
-    price: string;
-    available: string;
-    onHand: string;
-    sku: string;
+    option: string;
+    value: string;
+    price: number;
+    quantity: number;
   }>;
 }
