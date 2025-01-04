@@ -44,12 +44,12 @@ const ProductFormInventoryCard = () => {
           <Label>
             <FormikCheckbox
               name="is_tracking_quantity"
-              checked={values.is_tracking_quantity}
+              checked={values.is_tracking_quantity === 1}
             />{" "}
             <span>Suivi des quantités</span>
           </Label>
         </div>
-        {field.value && (
+        {!!field.value && (
           <div className="space-y-4">
             <div className="space-y-1">
               <Label htmlFor="stock_quantity">Quantité</Label>
@@ -76,11 +76,11 @@ const ProductFormInventoryCard = () => {
             </div>
             <div>
               <Label>
-                <FormikCheckbox name="has_sku" checked={values.has_sku} />{" "}
+                <FormikCheckbox name="has_sku" checked={values.has_sku === 1} />{" "}
                 <span>Ce produit à un SKU ou un code bar</span>
               </Label>
             </div>
-            {fieldSku.value && (
+            {!!fieldSku.value && (
               <div className="space-y-1">
                 <Label htmlFor="sku">Numéro SKU</Label>
                 <Input

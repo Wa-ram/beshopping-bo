@@ -34,16 +34,16 @@ export function ProductForm(
     price: "",
     comparison_price: "",
     item_price: "",
-    is_taxed: false,
-    is_tracking_quantity: false,
+    is_taxed: 0,
+    is_tracking_quantity: 0,
     stock_quantity: 0,
-    has_sku: false,
+    has_sku: 0,
     sku: "",
-    is_physical: false,
+    is_physical: 0,
     weight: "",
     weight_unit: "kg",
     status: "active",
-    is_published: true,
+    is_published: 1,
     published_at: "",
     category: "",
     //product_type: "",
@@ -84,19 +84,19 @@ export function ProductForm(
         return true; // Ne pas valider si cost_per_item est vide
       }
     ),
-    is_taxed: Yup.boolean(),
-    is_tracking_quantity: Yup.boolean(),
+    is_taxed: Yup.number().oneOf([1, 0]),
+    is_tracking_quantity: Yup.number().oneOf([1, 0]),
     stock_quantity: Yup.number().when("is_tracking_quantity", {
       is: true,
       then: (schema) =>
         schema.min(1, "La quantité doit être au moins 1").required(),
     }),
-    has_sku: Yup.boolean(),
+    has_sku: Yup.number().oneOf([1, 0]),
     sku: Yup.string().when("has_sku", {
       is: true,
       then: (schema) => schema.required("Le SKU est obligatoire"),
     }),
-    is_physical: Yup.boolean(),
+    is_physical: Yup.number().oneOf([1, 0]),
     weight: Yup.number().when("is_physical", {
       is: true,
       then: (schema) =>
@@ -108,7 +108,7 @@ export function ProductForm(
       is: true,
       then: (schema) => schema.required("L'unité de mesure est obligatoire"),
     }),
-    is_published: Yup.boolean(),
+    is_published: Yup.number().oneOf([1, 0]),
     published_at: Yup.date().when("is_published", {
       is: "true",
       then: (schema) =>

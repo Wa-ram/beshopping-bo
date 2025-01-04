@@ -64,7 +64,7 @@ const ProductFormPricingCard = () => {
           <Label>
             <FormikCheckbox
               name="is_taxed"
-              checked={values.is_taxed}
+              checked={values.is_taxed === 1}
             />{" "}
             <span>Prélever la taxe sur ce produit</span>
           </Label>

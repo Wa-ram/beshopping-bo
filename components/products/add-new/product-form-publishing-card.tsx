@@ -45,10 +45,10 @@ const ProductFormPublishingCard = () => {
             <Select
               onValueChange={(value) => {
                 if (value === "instant") {
-                  setFieldValue("is_published", true);
+                  setFieldValue("is_published", 1);
                   setFieldValue("published_at", undefined);
                 } else {
-                  setFieldValue("is_published", false);
+                  setFieldValue("is_published", 0);
                 }
               }}
               value={values.is_published ? "instant" : "scheduled"}
@@ -84,14 +84,15 @@ const ProductFormPublishingCard = () => {
               </div>
             )}
 
-            {values.published_at !== "" && (
-              <div className="mt-1">
-                <span className="text-sm text-gray-600">
-                  Date sélectionnée :{" "}
-                  {new Date(values.published_at).toLocaleDateString()}
-                </span>
-              </div>
-            )}
+            {values.published_at !== "" &&
+              values.published_at !== undefined && (
+                <div className="mt-1">
+                  <span className="text-sm text-gray-600">
+                    Date sélectionnée :{" "}
+                    {new Date(values.published_at).toLocaleDateString()}
+                  </span>
+                </div>
+              )}
           </div>
 
           {/* {errors.title?.message && (

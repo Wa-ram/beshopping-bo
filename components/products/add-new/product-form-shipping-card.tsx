@@ -30,11 +30,11 @@ const ProductFormShippingCard = () => {
       <CardContent className="space-y-4">
         <div>
           <Label>
-            <FormikCheckbox name="is_physical" checked={values.is_physical} />{" "}
+            <FormikCheckbox name="is_physical" checked={values.is_physical === 1} />{" "}
             <span>Ceci est un produit physique</span>
           </Label>
         </div>
-        {fieldisPhysicalProduct.value && (
+        {!!fieldisPhysicalProduct.value && (
           <div className="space-y-1">
             <Label htmlFor="weight">Poids</Label>
             <div className="flex gap-4">
