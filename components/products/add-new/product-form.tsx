@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
 import { addProduct } from "@/lib/api/products";
 import { ProductFormValues } from "@/lib/types/product";
+import { createFormData } from "@/lib/utils";
 
 {
   /*interface ProductFormProps {
@@ -148,41 +149,6 @@ export function ProductForm(
   const handleSubmit = (values: ProductFormValues) => {
     console.log("Form Submitted:", values);
 
-    // Function to create FormData
-    const createFormData = (values: ProductFormValues): FormData => {
-      const formData = new FormData();
-
-      // Iterate over each key in the values object
-      (Object.keys(values) as (keyof ProductFormValues)[]).forEach((key) => {
-        const value = values[key] as unknown;
-
-        if (key === "images" && Array.isArray(value)) {
-          // Handle images array
-          value.forEach((file, index) => {
-            formData.append(`images[${index}]`, file as Blob); // Cast to Blob or File
-          });
-        } else if (Array.isArray(value)) {
-          // Handle other arrays (e.g., tags, collections)
-          value.forEach((item, index) => {
-            formData.append(`${key}[${index}]`, String(item)); // Convert items to string
-          });
-        } else if (typeof value === "object" && value !== null) {
-          if (value instanceof File || value instanceof Blob) {
-            formData.append(key, value);
-          }
-        } else {
-          // Handle primitive values or undefined/null
-          formData.append(
-            key,
-            value !== null && value !== undefined ? String(value) : ""
-          );
-        }
-      });
-
-      return formData;
-    };
-
-    // Create FormData from the form values
     const formData = createFormData(values);
 
     // for (let pair of formData.entries()) {

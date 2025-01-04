@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { ImageUpload } from "@/components/ui/image-upload";
+import { useFormikContext } from "formik";
 
 const CollectionGeneralInfo = () => {
   return (
     <>
       <CollectionBasicsInfoCard />
       <CollectionMediaCard />
-      <CollectionSEOCard />
+      {/*<CollectionSEOCard />*/}
     </>
   );
 };
@@ -18,27 +19,40 @@ const CollectionGeneralInfo = () => {
 export default CollectionGeneralInfo;
 
 const CollectionBasicsInfoCard = () => {
+  const { values, errors, touched, handleChange, handleBlur } =
+    useFormikContext<any>();
   return (
     <Card>
       <CardContent className="space-y-4 mt-4">
         <div className="space-y-1">
-          <Label htmlFor="title">Titre</Label>
+          <Label htmlFor="name">Titre</Label>
           <Input
-            id="title"
+            id="name"
+            name="name"
             placeholder="Titre du produit"
-            // {...register("title")}
-            // error={errors.title?.message}
+            value={values.name}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
-          {/* {errors.title?.message && (
-                <span className="">{errors.title?.message as ReactNode}</span>
-              )} */}
+          {errors.name && touched.name && (
+            <div className="text-red-500">{errors.name as ReactNode}</div>
+          )}
         </div>
         <div className="space-y-1">
           <Label htmlFor="description">Description</Label>
           <Textarea
             id="description"
-            // {...register("description")}
+            name="description"
+            value={values.description}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder="Description du produit"
           />
+          {errors.description && touched.description && (
+            <div className="text-red-500">
+              {errors.description as ReactNode}
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>
@@ -46,7 +60,7 @@ const CollectionBasicsInfoCard = () => {
 };
 
 const CollectionMediaCard = () => {
-  const [images, setImages] = useState<string[]>([]);
+  const { values, setFieldValue } = useFormikContext<any>();
 
   return (
     <Card>
@@ -54,7 +68,11 @@ const CollectionMediaCard = () => {
         <CardTitle>Media</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <ImageUpload values={images} onChange={setImages} maxFiles={1} />
+        <ImageUpload
+          values={values.images}
+          onChange={(newImages: string[]) => setFieldValue("images", newImages)}
+          maxFiles={7}
+        />
       </CardContent>
     </Card>
   );

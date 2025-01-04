@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TagInputOOTB } from "@/components/ui/tag-input-ootb";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCategories } from "@/lib/api/categories";
@@ -25,7 +25,7 @@ const ProductFormOrganisation = () => {
     { label: "CSS", value: "css" },
   ];
 
-  const { setFieldValue } = useFormikContext();
+  const { setFieldValue, errors } = useFormikContext<any>();
 
   const [selectedCategory, setSelectedCategory] = useState<{
     id: number;
@@ -97,6 +97,9 @@ const ProductFormOrganisation = () => {
             //     }}
             //   />
             // </InteractiveSelect>
+          )}
+          {errors.category && (
+            <div className="text-red-500">{errors.category as ReactNode}</div>
           )}
         </div>
 
