@@ -1,9 +1,5 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import {
-  InteractiveSelect,
-  SelectList,
-} from "@/components/ui/interactive-select";
 import { Label } from "@/components/ui/label";
 import { TagInputOOTB } from "@/components/ui/tag-input-ootb";
 import Link from "next/link";
@@ -12,6 +8,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCategories } from "@/lib/api/categories";
 import { fetchCollections } from "@/lib/api/collections";
+import { InteractiveSelect } from "@/components/ui/category-select";
+import { useFormikContext } from "formik";
+
+interface Category {
+  id: number;
+  name: string;
+  parent_id: number | null;
+  children: Category[];
+}
 
 const ProductFormOrganisation = () => {
   const [tags, setTags] = useState<{ label: string; value: string }[]>([]);
@@ -23,9 +28,12 @@ const ProductFormOrganisation = () => {
     { label: "TailwindCSS", value: "tailwindcss" },
     { label: "CSS", value: "css" },
   ];
-  const [selectedItem, setSelectedItem] = useState<{
-    label: string;
-    value: string;
+
+  const { setFieldValue } = useFormikContext();
+
+  const [selectedCategory, setSelectedCategory] = useState<{
+    id: number;
+    name: string;
   } | null>(null);
 
   const options = [
@@ -47,9 +55,6 @@ const ProductFormOrganisation = () => {
     isError: isErrorCollections,
   } = useQuery({ queryKey: ["collections"], queryFn: fetchCollections });
 
-  const handleChange = (item: { value: string; label: string }) => {
-    setSelectedItem(item);
-  };
   return (
     <Card>
       <CardHeader>
@@ -63,17 +68,15 @@ const ProductFormOrganisation = () => {
           ) : isErrorCategories ? (
             <p>Une erreur est survenue lors du chargement des catégories.</p>
           ) : (
-            <InteractiveSelect value={selectedItem} onChange={handleChange}>
-              <SelectList
-                list={categories.map((cat: any) => ({
-                  label: cat.name,
-                  value: cat.id,
-                }))}
-                onSelect={(item: { value: string; label: string }) => {
-                  setSelectedItem({ value: item.value, label: item.label });
-                }}
-              />
-            </InteractiveSelect>
+            <InteractiveSelect
+              categories={categories}
+              value={selectedCategory}
+              onChange={(category) => {
+                setSelectedCategory(category);
+                // Update Formik value
+                setFieldValue("category", category.id);
+              }}
+            />
           )}
         </div>
 
