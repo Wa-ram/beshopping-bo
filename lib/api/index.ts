@@ -1,12 +1,15 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: process.env.BASE_URL_API || "https://beshopping-api.designtheflow.com/",
+  baseURL:
+    process.env.BASE_URL_API || "https://beshopping-api.designtheflow.com/",
   withCredentials: true, // This is required for cookies to be sent
+  withXSRFToken: true,
 });
 
 // Add request interceptor to include CSRF token
-{/*api.interceptors.request.use((config) => {
+{
+  /*api.interceptors.request.use((config) => {
   const token = document.cookie
     .split("; ")
     .find((row) => row.startsWith("XSRF-TOKEN"))
@@ -22,4 +25,5 @@ export const api = axios.create({
   }
 
   return config;
-});*/}
+});*/
+}

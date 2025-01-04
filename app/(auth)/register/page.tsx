@@ -23,11 +23,11 @@ import { Label } from "@/components/ui/label";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    password_confirmation: "",
   });
   const router = useRouter();
   const { toast } = useToast();
@@ -35,11 +35,11 @@ export default function RegisterPage() {
 
   const mutation = useMutation({
     mutationFn: async (formData: {
-      firstName: string;
-      lastName: string;
+      firstname: string;
+      lastname: string;
       email: string;
       password: string;
-      confirmPassword: string;
+      password_confirmation: string;
     }) => {
       // Get CSRF token before login attempt
       // await getCsrfToken();
@@ -62,7 +62,7 @@ export default function RegisterPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    formData.confirmPassword = formData.password;
+    formData.password_confirmation = formData.password;
     mutation.mutate(formData);
   };
 
@@ -106,7 +106,7 @@ export default function RegisterPage() {
                   <Input
                     name="lastName"
                     placeholder="Nom"
-                    value={formData.lastName}
+                    value={formData.lastname}
                     onChange={handleChange}
                     required
                   />
@@ -116,7 +116,7 @@ export default function RegisterPage() {
                   <Input
                     name="firstName"
                     placeholder="Prénoms"
-                    value={formData.firstName}
+                    value={formData.firstname}
                     onChange={handleChange}
                     required
                   />
