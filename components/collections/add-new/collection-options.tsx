@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import CollectionFormPublishingCard from "./collection-form-publishing-card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { FormikCheckbox } from "@/components/ui/formik-checkbox";
+import { useFormikContext } from "formik";
 
 const CollectionOptions = () => {
   return (
@@ -18,6 +20,7 @@ const CollectionOptions = () => {
 export default CollectionOptions;
 
 const CollectionSalesChannel = () => {
+  const { values } = useFormikContext<any>();
   return (
     <Card>
       <CardHeader>
@@ -28,7 +31,11 @@ const CollectionSalesChannel = () => {
           <h2 className="SubTitle">Votre collection sera affiché ici</h2>
           <div>
             <Label>
-              <Checkbox /> Ma boutique
+              <FormikCheckbox
+                name="is_shown_in_store"
+                checked={values.is_shown_in_store === 1}
+              />{" "}
+              <span>Ma boutique</span>
             </Label>
           </div>
         </div>

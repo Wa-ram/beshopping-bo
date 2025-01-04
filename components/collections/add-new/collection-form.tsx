@@ -28,7 +28,7 @@ const CollectionForm = ({
     description: "",
     is_published: 1,
     published_at: "",
-
+    is_shown_in_store: 0,
     images: [],
   };
 

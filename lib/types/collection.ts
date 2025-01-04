@@ -21,5 +21,6 @@ export interface CollectionFormValues {
   description: string;
   is_published: 1 | 0;
   published_at?: string;
+  is_shown_in_store: 1 | 0;
   images: File[];
 }

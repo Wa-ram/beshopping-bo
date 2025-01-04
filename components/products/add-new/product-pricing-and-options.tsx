@@ -81,7 +81,7 @@ const ProductMediaCard = () => {
       <CardContent className="space-y-4">
         <ImageUpload
           values={values.images}
-          onChange={(newImages: string[]) => setFieldValue("images", newImages)}
+          onChange={(newImages: File[]) => setFieldValue("images", newImages)}
           maxFiles={7}
         />
       </CardContent>
