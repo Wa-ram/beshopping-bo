@@ -104,7 +104,7 @@ export default function RegisterPage() {
                 <div className="space-y-2">
                   <Label>Nom</Label>
                   <Input
-                    name="lastName"
+                    name="lastname"
                     placeholder="Nom"
                     value={formData.lastname}
                     onChange={handleChange}
@@ -114,7 +114,7 @@ export default function RegisterPage() {
                 <div className="space-y-2">
                   <Label>Prénoms</Label>
                   <Input
-                    name="firstName"
+                    name="firstname"
                     placeholder="Prénoms"
                     value={formData.firstname}
                     onChange={handleChange}
