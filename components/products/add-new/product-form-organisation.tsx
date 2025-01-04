@@ -11,15 +11,11 @@ import { fetchCollections } from "@/lib/api/collections";
 import { InteractiveSelect } from "@/components/ui/category-select";
 import { useFormikContext } from "formik";
 
-interface Category {
-  id: number;
-  name: string;
-  parent_id: number | null;
-  children: Category[];
-}
-
 const ProductFormOrganisation = () => {
   const [tags, setTags] = useState<{ label: string; value: string }[]>([]);
+  const [collectionsTags, setCollectionsTags] = useState<
+    { label: string; value: string }[]
+  >([]);
 
   const suggestions = [
     { label: "React", value: "react" },
@@ -36,13 +32,6 @@ const ProductFormOrganisation = () => {
     name: string;
   } | null>(null);
 
-  const options = [
-    { label: "Option 1", value: "option1" },
-    { label: "Option 2", value: "option2" },
-    { label: "Option 3", value: "option3" },
-    { label: "Option 4", value: "option4" },
-  ];
-
   const {
     data: categories,
     isLoading: isLoadingCategories,
@@ -54,6 +43,26 @@ const ProductFormOrganisation = () => {
     isLoading: isLoadingCollections,
     isError: isErrorCollections,
   } = useQuery({ queryKey: ["collections"], queryFn: fetchCollections });
+
+  const handleTagsChange = (
+    updatedTags: { label: string; value: string }[]
+  ) => {
+    setTags(updatedTags);
+    setFieldValue(
+      "tags",
+      updatedTags.map((tag) => tag.value)
+    );
+  };
+
+  const handleCollectionsChange = (
+    updatedCollections: { label: string; value: string }[]
+  ) => {
+    setCollectionsTags(updatedCollections);
+    setFieldValue(
+      "collections",
+      updatedCollections.map((coll) => coll.value)
+    );
+  };
 
   return (
     <Card>
@@ -77,6 +86,17 @@ const ProductFormOrganisation = () => {
                 setFieldValue("category", category.id);
               }}
             />
+            // <InteractiveSelect value={selectedItem} onChange={handleChange}>
+            //   <SelectList
+            //     list={categories.map((cat: any) => ({
+            //       label: cat.name,
+            //       value: cat.id,
+            //     }))}
+            //     onSelect={(item: { value: string; label: string }) => {
+            //       setSelectedItem({ value: item.value, label: item.label });
+            //     }}
+            //   />
+            // </InteractiveSelect>
           )}
         </div>
 
@@ -114,8 +134,10 @@ const ProductFormOrganisation = () => {
                 label: coll.name,
                 value: coll.id,
               }))}
-              selectedTags={tags}
-              onTagsChange={setTags}
+              selectedTags={collectionsTags}
+              onTagsChange={(updatedTags) => {
+                handleCollectionsChange(updatedTags);
+              }}
               isAddPossible={false}
             />
           )}
@@ -126,7 +148,7 @@ const ProductFormOrganisation = () => {
           <TagInputOOTB
             suggestions={suggestions}
             selectedTags={tags}
-            onTagsChange={setTags}
+            onTagsChange={handleTagsChange}
             isAddPossible={true}
           />
         </div>
