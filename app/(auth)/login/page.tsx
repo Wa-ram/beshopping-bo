@@ -24,7 +24,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const router = useRouter();
   const { toast } = useToast();
-  const { login: authLogin } = useAuth();
+  //const { login: authLogin } = useAuth();
 
   const mutation = useMutation({
     mutationFn: async (credentials: { email: string; password: string }) => {
@@ -33,7 +33,7 @@ export default function LoginPage() {
       return login(credentials);
     },
     onSuccess: (data) => {
-      authLogin(data.token, data.user);
+      //authLogin(data.token, data.user);
       router.push("/dashboard");
     },
     onError: () => {
