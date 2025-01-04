@@ -35,6 +35,12 @@ export async function register(data: RegisterData) {
   return response.data;
 }
 
+export async function logout() {
+  // : Promise<AuthResponse>
+  const response = await api.post("api/logout");
+  return response.data;
+}
+
 // Get CSRF cookie - called once on app initialization
 export async function getCsrfToken() {
   await api.get("sanctum/csrf-cookie");

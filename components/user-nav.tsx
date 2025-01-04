@@ -12,9 +12,30 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Search } from "@/components/search";
 import { useRouter } from "next/navigation";
+import { logout } from "@/lib/api/auth";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "@/hooks/use-toast";
 
 export function UserNav() {
   const router = useRouter();
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      return logout();
+    },
+    // mutationFn: ,
+    onSuccess: (data) => {
+      // login(data.token, data.user);
+      router.push("/login");
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Registration failed. Please try again.",
+      });
+    },
+  });
 
   return (
     <div className="ml-auto flex items-center space-x-4">
@@ -51,7 +72,7 @@ export function UserNav() {
             Taxes & Duties
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => router.push("/login")}>
+          <DropdownMenuItem onClick={() => mutation.mutate()}>
             Log out
           </DropdownMenuItem>
         </DropdownMenuContent>
