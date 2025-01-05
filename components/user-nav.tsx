@@ -2,7 +2,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 // import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,10 +16,12 @@ import { logout } from "@/lib/api/auth";
 import { toast } from "@/hooks/use-toast";
 import { Search as SearchComponent } from "@/components/search";
 import { useAuth } from "@/lib/auth/auth-provider";
+import { getInitials } from "@/lib/utils/utils";
 
 export function UserNav() {
   const pathname = usePathname();
   const router = useRouter();
+  const { user } = useAuth();
   const { logout: storageLogout } = useAuth();
 
   const mutation = useMutation({
@@ -55,17 +57,16 @@ export function UserNav() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
               <Avatar className="h-8 w-8">
-                <AvatarImage src="/avatars/01.png" alt="@username" />
-                <AvatarFallback>AD</AvatarFallback>
+                <AvatarFallback>{getInitials(user?.name)} </AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">Admin User</p>
+                <p className="text-sm font-medium leading-none">{`${user?.name}`}</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  admin@example.com
+                  {user?.email}
                 </p>
               </div>
             </DropdownMenuLabel>

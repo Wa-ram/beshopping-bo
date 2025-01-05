@@ -1,15 +1,16 @@
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
 import { Formik, Form, Field } from "formik";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { register, logout } from "@/lib/api/auth";
-import { getUserInfo } from "@/lib/api/users";
+import { logout } from "@/lib/api/auth";
 import { useAuth } from "@/lib/auth/auth-provider";
+import { useRegisterMutation } from "@/hooks/mutations/use-register-mutation";
+import { useUserInfoMutation } from "@/hooks/mutations/use-user-info-mutation";
 import * as yup from "yup";
+import { RegisterFormValues } from "@/lib/types/auth";
 
 export const registerSchema = yup.object().shape({
   firstname: yup
@@ -33,54 +34,45 @@ export const registerSchema = yup.object().shape({
     .required("La confirmation du mot de passe est requise"),
 });
 
-interface RegisterFormValues {
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  password_confirmation: string;
-}
-
 export function RegisterForm() {
   const router = useRouter();
   const { toast } = useToast();
   const { login: authLogin } = useAuth();
 
-  const mutation = useMutation({
-    mutationFn: async (values: RegisterFormValues) => {
-      // First attempt registration
-      await register(values);
+  const registerMutation = useRegisterMutation();
+  const userInfoMutation = useUserInfoMutation();
+
+  const handleSubmit = async (values: RegisterFormValues) => {
+    try {
+      // Première étape : Inscription
+      await registerMutation.mutateAsync(values);
 
       try {
-        // If registration successful, get user info
-        const userInfo = await getUserInfo();
-        return userInfo;
+        // Deuxième étape : Récupération des infos utilisateur
+        const userInfo = await userInfoMutation.mutateAsync();
+        
+        // Troisième étape : Stockage des infos et redirection
+        authLogin(userInfo);
+        router.push("/dashboard");
       } catch (error) {
-        // If getUserInfo fails, logout and throw error
+        // En cas d'échec de getUserInfo
         await logout();
         toast({
           variant: "destructive",
           title: "Erreur",
-          description:
-            error instanceof Error
-              ? error.message
-              : "Une erreur s'est produite",
+          description: "Impossible de récupérer les informations utilisateur",
         });
       }
-    },
-    onSuccess: (userInfo) => {
-      authLogin(userInfo);
-      router.push("/dashboard");
-    },
-    onError: (error) => {
+    } catch (error) {
       toast({
         variant: "destructive",
         title: "Erreur",
-        description:
-          error instanceof Error ? error.message : "L'inscription a échoué",
+        description: "L'inscription a échoué",
       });
-    },
-  });
+    }
+  };
+
+  const isLoading = registerMutation.isPending || userInfoMutation.isPending;
 
   const initialValues: RegisterFormValues = {
     firstname: "",
@@ -94,10 +86,7 @@ export function RegisterForm() {
     <Formik
       initialValues={initialValues}
       validationSchema={registerSchema}
-      onSubmit={(values, { setFieldValue }) => {
-        setFieldValue("password_confirmation", values.password);
-        mutation.mutate(values);
-      }}
+      onSubmit={handleSubmit}
     >
       {({ errors, touched, values, setFieldValue }) => {
         if (values.password !== values.password_confirmation) {
@@ -114,9 +103,7 @@ export function RegisterForm() {
                     <Input
                       {...field}
                       placeholder="Nom"
-                      aria-invalid={Boolean(
-                        errors.lastname && touched.lastname
-                      )}
+                      aria-invalid={Boolean(errors.lastname && touched.lastname)}
                     />
                   )}
                 </Field>
@@ -131,9 +118,7 @@ export function RegisterForm() {
                     <Input
                       {...field}
                       placeholder="Prénoms"
-                      aria-invalid={Boolean(
-                        errors.firstname && touched.firstname
-                      )}
+                      aria-invalid={Boolean(errors.firstname && touched.firstname)}
                     />
                   )}
                 </Field>
@@ -180,9 +165,9 @@ export function RegisterForm() {
             <Button
               className="w-full"
               type="submit"
-              disabled={mutation.isPending}
+              disabled={isLoading}
             >
-              {mutation.isPending && (
+              {isLoading && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
               S&apos;inscrire

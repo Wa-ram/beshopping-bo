@@ -1,15 +1,16 @@
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
 import { Formik, Form, Field } from "formik";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { login, logout } from "@/lib/api/auth";
-import { getUserInfo } from "@/lib/api/users";
+import { logout } from "@/lib/api/auth";
 import { useAuth } from "@/lib/auth/auth-provider";
+import { useLoginMutation } from "@/hooks/mutations/use-login-mutation";
+import { useUserInfoMutation } from "@/hooks/mutations/use-user-info-mutation";
 import * as yup from "yup";
+import { LoginFormValues } from "@/lib/types/auth";
 
 export const loginSchema = yup.object().shape({
   email: yup.string().email("Email invalide").required("L'email est requis"),
@@ -19,62 +20,51 @@ export const loginSchema = yup.object().shape({
     .required("Le mot de passe est requis"),
 });
 
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
-
 export function LoginForm() {
   const router = useRouter();
   const { toast } = useToast();
   const { login: authLogin } = useAuth();
 
-  const mutation = useMutation({
-    mutationFn: async (values: LoginFormValues) => {
-      // First attempt login
-      await login(values);
+  const loginMutation = useLoginMutation();
+  const userInfoMutation = useUserInfoMutation();
+
+  const handleSubmit = async (values: LoginFormValues) => {
+    try {
+      // Première étape : Login
+      await loginMutation.mutateAsync(values);
 
       try {
-        // If login successful, get user info
-        const userInfo = await getUserInfo();
-        return userInfo;
+        // Deuxième étape : Récupération des infos utilisateur
+        const userInfo = await userInfoMutation.mutateAsync();
+
+        // Troisième étape : Stockage des infos et redirection
+        authLogin(userInfo);
+        router.push("/dashboard");
       } catch (error) {
-        // If getUserInfo fails, logout and throw error
+        // En cas d'échec de getUserInfo
         await logout();
         toast({
           variant: "destructive",
           title: "Erreur",
-          description:
-            error instanceof Error
-              ? error.message
-              : "Impossible de récupérer les informations utilisateur",
+          description: "Impossible de récupérer les informations utilisateur",
         });
       }
-    },
-    onSuccess: (userInfo) => {
-      authLogin(userInfo);
-      router.push("/dashboard");
-    },
-    onError: (error) => {
+    } catch (error) {
       toast({
         variant: "destructive",
         title: "Erreur",
-        description:
-          error instanceof Error ? error.message : "Identifiants invalides",
+        description: "Identifiants invalides",
       });
-    },
-  });
-
-  const initialValues: LoginFormValues = {
-    email: "",
-    password: "",
+    }
   };
+
+  const isLoading = loginMutation.isPending || userInfoMutation.isPending;
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{ email: "", password: "" }}
       validationSchema={loginSchema}
-      onSubmit={(values) => mutation.mutate(values)}
+      onSubmit={handleSubmit}
     >
       {({ errors, touched }) => (
         <Form className="space-y-4">
@@ -112,14 +102,8 @@ export function LoginForm() {
             )}
           </div>
 
-          <Button
-            className="w-full"
-            type="submit"
-            disabled={mutation.isPending}
-          >
-            {mutation.isPending && (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            )}
+          <Button className="w-full" type="submit" disabled={isLoading}>
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Se connecter
           </Button>
         </Form>
