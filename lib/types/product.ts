@@ -1,3 +1,16 @@
+export interface VariantCombination {
+  name: string; // Nom de l'option (exemple : "Color")
+  value: string; // Valeur de l'option (exemple : "Red")
+}
+
+export interface Variant {
+  id: string; // Identifiant unique de la variante
+  combination: VariantCombination[]; // Liste des combinaisons (options et valeurs)
+  price: string; // Prix de la variante au format chaîne
+  stock_quantity: string; // Quantité de stock au format chaîne
+  sku: string; // SKU de la variante
+}
+
 export interface Product {
   id: string;
   title: string;
@@ -88,10 +101,5 @@ export interface ProductFormValues {
   tags: string[];
   images: File[];
   //profit: number;
-  variants: Array<{
-    option: string;
-    value: string;
-    price: number;
-    quantity: number;
-  }>;
+  variants: Variant | [];
 }

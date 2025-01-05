@@ -120,6 +120,47 @@ export function ProductForm(
     category: Yup.string().required("La catégorie est obligatoire"),
     collections: Yup.array().of(Yup.string()),
     tags: Yup.array().of(Yup.string()),
+    variants: Yup.array()
+      .of(
+        Yup.object().shape({
+          id: Yup.string().required(),
+          combination: Yup.array().of(
+            Yup.object().shape({
+              name: Yup.string().required("Option name is required"),
+              value: Yup.string().required("Option value is required"),
+            })
+          ),
+          price: Yup.string()
+            .required("Variant price is required")
+            .matches(/^\d+(\.\d{1,2})?$/, "Price must be a valid number"),
+          stock_quantity: Yup.string()
+            .required("Variant quantity is required")
+            .matches(/^\d+$/, "Quantity must be a whole number"),
+          sku: Yup.string()
+            .required("SKU is required")
+            .min(3, "SKU must be at least 3 characters"),
+        })
+      )
+      .test(
+        "has-variants",
+        "At least one variant is required when options are defined",
+        function (variants) {
+          // Si le tableau existe et est vide, on considère qu'il n'y a pas de variantes
+          if (!variants || variants.length === 0) {
+            return true;
+          }
+
+          // Vérifie que toutes les variantes ont des données valides
+          return variants.every(
+            (variant) =>
+              variant.price &&
+              variant.stock_quantity &&
+              variant.sku &&
+              Array.isArray(variant.combination) && // Vérifie que combination est un tableau
+              variant.combination.length > 0
+          );
+        }
+      ),
     images: Yup.mixed().required("Au moins une image est requise"),
   });
 
@@ -158,6 +199,14 @@ export function ProductForm(
     //   console.log(pair[0], pair[1]);
     // }
     // console.log(formData);
+
+    // Afficher uniquement les variantes
+    console.log("Variants:");
+    for (let pair of formData.entries()) {
+      if (pair[0].startsWith("variants")) {
+        console.log(pair[0], pair[1]);
+      }
+    }
 
     // Submit the FormData via mutation
     mutation.mutate(formData);
