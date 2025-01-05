@@ -15,17 +15,19 @@ import { MobileNav } from "./mobile-nav";
 import { logout } from "@/lib/api/auth";
 import { toast } from "@/hooks/use-toast";
 import { Search as SearchComponent } from "@/components/search";
+import { useAuth } from "@/lib/auth/auth-provider";
 
 export function UserNav() {
   const pathname = usePathname();
-
   const router = useRouter();
+  const { logout: storageLogout } = useAuth();
 
   const mutation = useMutation({
     mutationFn: async () => {
       return logout();
     },
     onSuccess: () => {
+      storageLogout();
       router.push("/login");
     },
     onError: () => {

@@ -10,6 +10,7 @@ import { toast } from "@/hooks/use-toast";
 import { addProduct } from "@/lib/api/products";
 import { ProductFormValues } from "@/lib/types/product";
 import { createFormData } from "@/lib/utils/form-data";
+import { useRouter } from "next/navigation";
 
 {
   /*interface ProductFormProps {
@@ -29,6 +30,9 @@ export function ProductForm(
   }
 ) {
   //: ProductFormProps
+
+  const router = useRouter();
+
   const initialValues: ProductFormValues = {
     name: "",
     description: "",
@@ -168,19 +172,14 @@ export function ProductForm(
     mutationFn: async (formData: FormData) => {
       return addProduct(formData);
     },
-    // mutationFn: ,
-    onSuccess: () =>
-      // data
-
-      {
-        toast({
-          variant: "default",
-          title: "Succes",
-          description: "Le produit a bien été ajouté",
-        });
-        // login(data.token, data.user);
-        //router.push("/dashboard");
-      },
+    onSuccess: () => {
+      toast({
+        variant: "default",
+        title: "Succes",
+        description: "Le produit a bien été ajouté",
+      });
+      router.push("/dashboard/products");
+    },
     onError: () => {
       toast({
         variant: "destructive",

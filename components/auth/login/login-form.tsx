@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { login } from "@/lib/api/auth";
+import { login, logout } from "@/lib/api/auth";
+import { getUserInfo } from "@/lib/api/users";
+import { useAuth } from "@/lib/auth/auth-provider";
 import * as yup from "yup";
-//const { login: authLogin } = useAuth();
 
 export const loginSchema = yup.object().shape({
   email: yup.string().email("Email invalide").required("L'email est requis"),
@@ -26,18 +27,40 @@ interface LoginFormValues {
 export function LoginForm() {
   const router = useRouter();
   const { toast } = useToast();
+  const { login: authLogin } = useAuth();
 
   const mutation = useMutation({
-    mutationFn: login,
-    onSuccess: () => {
-      //authLogin(data.token, data.user);
+    mutationFn: async (values: LoginFormValues) => {
+      // First attempt login
+      await login(values);
+
+      try {
+        // If login successful, get user info
+        const userInfo = await getUserInfo();
+        return userInfo;
+      } catch (error) {
+        // If getUserInfo fails, logout and throw error
+        await logout();
+        toast({
+          variant: "destructive",
+          title: "Erreur",
+          description:
+            error instanceof Error
+              ? error.message
+              : "Impossible de récupérer les informations utilisateur",
+        });
+      }
+    },
+    onSuccess: (userInfo) => {
+      authLogin(userInfo);
       router.push("/dashboard");
     },
-    onError: () => {
+    onError: (error) => {
       toast({
         variant: "destructive",
-        title: "Error",
-        description: "Invalid credentials",
+        title: "Erreur",
+        description:
+          error instanceof Error ? error.message : "Identifiants invalides",
       });
     },
   });

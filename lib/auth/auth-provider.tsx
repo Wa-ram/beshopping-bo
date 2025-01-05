@@ -5,14 +5,14 @@ import { useRouter, usePathname } from "next/navigation";
 
 interface User {
   id: string;
+  name: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  phone_number: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (token: string, userData: User) => void;
+  login: (userData: User) => void;
   logout: () => void;
   isLoading: boolean;
 }
@@ -28,10 +28,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const initAuth = async () => {
       try {
-        const token = localStorage.getItem("token");
+        // const token = localStorage.getItem("token");
         const userData = localStorage.getItem("user");
 
-        if (token && userData) {
+        if (userData) {
           try {
             const parsedUser = JSON.parse(userData);
             setUser(parsedUser);
@@ -64,9 +64,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     initAuth();
   }, [pathname, router]);
 
-  const login = (token: string, userData: User) => {
+  const login = (userData: User) => {
     try {
-      localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(userData));
       setUser(userData);
     } catch (error) {
@@ -76,7 +75,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     try {
-      localStorage.removeItem("token");
       localStorage.removeItem("user");
       setUser(null);
       router.push("/login");

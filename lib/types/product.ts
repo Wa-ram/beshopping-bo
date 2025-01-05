@@ -1,3 +1,5 @@
+import { FormDataObject } from "../utils/form-data";
+
 export interface VariantCombination {
   name: string; // Nom de l'option (exemple : "Color")
   value: string; // Valeur de l'option (exemple : "Red")

@@ -11,6 +11,7 @@ import { toast } from "@/hooks/use-toast";
 import { addCollection } from "@/lib/api/collections";
 import { CollectionFormValues } from "@/lib/types/collection";
 import { createFormData } from "@/lib/utils/form-data";
+import { useRouter } from "next/navigation";
 
 interface CollectionFormProps {
   // onSubmit: (data: any) => Promise<void>;
@@ -18,11 +19,12 @@ interface CollectionFormProps {
   //initialData?: CollectionFormValues;
 }
 
-const CollectionForm = ({
-  // onSubmit: handleSubmit,
-  // isLoading,
-}: // initialData,
+const CollectionForm = ({}: // onSubmit: handleSubmit,
+// isLoading,
+// initialData,
 CollectionFormProps) => {
+  const router = useRouter();
+
   const initialValues: CollectionFormValues = {
     name: "",
     description: "",
@@ -50,18 +52,14 @@ CollectionFormProps) => {
     mutationFn: async (formData: FormData) => {
       return addCollection(formData);
     },
-    // mutationFn: ,
-    onSuccess: () =>
-      //data
-      {
-        toast({
-          variant: "default",
-          title: "Succes",
-          description: "Le produit a bien été ajouté",
-        });
-        // login(data.token, data.user);
-        //router.push("/dashboard");
-      },
+    onSuccess: () => {
+      toast({
+        variant: "default",
+        title: "Succes",
+        description: "Le produit a bien été ajouté",
+      });
+      router.push("/dashboard/products/collections");
+    },
     onError: () => {
       toast({
         variant: "destructive",

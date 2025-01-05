@@ -6,31 +6,32 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { register } from "@/lib/api/auth";
+import { register, logout } from "@/lib/api/auth";
+import { getUserInfo } from "@/lib/api/users";
+import { useAuth } from "@/lib/auth/auth-provider";
 import * as yup from "yup";
-// import { useAuth } from "@/lib/auth/auth-provider";
 
 export const registerSchema = yup.object().shape({
-    firstname: yup
-      .string()
-      .required("Le prénom est requis")
-      .min(2, "Le prénom doit contenir au moins 2 caractères"),
-    lastname: yup
-      .string()
-      .required("Le nom est requis")
-      .min(2, "Le nom doit contenir au moins 2 caractères"),
-    email: yup.string().email("Email invalide").required("L'email est requis"),
-    password: yup
-      .string()
-      .min(8, "Le mot de passe doit contenir au moins 8 caractères")
-      .matches(/[A-Z]/, "Le mot de passe doit contenir au moins une majuscule")
-      .matches(/[0-9]/, "Le mot de passe doit contenir au moins un chiffre")
-      .required("Le mot de passe est requis"),
-    password_confirmation: yup
-      .string()
-      .oneOf([yup.ref("password")], "Les mots de passe ne correspondent pas")
-      .required("La confirmation du mot de passe est requise"),
-  });
+  firstname: yup
+    .string()
+    .required("Le prénom est requis")
+    .min(2, "Le prénom doit contenir au moins 2 caractères"),
+  lastname: yup
+    .string()
+    .required("Le nom est requis")
+    .min(2, "Le nom doit contenir au moins 2 caractères"),
+  email: yup.string().email("Email invalide").required("L'email est requis"),
+  password: yup
+    .string()
+    .min(8, "Le mot de passe doit contenir au moins 8 caractères")
+    .matches(/[A-Z]/, "Le mot de passe doit contenir au moins une majuscule")
+    .matches(/[0-9]/, "Le mot de passe doit contenir au moins un chiffre")
+    .required("Le mot de passe est requis"),
+  password_confirmation: yup
+    .string()
+    .oneOf([yup.ref("password")], "Les mots de passe ne correspondent pas")
+    .required("La confirmation du mot de passe est requise"),
+});
 
 interface RegisterFormValues {
   firstname: string;
@@ -43,17 +44,40 @@ interface RegisterFormValues {
 export function RegisterForm() {
   const router = useRouter();
   const { toast } = useToast();
+  const { login: authLogin } = useAuth();
 
   const mutation = useMutation({
-    mutationFn: register,
-    onSuccess: () => {
+    mutationFn: async (values: RegisterFormValues) => {
+      // First attempt registration
+      await register(values);
+
+      try {
+        // If registration successful, get user info
+        const userInfo = await getUserInfo();
+        return userInfo;
+      } catch (error) {
+        // If getUserInfo fails, logout and throw error
+        await logout();
+        toast({
+          variant: "destructive",
+          title: "Erreur",
+          description:
+            error instanceof Error
+              ? error.message
+              : "Une erreur s'est produite",
+        });
+      }
+    },
+    onSuccess: (userInfo) => {
+      authLogin(userInfo);
       router.push("/dashboard");
     },
-    onError: () => {
+    onError: (error) => {
       toast({
         variant: "destructive",
-        title: "Error",
-        description: "Registration failed. Please try again.",
+        title: "Erreur",
+        description:
+          error instanceof Error ? error.message : "L'inscription a échoué",
       });
     },
   });
@@ -63,7 +87,7 @@ export function RegisterForm() {
     lastname: "",
     email: "",
     password: "",
-    password_confirmation: "", // On garde le champ mais il sera caché
+    password_confirmation: "",
   };
 
   return (
@@ -71,13 +95,11 @@ export function RegisterForm() {
       initialValues={initialValues}
       validationSchema={registerSchema}
       onSubmit={(values, { setFieldValue }) => {
-        // On définit automatiquement la confirmation
         setFieldValue("password_confirmation", values.password);
         mutation.mutate(values);
       }}
     >
       {({ errors, touched, values, setFieldValue }) => {
-        // Mettre à jour la confirmation à chaque changement du mot de passe
         if (values.password !== values.password_confirmation) {
           setFieldValue("password_confirmation", values.password);
         }
@@ -92,7 +114,9 @@ export function RegisterForm() {
                     <Input
                       {...field}
                       placeholder="Nom"
-                      aria-invalid={Boolean(errors.lastname && touched.lastname)}
+                      aria-invalid={Boolean(
+                        errors.lastname && touched.lastname
+                      )}
                     />
                   )}
                 </Field>
@@ -107,7 +131,9 @@ export function RegisterForm() {
                     <Input
                       {...field}
                       placeholder="Prénoms"
-                      aria-invalid={Boolean(errors.firstname && touched.firstname)}
+                      aria-invalid={Boolean(
+                        errors.firstname && touched.firstname
+                      )}
                     />
                   )}
                 </Field>

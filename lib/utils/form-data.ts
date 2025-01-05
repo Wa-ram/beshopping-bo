@@ -2,58 +2,61 @@ import { isPlainObject } from "./utils";
 
 type Primitive = string | number | boolean | null | undefined;
 type FormDataValue = File | Blob | Primitive | FormDataValue[] | FormDataObject;
-interface FormDataObject {
+export interface FormDataObject {
   [key: string]: FormDataValue;
 }
 
-export const createFormData = (values: FormDataObject): FormData => {
+export const createFormData = (values: unknown): FormData => {
   const formData = new FormData();
 
   const appendToFormData = (
-    data: FormDataObject | FormDataValue[],
+    data: unknown,
     prefix = ""
-  ) => {
-    Object.entries(data).forEach(([key, value]) => {
-      const fieldName = prefix ? `${prefix}[${key}]` : key;
+  ): void => {
+    if (data === null || data === undefined) {
+      // Null or undefined values
+      formData.append(prefix, "");
+      return;
+    }
 
-      if (value === null || value === undefined) {
-        formData.append(fieldName, "");
-        return;
-      }
+    if (data instanceof File || data instanceof Blob) {
+      // Handle File or Blob
+      formData.append(prefix, data);
+      return;
+    }
 
-      // Handle files and blobs
-      if (value instanceof File || value instanceof Blob) {
-        formData.append(fieldName, value);
-        return;
-      }
-
-      // Handle arrays
-      if (Array.isArray(value)) {
-        value.forEach((item, index) => {
-          const arrayFieldName = `${fieldName}[${index}]`;
-
-          if (item instanceof File || item instanceof Blob) {
-            formData.append(arrayFieldName, item);
-          } else if (isPlainObject(item)) {
-            appendToFormData(item as FormDataObject, arrayFieldName);
-          } else {
-            formData.append(arrayFieldName, String(item));
-          }
-        });
-        return;
-      }
-
-      // Handle objects
-      if (isPlainObject(value)) {
-        appendToFormData(value as FormDataObject, fieldName);
-        return;
-      }
-
+    if (typeof data === "string" || typeof data === "number" || typeof data === "boolean") {
       // Handle primitives
-      formData.append(fieldName, String(value));
-    });
+      formData.append(prefix, String(data));
+      return;
+    }
+
+    if (Array.isArray(data)) {
+      // Handle arrays
+      data.forEach((item, index) => {
+        const arrayPrefix = `${prefix}[${index}]`;
+        appendToFormData(item, arrayPrefix);
+      });
+      return;
+    }
+
+    if (isPlainObject(data)) {
+      // Handle objects
+      Object.entries(data as FormDataObject).forEach(([key, value]) => {
+        const objectPrefix = prefix ? `${prefix}[${key}]` : key;
+        appendToFormData(value, objectPrefix);
+      });
+      return;
+    }
+
+    throw new Error(`Unsupported data type: ${typeof data}`);
   };
 
-  appendToFormData(values);
+  if (isPlainObject(values) || Array.isArray(values)) {
+    appendToFormData(values);
+  } else {
+    throw new Error("Input must be an object or an array.");
+  }
+
   return formData;
 };
