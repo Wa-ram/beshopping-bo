@@ -29,7 +29,7 @@ export default function LoginPage() {
           <CardContent>
             <LoginForm />
             <div className="mt-4 text-center text-sm">
-              Vous n'avez pas de compte ?{" "}
+              Vous n&apos;avez pas de compte ?{" "}
               <Link href="/register" className="text-primary hover:underline">
                 Inscrivez-vous
               </Link>

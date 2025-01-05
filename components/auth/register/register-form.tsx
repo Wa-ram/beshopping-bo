@@ -11,6 +11,7 @@ import { useRegisterMutation } from "@/hooks/mutations/use-register-mutation";
 import { useUserInfoMutation } from "@/hooks/mutations/use-user-info-mutation";
 import * as yup from "yup";
 import { RegisterFormValues } from "@/lib/types/auth";
+import { FieldProps } from "formik";
 
 export const registerSchema = yup.object().shape({
   firstname: yup
@@ -50,7 +51,7 @@ export function RegisterForm() {
       try {
         // Deuxième étape : Récupération des infos utilisateur
         const userInfo = await userInfoMutation.mutateAsync();
-        
+
         // Troisième étape : Stockage des infos et redirection
         authLogin(userInfo);
         router.push("/dashboard");
@@ -62,6 +63,7 @@ export function RegisterForm() {
           title: "Erreur",
           description: "Impossible de récupérer les informations utilisateur",
         });
+        console.error("Failed to get user info", error);
       }
     } catch (error) {
       toast({
@@ -69,6 +71,7 @@ export function RegisterForm() {
         title: "Erreur",
         description: "L'inscription a échoué",
       });
+      console.error("Failed to register user", error);
     }
   };
 
@@ -99,11 +102,13 @@ export function RegisterForm() {
               <div className="space-y-2">
                 <Label htmlFor="lastname">Nom</Label>
                 <Field name="lastname">
-                  {({ field }: any) => (
+                  {({ field }: FieldProps) => (
                     <Input
                       {...field}
                       placeholder="Nom"
-                      aria-invalid={Boolean(errors.lastname && touched.lastname)}
+                      aria-invalid={Boolean(
+                        errors.lastname && touched.lastname
+                      )}
                     />
                   )}
                 </Field>
@@ -114,11 +119,13 @@ export function RegisterForm() {
               <div className="space-y-2">
                 <Label htmlFor="firstname">Prénoms</Label>
                 <Field name="firstname">
-                  {({ field }: any) => (
+                  {({ field }: FieldProps) => (
                     <Input
                       {...field}
                       placeholder="Prénoms"
-                      aria-invalid={Boolean(errors.firstname && touched.firstname)}
+                      aria-invalid={Boolean(
+                        errors.firstname && touched.firstname
+                      )}
                     />
                   )}
                 </Field>
@@ -131,7 +138,7 @@ export function RegisterForm() {
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Field name="email">
-                {({ field }: any) => (
+                {({ field }: FieldProps) => (
                   <Input
                     {...field}
                     type="email"
@@ -148,7 +155,7 @@ export function RegisterForm() {
             <div className="space-y-2">
               <Label htmlFor="password">Mot de passe</Label>
               <Field name="password">
-                {({ field }: any) => (
+                {({ field }: FieldProps) => (
                   <Input
                     {...field}
                     type="password"
@@ -162,14 +169,8 @@ export function RegisterForm() {
               )}
             </div>
 
-            <Button
-              className="w-full"
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
+            <Button className="w-full" type="submit" disabled={isLoading}>
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               S&apos;inscrire
             </Button>
           </Form>

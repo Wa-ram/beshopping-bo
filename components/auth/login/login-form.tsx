@@ -11,6 +11,7 @@ import { useLoginMutation } from "@/hooks/mutations/use-login-mutation";
 import { useUserInfoMutation } from "@/hooks/mutations/use-user-info-mutation";
 import * as yup from "yup";
 import { LoginFormValues } from "@/lib/types/auth";
+import { FieldProps } from "formik";
 
 export const loginSchema = yup.object().shape({
   email: yup.string().email("Email invalide").required("L'email est requis"),
@@ -48,6 +49,7 @@ export function LoginForm() {
           title: "Erreur",
           description: "Impossible de récupérer les informations utilisateur",
         });
+        console.error("Failed to get user info", error);
       }
     } catch (error) {
       toast({
@@ -55,6 +57,7 @@ export function LoginForm() {
         title: "Erreur",
         description: "Identifiants invalides",
       });
+      console.error("Failed to log user", error);
     }
   };
 
@@ -71,7 +74,7 @@ export function LoginForm() {
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Field name="email">
-              {({ field }: any) => (
+              {({ field }: FieldProps) => (
                 <Input
                   {...field}
                   type="email"
@@ -88,7 +91,7 @@ export function LoginForm() {
           <div className="space-y-2">
             <Label htmlFor="password">Mot de passe</Label>
             <Field name="password">
-              {({ field }: any) => (
+              {({ field }: FieldProps) => (
                 <Input
                   {...field}
                   type="password"
