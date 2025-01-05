@@ -9,7 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
 import { addProduct } from "@/lib/api/products";
 import { ProductFormValues } from "@/lib/types/product";
-import { createFormData } from "@/lib/utils";
+import { createFormData } from "@/lib/utils/form-data";
 
 {
   /*interface ProductFormProps {
@@ -117,7 +117,7 @@ export function ProductForm(
           "La date est obligatoire pour une publication programmée"
         ),
     }),
-    category: Yup.string().required("La catégorie est obligatoire"),
+    // category: Yup.string().required("La catégorie est obligatoire"),
     collections: Yup.array().of(Yup.string()),
     tags: Yup.array().of(Yup.string()),
     variants: Yup.array()

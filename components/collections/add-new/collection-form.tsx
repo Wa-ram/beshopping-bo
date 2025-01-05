@@ -8,9 +8,9 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
-import { createFormData } from "@/lib/utils";
 import { addCollection } from "@/lib/api/collections";
 import { CollectionFormValues } from "@/lib/types/collection";
+import { createFormData } from "@/lib/utils/form-data";
 
 interface CollectionFormProps {
   // onSubmit: (data: any) => Promise<void>;

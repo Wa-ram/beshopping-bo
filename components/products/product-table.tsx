@@ -59,6 +59,8 @@ export function ProductTable({ products }: ProductTableProps) {
                       src={product.media[0]}
                       alt={product.title}
                       className="h-10 w-10 rounded-md object-cover"
+                      width={40}
+                      height={40}
                     />
                   )}
                 </div>

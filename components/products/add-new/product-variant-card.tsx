@@ -1,7 +1,5 @@
-"use client";
-
-import { useState } from "react";
-import { Plus } from "lucide-react";
+import { ReactNode, useState } from "react";
+import { Plus, AlertCircle } from "lucide-react";
 import { useFormikContext } from "formik";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,9 +18,26 @@ interface FormValues {
 }
 
 export function ProductVariantCard() {
-  const { setFieldValue, values } = useFormikContext<FormValues>();
+  const { errors, setFieldValue, values } = useFormikContext<FormValues>();
   const [options, setOptions] = useState<VariantOptionType[]>([]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
+
+  // Helper function to get variant errors
+  const getVariantErrors = () => {
+    if (!errors.variants) return null;
+    if (typeof errors.variants === "string") return errors.variants;
+
+    const variantErrors = (errors.variants as any[])
+      ?.map((error: any, index: number) => {
+        if (typeof error === "string") return error;
+        return Object.values(error || {}).filter(Boolean)[0];
+      })
+      .filter(Boolean);
+
+    return variantErrors.length > 0 ? variantErrors : null;
+  };
+
+  const variantErrors = getVariantErrors();
 
   const addOption = () => {
     const newIndex = options.length;
@@ -60,7 +75,11 @@ export function ProductVariantCard() {
   };
 
   const generateVariants = (currentOptions: VariantOptionType[]) => {
-    // Vérifier si toutes les options ont un nom et au moins une valeur
+    if (currentOptions.length === 0) {
+      setFieldValue("variants", []);
+      return;
+    }
+
     const hasValidOptions = currentOptions.every(
       (option) => option.name && option.values.length > 0
     );
@@ -96,13 +115,23 @@ export function ProductVariantCard() {
     };
 
     const combinations = generateCombinations(currentOptions);
-    const newVariants = combinations.map((combination) => ({
-      id: combination.map((item) => `${item.name}-${item.value}`).join("-"),
-      combination,
-      price: values.price || "",
-      stock_quantity: values.quantity || "",
-      sku: "",
-    }));
+    const newVariants = combinations.map((combination) => {
+      const variantId = combination
+        .map((item) => `${item.name}-${item.value}`)
+        .join("-");
+      // Rechercher une variante existante avec le même ID
+      const existingVariant = values.variants?.find((v) => v.id === variantId);
+
+      return {
+        id: variantId,
+        combination,
+        // Préserver les valeurs existantes ou utiliser les valeurs par défaut
+        price: existingVariant?.price || values.price || "",
+        stock_quantity:
+          existingVariant?.stock_quantity || values.quantity || "",
+        sku: existingVariant?.sku || "",
+      };
+    });
 
     setFieldValue("variants", newVariants);
   };
@@ -125,17 +154,19 @@ export function ProductVariantCard() {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span>Product Variants</span>
-          <Button
-            onClick={addOption}
-            variant="outline"
-            className="flex items-center gap-2"
-            type="button"
-          >
-            <Plus className="h-4 w-4" />
-            Add Option
-          </Button>
+        <CardTitle className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <span>Product Variants</span>
+            <Button
+              onClick={addOption}
+              variant="outline"
+              className="flex items-center gap-2"
+              type="button"
+            >
+              <Plus className="h-4 w-4" />
+              Add Option
+            </Button>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -156,6 +187,20 @@ export function ProductVariantCard() {
         {values.variants?.length > 0 && (
           <div className="mt-6">
             <h3 className="text-lg font-semibold mb-4">Variant Combinations</h3>
+            {variantErrors && (
+              <div className="flex items-start gap-2 text-sm text-destructive font-normal">
+                <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                <div className="flex flex-col gap-1">
+                  {Array.isArray(variantErrors) ? (
+                    variantErrors.map((error, index) => (
+                      <span key={index}>{error as ReactNode}</span>
+                    ))
+                  ) : (
+                    <span>{variantErrors}</span>
+                  )}
+                </div>
+              </div>
+            )}
             <VariantTable
               variants={values.variants}
               onVariantUpdate={updateVariant}

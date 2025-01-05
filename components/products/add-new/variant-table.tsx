@@ -21,10 +21,10 @@ interface VariantTableProps {
   ) => void;
 }
 
-export function VariantTable({
-  variants,
-  onVariantUpdate,
-}: VariantTableProps) {
+export function VariantTable({ variants, onVariantUpdate }: VariantTableProps) {
+  if (variants.length === 0) {
+    return null;
+  }
   return (
     <div className="relative w-full overflow-hidden rounded-md border">
       <ScrollArea className="w-full" aria-orientation="horizontal">
@@ -42,7 +42,9 @@ export function VariantTable({
               {variants.map((variant) => (
                 <TableRow key={variant.id}>
                   <TableCell className="min-w-[200px]">
-                    {variant.combination.map(item => `${item.value}`).join(" / ")}
+                    {variant.combination
+                      .map((item) => `${item.value}`)
+                      .join(" / ")}
                   </TableCell>
                   <TableCell>
                     <Input
@@ -58,7 +60,11 @@ export function VariantTable({
                     <Input
                       value={variant.stock_quantity}
                       onChange={(e) =>
-                        onVariantUpdate(variant.id, "stock_quantity", e.target.value)
+                        onVariantUpdate(
+                          variant.id,
+                          "stock_quantity",
+                          e.target.value
+                        )
                       }
                       placeholder="0"
                       className="max-w-[100px]"
