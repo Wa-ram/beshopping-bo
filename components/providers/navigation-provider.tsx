@@ -15,15 +15,15 @@ export function NavigationProvider({
 
   return (
     <NavigationContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
-      <div className="flex h-screen overflow-hidden">
+      <div className="">
         <MainNav />
-        <div className="flex flex-grow flex-col h-screen overflow-y-scroll">
+        <div className="md:ml-64 h-screen bg-[#F8F8F8]">
           <div className="border-b">
-            <div className="flex h-16 items-center px-4">
+            <div className="flex h-16 border-b items-center px-6 bg-white fixed w-full md:w-[calc(100%-256px)] z-10">
               <UserNav />
             </div>
           </div>
-          <main className="space-y-4 p-8 pt-6 bg-[#F8F8F8] flex-grow">
+          <main className="space-y-4 p-6 pt-6 bg-[#F8F8F8] mt-16">
             {children}
           </main>
         </div>

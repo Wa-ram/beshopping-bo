@@ -141,7 +141,7 @@ export function MainNav() {
   };
 
   return (
-    <nav className="md:flex flex-col min-w-64 border-r bg-gray-50/40 hidden ">
+    <nav className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full md:translate-x-0 border-r bg-gray-50 min-w-64 ">
       <div className="p-4">
         <h1 className="text-xl font-bold">BeShopping</h1>
       </div>
