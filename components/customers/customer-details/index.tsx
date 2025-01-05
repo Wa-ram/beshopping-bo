@@ -7,8 +7,8 @@ import { ArrowLeft } from "lucide-react";
 import { useCustomerStore } from "@/lib/stores/customer-store";
 import { Customer } from "@/lib/types/customer";
 import { CustomerInfo } from "./customer-info";
-import { CustomerStats } from "./customer-stats";
-import { CustomerTabs } from "./customer-tabs";
+// import { CustomerStats } from "./customer-stats";
+// import { CustomerTabs } from "./customer-tabs";
 
 export function CustomerDetails() {
   const router = useRouter();

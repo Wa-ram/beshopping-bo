@@ -11,7 +11,7 @@ export function EmptyState() {
       <h2 className="mt-6 text-xl font-semibold">Aucun client</h2>
       <p className="mt-2 text-sm text-muted-foreground max-w-xl">
         Lorsque les clients effectuent leur premier achat, ils apparaissent ici.
-        Vous pouvez consulter l'historique de leurs commandes, gérer leurs
+        Vous pouvez consulter l&apos;historique de leurs commandes, gérer leurs
         informations et suivre leur engagement.
       </p>
     </div>

@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { FormikCheckbox } from "@/components/ui/formik-checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,7 +6,7 @@ import { useFormikContext } from "formik";
 import React, { ReactNode } from "react";
 
 const ProductFormPricingCard = () => {
-  const { handleBlur, handleChange, values, errors, touched, setFieldValue } =
+  const { handleBlur, values, errors, touched, setFieldValue } =
     useFormikContext<any>();
 
   return (

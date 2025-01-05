@@ -10,7 +10,7 @@ import {
   Users,
   Wallet,
   BarChart,
-  Megaphone,
+  // Megaphone,
   Tag,
   ChevronDown,
   ChevronRight,

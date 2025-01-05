@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/lib/types/product";
 import { Upload, X } from "lucide-react";
+import Image from "next/image";
 
 interface ProductMediaProps {
   product: Product;
@@ -16,7 +17,10 @@ export function ProductMedia({ product, onChange }: ProductMediaProps) {
     onChange();
   };
 
-  const handleRemove = (index: number) => {
+  const handleRemove = (
+    // index: number
+
+  ) => {
     // Implement media removal logic
     onChange();
   };
@@ -30,13 +34,13 @@ export function ProductMedia({ product, onChange }: ProductMediaProps) {
         <div className="grid grid-cols-2 gap-4">
           {product.media.map((url, index) => (
             <div key={index} className="relative group">
-              <img
+              <Image
                 src={url}
                 alt={`Product ${index + 1}`}
                 className="w-full h-40 object-cover rounded-md"
               />
               <button
-                onClick={() => handleRemove(index)}
+                onClick={() => handleRemove()}
                 className="absolute top-2 right-2 p-1 rounded-full bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity"
               >
                 <X className="h-4 w-4" />

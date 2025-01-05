@@ -1,7 +1,7 @@
 "use client";
-import { Form, Formik, FormikHelpers, useFormik } from "formik";
+import { Form, Formik } from "formik";
 import { Button } from "@/components/ui/button";
-import { Calendar as CalendarIcon, Loader2 } from "lucide-react";
+// import { Calendar as CalendarIcon, Loader2 } from "lucide-react";
 import ProductGeneralInfo from "./product-general-info";
 import ProductPricingAndOptions from "./product-pricing-and-options";
 import * as Yup from "yup";
@@ -128,15 +128,18 @@ export function ProductForm(
       return addProduct(formData);
     },
     // mutationFn: ,
-    onSuccess: (data) => {
-      toast({
-        variant: "default",
-        title: "Succes",
-        description: "Le produit a bien été ajouté",
-      });
-      // login(data.token, data.user);
-      //router.push("/dashboard");
-    },
+    onSuccess: () =>
+      // data
+
+      {
+        toast({
+          variant: "default",
+          title: "Succes",
+          description: "Le produit a bien été ajouté",
+        });
+        // login(data.token, data.user);
+        //router.push("/dashboard");
+      },
     onError: () => {
       toast({
         variant: "destructive",

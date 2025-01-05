@@ -38,7 +38,7 @@ export default function NewCollectionPage() {
         </Button>
         <h1 className="text-2xl font-bold">Créer une collection</h1>
       </div>
-      <CollectionForm onSubmit={handleSave} isLoading={isSaving} />
+      <CollectionForm isLoading={isSaving} />
     </div>
   );
 }

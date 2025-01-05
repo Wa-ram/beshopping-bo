@@ -9,8 +9,8 @@ import { Order } from "@/lib/types/order";
 import { OrderInfo } from "./order-info";
 import { OrderSummary } from "./order-summary";
 import { OrderItems } from "./order-items";
-import { OrderFulfillment } from "./order-fulfillment";
-import { OrderTimeline } from "./order-timeline";
+// import { OrderFulfillment } from "./order-fulfillment";
+// import { OrderTimeline } from "./order-timeline";
 import { OrderActions } from "./order-actions";
 import { OrderNotes } from "./order-notes";
 

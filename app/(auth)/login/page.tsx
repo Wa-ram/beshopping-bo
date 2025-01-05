@@ -15,8 +15,11 @@ import {
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
-import { login, getCsrfToken } from "@/lib/api/auth";
-import { useAuth } from "@/lib/auth/auth-provider";
+import {
+  login,
+  //getCsrfToken
+} from "@/lib/api/auth";
+//import { useAuth } from "@/lib/auth/auth-provider";
 import { Label } from "@/components/ui/label";
 
 export default function LoginPage() {
@@ -32,7 +35,7 @@ export default function LoginPage() {
       // await getCsrfToken();
       return login(credentials);
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       //authLogin(data.token, data.user);
       router.push("/dashboard");
     },

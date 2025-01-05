@@ -16,7 +16,7 @@ interface MetricCardProps {
 
 // Mock data generator for the sparkline
 const generateSparklineData = () => {
-  return Array.from({ length: 10 }, (_, i) => ({
+  return Array.from({ length: 10 }, () => ({
     value: Math.floor(Math.random() * 100),
   }));
 };
@@ -26,7 +26,7 @@ export function MetricCard({
   value,
   change,
   icon: Icon,
-  chart,
+  // chart,
   realtimeUpdates,
 }: MetricCardProps) {
   const [sparklineData, setSparklineData] = useState(generateSparklineData());

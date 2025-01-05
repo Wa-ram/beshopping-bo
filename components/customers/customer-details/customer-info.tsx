@@ -1,10 +1,6 @@
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Customer } from "@/lib/types/customer";
-import { Textarea } from "@/components/ui/textarea";
-import { useCustomerStore } from "@/lib/stores/customer-store";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import CustomerNotes from "./customer-notes";
 
 interface CustomerInfoProps {

@@ -1,5 +1,4 @@
 "use client";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TagInputOOTB } from "@/components/ui/tag-input-ootb";
 import Link from "next/link";
@@ -120,7 +119,7 @@ const ProductFormOrganisation = () => {
               href="/dashboard/products/add-new"
               className="text-[#3574F2] underline"
             >
-              taux d'imposition
+              taux d&apos;imposition
             </Link>
           </p>
         </div>

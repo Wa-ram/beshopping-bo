@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -89,29 +89,29 @@ const ProductMediaCard = () => {
   );
 };
 
-const ProductSEOCard = () => {
-  const product = {
-    title: "custum-mug",
-    description:
-      "Créez des collections de mug pour organiser fetes et boire à votre soif. Vous pouvez choisir des collections en fonction de conditions comme vos couleurs préférés ou le thème de vos chill.",
-  };
+// const ProductSEOCard = () => {
+//   const product = {
+//     title: "custum-mug",
+//     description:
+//       "Créez des collections de mug pour organiser fetes et boire à votre soif. Vous pouvez choisir des collections en fonction de conditions comme vos couleurs préférés ou le thème de vos chill.",
+//   };
 
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Référencement sur les moteurs de recherche</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <h2 className="productTitle">Custum mug</h2>
-          <p className="productLink">
-            {`${process.env.DOMAIN_NAME}/products/${
-              product?.title || "custum-mug "
-            }`}{" "}
-          </p>
-          <p>{product.description} </p>
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
+//   return (
+//     <Card>
+//       <CardHeader>
+//         <CardTitle>Référencement sur les moteurs de recherche</CardTitle>
+//       </CardHeader>
+//       <CardContent className="space-y-4">
+//         <div className="space-y-2">
+//           <h2 className="productTitle">Custum mug</h2>
+//           <p className="productLink">
+//             {`${process.env.DOMAIN_NAME}/products/${
+//               product?.title || "custum-mug "
+//             }`}{" "}
+//           </p>
+//           <p>{product.description} </p>
+//         </div>
+//       </CardContent>
+//     </Card>
+//   );
+// };

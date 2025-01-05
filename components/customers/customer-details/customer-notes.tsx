@@ -50,6 +50,7 @@ const CustomerNotes = ({ customer }: CustomerInfoProps) => {
                 onClick={() => {
                   if (actualNote !== undefined) {
                     updateCustomerNote(customer.id, actualNote);
+                    setActualNote(actualNote);
                   }
                   setIsEditNote(false);
                 }}

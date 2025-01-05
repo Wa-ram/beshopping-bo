@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
 import {
   Table,
   TableBody,
@@ -8,19 +8,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Badge } from "@/components/ui/badge"
-import { useCollectionStore } from "@/lib/stores/collection-store"
-import { Collection } from "@/lib/types/collection"
+} from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { useCollectionStore } from "@/lib/stores/collection-store";
+import { Collection } from "@/lib/types/collection";
+import Image from "next/image";
 
 interface CollectionTableProps {
-  collections: Collection[]
+  collections: Collection[];
 }
 
 export function CollectionTable({ collections }: CollectionTableProps) {
-  const router = useRouter()
-  const { selectedCollections, toggleCollectionSelection } = useCollectionStore()
+  const router = useRouter();
+  const { selectedCollections, toggleCollectionSelection } =
+    useCollectionStore();
 
   return (
     <div className="rounded-md border">
@@ -41,18 +43,22 @@ export function CollectionTable({ collections }: CollectionTableProps) {
             <TableRow
               key={collection.id}
               className="cursor-pointer"
-              onClick={() => router.push(`/dashboard/products/collections/${collection.id}`)}
+              onClick={() =>
+                router.push(`/dashboard/products/collections/${collection.id}`)
+              }
             >
               <TableCell onClick={(e) => e.stopPropagation()}>
                 <Checkbox
                   checked={selectedCollections.includes(collection.id)}
-                  onCheckedChange={() => toggleCollectionSelection(collection.id)}
+                  onCheckedChange={() =>
+                    toggleCollectionSelection(collection.id)
+                  }
                 />
               </TableCell>
               <TableCell>
                 <div className="flex items-center gap-3">
                   {collection.image && (
-                    <img
+                    <Image
                       src={collection.image}
                       alt={collection.title}
                       className="h-10 w-10 rounded-md object-cover"
@@ -82,13 +88,11 @@ export function CollectionTable({ collections }: CollectionTableProps) {
                   {collection.status}
                 </Badge>
               </TableCell>
-              <TableCell>
-                {collection.updatedAt.toLocaleDateString()}
-              </TableCell>
+              <TableCell>{collection.updatedAt.toLocaleDateString()}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }

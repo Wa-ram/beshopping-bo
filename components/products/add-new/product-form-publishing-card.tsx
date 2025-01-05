@@ -13,24 +13,24 @@ import { useFormikContext } from "formik";
 import React, { ReactNode, useRef, useState } from "react";
 
 const ProductFormPublishingCard = () => {
-  const [publishingPeriod, setPublishingPeriod] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
+  // const [publishingPeriod, setPublishingPeriod] = useState("");
+  // const [selectedDate, setSelectedDate] = useState("");
 
   // Crée une ref pour l'input de type date
-  const dateInputRef = useRef<HTMLInputElement | null>(null);
+  // const dateInputRef = useRef<HTMLInputElement | null>(null);
 
   // Fonction pour gérer la sélection de la période de publication
-  const handleSelectChange = (value: string) => {
-    if (value === "instant") {
-      setSelectedDate("");
-    }
-    setPublishingPeriod(value);
-  };
+  // const handleSelectChange = (value: string) => {
+  //   if (value === "instant") {
+  //     setSelectedDate("");
+  //   }
+  //   setPublishingPeriod(value);
+  // };
 
   // Fonction pour gérer la mise à jour de la date
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedDate(e.target.value);
-  };
+  // const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSelectedDate(e.target.value);
+  // };
 
   const { values, setFieldValue, handleChange, handleBlur, touched, errors } =
     useFormikContext<any>();

@@ -49,7 +49,7 @@ export function OrderTable({ orders }: OrderTableProps) {
             <TableHead>Client</TableHead>
             <TableHead>Total</TableHead>
             <TableHead>Articles</TableHead>
-            <TableHead>Statut d'accomplissement</TableHead>
+            <TableHead>Statut d&apos;accomplissement</TableHead>
             <TableHead>Statut de la livraison</TableHead>
           </TableRow>
         </TableHeader>

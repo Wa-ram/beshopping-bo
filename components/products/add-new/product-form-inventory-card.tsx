@@ -1,11 +1,10 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { FormikCheckbox } from "@/components/ui/formik-checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useField, useFormikContext } from "formik";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 
 const ProductFormInventoryCard = () => {
   // // États pour gérer la visibilité des inputs
@@ -27,13 +26,13 @@ const ProductFormInventoryCard = () => {
   const [field, meta] = useField("is_tracking_quantity");
   const [fieldSku, metaSku] = useField("has_sku");
 
-  const handleTrackQuantityChange = (checked: boolean) => {
-    setFieldValue("is_tracking_quantity", checked); // Met à jour Formik avec la nouvelle valeur
-  };
+  // const handleTrackQuantityChange = (checked: boolean) => {
+  //   setFieldValue("is_tracking_quantity", checked); // Met à jour Formik avec la nouvelle valeur
+  // };
 
-  const handlehasSKUChange = (checked: boolean) => {
-    setFieldValue("has_sku", checked); // Met à jour Formik avec la nouvelle valeur
-  };
+  // const handlehasSKUChange = (checked: boolean) => {
+  //   setFieldValue("has_sku", checked); // Met à jour Formik avec la nouvelle valeur
+  // };
   return (
     <Card>
       <CardHeader>

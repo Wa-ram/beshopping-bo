@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import React from "react";
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 import CollectionGeneralInfo from "./collection-general-info";
 import CollectionOptions from "./collection-options";
 import { Form, Formik } from "formik";
@@ -21,8 +21,8 @@ interface CollectionFormProps {
 const CollectionForm = ({
   // onSubmit: handleSubmit,
   isLoading,
-  initialData,
-}: CollectionFormProps) => {
+}: // initialData,
+CollectionFormProps) => {
   const initialValues: CollectionFormValues = {
     name: "",
     description: "",
@@ -51,15 +51,17 @@ const CollectionForm = ({
       return addCollection(formData);
     },
     // mutationFn: ,
-    onSuccess: (data) => {
-      toast({
-        variant: "default",
-        title: "Succes",
-        description: "Le produit a bien été ajouté",
-      });
-      // login(data.token, data.user);
-      //router.push("/dashboard");
-    },
+    onSuccess: () =>
+      //data
+      {
+        toast({
+          variant: "default",
+          title: "Succes",
+          description: "Le produit a bien été ajouté",
+        });
+        // login(data.token, data.user);
+        //router.push("/dashboard");
+      },
     onError: () => {
       toast({
         variant: "destructive",

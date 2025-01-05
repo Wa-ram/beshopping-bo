@@ -5,23 +5,25 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { DiscountForm } from "@/components/discounts/discount-form";
-import { DiscountConditions } from "@/components/discounts/discount-conditions";
-import { DiscountLimits } from "@/components/discounts/discount-limits";
+// import { DiscountConditions } from "@/components/discounts/discount-conditions";
+// import { DiscountLimits } from "@/components/discounts/discount-limits";
 
 export default function NewDiscountPage() {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleSave = async (data: any) => {
-    setIsSaving(true);
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      router.push("/dashboard/discounts");
-    } finally {
-      setIsSaving(false);
-    }
-  };
+  const handleSave = async () =>
+    // data: any
+    {
+      setIsSaving(true);
+      try {
+        // Simulate API call
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        router.push("/dashboard/discounts");
+      } finally {
+        setIsSaving(false);
+      }
+    };
 
   return (
     <div className="space-y-6">

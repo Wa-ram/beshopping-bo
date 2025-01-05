@@ -10,7 +10,7 @@ interface OrderNotesProps {
 
 export function OrderNotes({ order }: OrderNotesProps) {
   const [isEditNote, setIsEditNote] = useState(false);
-  const [actualNote, setActualNote] = useState(order.notes);
+  // const [actualNote, setActualNote] = useState(order.notes);
   const [notes, setNotes] = useState(order.notes);
   // if (!order.notes) {
   //   return null;

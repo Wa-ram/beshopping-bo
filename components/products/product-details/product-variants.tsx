@@ -52,7 +52,7 @@ export function ProductVariants({ product, onChange }: ProductVariantsProps) {
                   <Input
                     type="number"
                     value={variant.price}
-                    onChange={(e) => {
+                    onChange={() => {
                       // Implement price update logic
                       onChange();
                     }}
@@ -62,7 +62,7 @@ export function ProductVariants({ product, onChange }: ProductVariantsProps) {
                 <TableCell>
                   <Input
                     value={variant.sku || ""}
-                    onChange={(e) => {
+                    onChange={() => {
                       // Implement SKU update logic
                       onChange();
                     }}
@@ -73,7 +73,7 @@ export function ProductVariants({ product, onChange }: ProductVariantsProps) {
                   <Input
                     type="number"
                     value={variant.quantity || 0}
-                    onChange={(e) => {
+                    onChange={() => {
                       // Implement quantity update logic
                       onChange();
                     }}

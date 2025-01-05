@@ -1,7 +1,7 @@
 "use client";
 
 import { UserNav } from "@/components/user-nav";
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 
 export default function SettingsLayout({
   children,

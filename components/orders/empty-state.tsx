@@ -11,7 +11,7 @@ export function EmptyState() {
       <h2 className="mt-6 text-xl font-semibold">Aucune commande</h2>
       <p className="mt-2 text-sm text-muted-foreground max-w-xl">
         Lorsque les clients passent des commandes, celles-ci apparaissent ici.
-        Vous pouvez traiter les commandes, gérer l'exécution et suivre l'état
+        Vous pouvez traiter les commandes, gérer l&apos;exécution et suivre l&apos;état
         des expéditions.
       </p>
     </div>

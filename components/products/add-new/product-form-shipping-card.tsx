@@ -1,6 +1,5 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { FormikCheckbox } from "@/components/ui/formik-checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,11 +11,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useField, useFormikContext } from "formik";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 
 const ProductFormShippingCard = () => {
   // État pour gérer la visibilité de l'input
-  const { errors, values, touched, handleBlur, handleChange, setFieldValue } =
+  const { errors, values, touched, handleBlur, setFieldValue } =
     useFormikContext<any>();
 
   const [fieldisPhysicalProduct, metaIsPhysicalProduct] =

@@ -15,10 +15,13 @@ import {
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
-import { getCsrfToken, register } from "@/lib/api/auth";
-import { useAuth } from "@/lib/auth/auth-provider";
+import {
+  // getCsrfToken,
+  register,
+} from "@/lib/api/auth";
+// import { useAuth } from "@/lib/auth/auth-provider";
 import Image from "next/image";
-import registerImage from "/register-image.png";
+// import registerImage from "/register-image.png";
 import { Label } from "@/components/ui/label";
 
 export default function RegisterPage() {
@@ -46,7 +49,7 @@ export default function RegisterPage() {
       return register(formData);
     },
     // mutationFn: ,
-    onSuccess: (data) => {
+    onSuccess: () => {
       // login(data.token, data.user);
       router.push("/dashboard");
     },
@@ -153,7 +156,7 @@ export default function RegisterPage() {
                 {mutation.isPending && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                S'inscrire
+                S&apos;inscrire
               </Button>
             </form>
             <div className="mt-4 text-center text-sm">

@@ -7,7 +7,8 @@ interface MetricsGridProps {
   selectedRange: string;
 }
 
-export function MetricsGrid({ selectedRange }: MetricsGridProps) {
+export function MetricsGrid({}: // selectedRange
+MetricsGridProps) {
   // Mock data - replace with real API calls
   const metrics = {
     totalSales: 124500,
