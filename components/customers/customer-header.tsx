@@ -41,7 +41,7 @@ export function CustomerHeader() {
       <div className="flex items-center gap-2">
         <Input
           placeholder="Search customers..."
-          className="max-w-sm"
+          className="w-full md:max-w-sm"
         />
       </div>
     </div>

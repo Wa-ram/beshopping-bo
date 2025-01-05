@@ -141,7 +141,7 @@ export function MainNav() {
   };
 
   return (
-    <nav className="flex flex-col w-64 border-r bg-gray-50/40 dark:bg-gray-900/40">
+    <nav className="md:flex flex-col min-w-64 border-r bg-gray-50/40 hidden ">
       <div className="p-4">
         <h1 className="text-xl font-bold">BeShopping</h1>
       </div>

@@ -15,9 +15,9 @@ export function NavigationProvider({
 
   return (
     <NavigationContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <MainNav />
-        <div className="flex-grow flex flex-col">
+        <div className="flex flex-grow flex-col h-screen overflow-y-scroll">
           <div className="border-b">
             <div className="flex h-16 items-center px-4">
               <UserNav />

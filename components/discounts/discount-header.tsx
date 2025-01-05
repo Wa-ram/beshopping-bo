@@ -12,14 +12,16 @@ export function DiscountHeader() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Discounts</h1>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
-            <Filter className="h-4 w-4 mr-2" />
-            Filter
-          </Button>
-          <Button variant="outline" size="sm">
-            <Download className="h-4 w-4 mr-2" />
-            Export
-          </Button>
+          <div className="hidden md:flex items-center gap-2">
+            <Button variant="outline" size="sm">
+              <Filter className="h-4 w-4 mr-2" />
+              Filter
+            </Button>
+            <Button variant="outline" size="sm">
+              <Download className="h-4 w-4 mr-2" />
+              Export
+            </Button>
+          </div>
           <Button
             size="sm"
             onClick={() => router.push("/dashboard/discounts/add-new")}
@@ -30,7 +32,7 @@ export function DiscountHeader() {
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <Input placeholder="Search discounts..." className="max-w-sm" />
+        <Input placeholder="Search discounts..." className="w-full md:max-w-sm" />
       </div>
     </div>
   );
