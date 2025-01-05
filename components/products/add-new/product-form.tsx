@@ -170,11 +170,11 @@ export function ProductForm(
       onSubmit={handleSubmit}
     >
       <Form className="space-y-8">
-        <div className="flex gap-6">
-          <div className="lg:w-8/12 gap-6 flex flex-col order-2 lg:order-1">
+        <div className="flex  flex-col xl:flex-row gap-6">
+          <div className="xl:w-8/12 gap-6 flex flex-col order-2 xl:order-1">
             <ProductPricingAndOptions />
           </div>
-          <div className="lg:w-4/12 gap-6 flex flex-col order-1 lg:order-2">
+          <div className="xl:w-4/12 gap-6 flex flex-col order-1 xl:order-2">
             <ProductGeneralInfo />
           </div>
         </div>

@@ -24,10 +24,13 @@ export function UserNav() {
       return logout();
     },
     // mutationFn: ,
-    onSuccess: (data) => {
-      // login(data.token, data.user);
-      router.push("/login");
-    },
+    onSuccess: () =>
+      // data
+
+      {
+        // login(data.token, data.user);
+        router.push("/login");
+      },
     onError: () => {
       toast({
         variant: "destructive",

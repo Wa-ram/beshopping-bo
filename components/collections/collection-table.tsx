@@ -62,6 +62,8 @@ export function CollectionTable({ collections }: CollectionTableProps) {
                       src={collection.image}
                       alt={collection.title}
                       className="h-10 w-10 rounded-md object-cover"
+                      width={10}
+                      height={10}
                     />
                   )}
                   <div>

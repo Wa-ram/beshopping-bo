@@ -14,6 +14,7 @@ import { useProductStore } from "@/lib/stores/product-store";
 import { Product } from "@/lib/types/product";
 import { formatCurrency } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface ProductTableProps {
   products: Product[];
@@ -54,7 +55,7 @@ export function ProductTable({ products }: ProductTableProps) {
               <TableCell>
                 <div className="flex items-center gap-3">
                   {product.media[0] && (
-                    <img
+                    <Image
                       src={product.media[0]}
                       alt={product.title}
                       className="h-10 w-10 rounded-md object-cover"

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+// import { Loader2 } from "lucide-react";
 import React from "react";
 // import { useForm } from "react-hook-form";
 import CollectionGeneralInfo from "./collection-general-info";
@@ -20,7 +20,7 @@ interface CollectionFormProps {
 
 const CollectionForm = ({
   // onSubmit: handleSubmit,
-  isLoading,
+  // isLoading,
 }: // initialData,
 CollectionFormProps) => {
   const initialValues: CollectionFormValues = {
@@ -92,11 +92,11 @@ CollectionFormProps) => {
       onSubmit={handleSubmit}
     >
       <Form className="space-y-8">
-        <div className="flex gap-6">
-          <div className="lg:w-8/12 gap-6 flex flex-col order-2 lg:order-1">
+        <div className="flex gap-6 flex-col xl:flex-row">
+          <div className="xl:w-8/12 gap-6 flex flex-col order-2 xl:order-1">
             <CollectionGeneralInfo />
           </div>
-          <div className="lg:w-4/12 gap-6 flex flex-col order-1 lg:order-2">
+          <div className="xl:w-4/12 gap-6 flex flex-col order-1 xl:order-2">
             <CollectionOptions />
           </div>
         </div>
@@ -105,8 +105,8 @@ CollectionFormProps) => {
           {/* <Button variant="outline" type="button">
       Save as Draft
     </Button> */}
-          <Button type="submit" disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button type="submit">
+            {/*isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />*/}
             Ajouter la collection
           </Button>
         </div>

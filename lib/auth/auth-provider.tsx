@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { getCsrfToken } from "@/lib/api/auth";
 
 interface User {
   id: string;
@@ -38,6 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setUser(parsedUser);
           } catch (e) {
             // Invalid user data in localStorage
+            console.error("Invalid user data in localStorage:", e);
             localStorage.removeItem("token");
             localStorage.removeItem("user");
             if (
@@ -62,7 +62,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     initAuth();
-  }, []);
+  }, [pathname, router]);
 
   const login = (token: string, userData: User) => {
     try {

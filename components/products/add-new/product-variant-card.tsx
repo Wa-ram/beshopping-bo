@@ -60,6 +60,16 @@ export function ProductVariantCard() {
   };
 
   const generateVariants = (currentOptions: VariantOptionType[]) => {
+    // Vérifier si toutes les options ont un nom et au moins une valeur
+    const hasValidOptions = currentOptions.every(
+      (option) => option.name && option.values.length > 0
+    );
+
+    if (!hasValidOptions) {
+      setFieldValue("variants", []);
+      return;
+    }
+
     const generateCombinations = (
       options: VariantOptionType[],
       current: VariantCombinationItem[] = [],
@@ -87,14 +97,14 @@ export function ProductVariantCard() {
 
     const combinations = generateCombinations(currentOptions);
     const newVariants = combinations.map((combination) => ({
-      id: combination.map(item => `${item.name}-${item.value}`).join("-"),
+      id: combination.map((item) => `${item.name}-${item.value}`).join("-"),
       combination,
       price: values.price || "",
       stock_quantity: values.quantity || "",
       sku: "",
     }));
 
-    setFieldValue('variants', newVariants);
+    setFieldValue("variants", newVariants);
   };
 
   const updateVariant = (
@@ -105,7 +115,7 @@ export function ProductVariantCard() {
     const newVariants = values.variants.map((variant) =>
       variant.id === id ? { ...variant, [field]: value } : variant
     );
-    setFieldValue('variants', newVariants);
+    setFieldValue("variants", newVariants);
   };
 
   const handleSetEditing = (index: number | null) => {

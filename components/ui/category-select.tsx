@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Input } from "./input";
 import { ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -123,30 +123,33 @@ export const InteractiveSelect: React.FC<InteractiveSelectProps> = ({
     }
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      containerRef.current &&
-      !containerRef.current.contains(event.target as Node)
-    ) {
-      setIsOpen(false);
-      // Reset navigation when closing
-      setCurrentCategories(categories);
-      setNavigationStack([]);
-      // Restore selected value in input if exists
-      if (value) {
-        setFilter(value.name);
-      } else {
-        setFilter("");
+  const handleClickOutside = useCallback(
+    (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+        // Reset navigation when closing
+        setCurrentCategories(categories);
+        setNavigationStack([]);
+        // Restore selected value in input if exists
+        if (value) {
+          setFilter(value.name);
+        } else {
+          setFilter("");
+        }
       }
-    }
-  };
+    },
+    [categories, value]
+  );
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [value]);
+  }, [value, handleClickOutside]);
 
   // Initialize input value with selected category name
   useEffect(() => {

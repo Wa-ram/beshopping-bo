@@ -48,7 +48,7 @@ interface InteractiveSelectProps {
 }
 
 export const InteractiveSelect: React.FC<InteractiveSelectProps> = ({
-  value,
+  // value,
   onChange,
   children,
 }) => {

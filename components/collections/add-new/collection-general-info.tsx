@@ -29,7 +29,7 @@ const CollectionBasicsInfoCard = () => {
           <Input
             id="name"
             name="name"
-            placeholder="Titre du produit"
+            placeholder="Titre de la collection"
             value={values.name}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -46,7 +46,7 @@ const CollectionBasicsInfoCard = () => {
             value={values.description}
             onChange={handleChange}
             onBlur={handleBlur}
-            placeholder="Description du produit"
+            placeholder="Description de la collection"
           />
           {errors.description && touched.description && (
             <div className="text-red-500">
@@ -71,7 +71,7 @@ const CollectionMediaCard = () => {
         <ImageUpload
           values={values.images}
           onChange={(newImages: File[]) => setFieldValue("images", newImages)}
-          maxFiles={7}
+          maxFiles={1}
         />
       </CardContent>
     </Card>

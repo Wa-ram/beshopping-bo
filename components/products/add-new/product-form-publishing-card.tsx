@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useFormikContext } from "formik";
-import React, { ReactNode, useRef, useState } from "react";
+import React, { ReactNode } from "react";
 
 const ProductFormPublishingCard = () => {
   // const [publishingPeriod, setPublishingPeriod] = useState("");

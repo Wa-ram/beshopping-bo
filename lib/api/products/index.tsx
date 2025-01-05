@@ -1,4 +1,3 @@
-import { ProductFormValues } from "@/lib/types/product";
 import { api } from "..";
 
 export async function addProduct(formData: FormData) {

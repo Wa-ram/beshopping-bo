@@ -101,7 +101,7 @@ export const TagInputOOTB: React.FC<TagInputOOTBProps> = ({
             <div
               className="px-4 py-2 text-gray-500 cursor-pointer"
               onClick={() => {
-                let newTag = {
+                const newTag = {
                   label: inputValue,
                   value: inputValue.replace(" ", "-").toLowerCase(),
                 };
@@ -113,7 +113,7 @@ export const TagInputOOTB: React.FC<TagInputOOTBProps> = ({
                 addTag(newTag);
               }}
             >
-              Ajouter "{inputValue}"
+              Ajouter &quot;{inputValue}&quot;
             </div>
           )}
           {!isAddPossible && (
