@@ -1,0 +1,9 @@
+[phases]
+install = "npm install"
+build = "npm run build"
+start = "npm run start"
+
+[variables]
+# Example environment variables
+NEXT_PUBLIC_API_URL = "https://beshopping-bo.designtheflow.com"
+NODE_ENV = "production"
