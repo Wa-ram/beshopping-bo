@@ -24,3 +24,12 @@ export interface CollectionFormValues {
   is_shown_in_store: 1 | 0;
   images: File[];
 }
+
+export type APICollection = {
+  id: number;
+  name: string;
+  description: string | null;
+  slug: string | null;
+  created_at: string;
+  updated_at: string;
+};

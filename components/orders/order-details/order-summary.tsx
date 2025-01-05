@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Order } from "@/lib/types/order"
-import { formatCurrency } from "@/lib/utils"
+import { formatCurrency } from "@/lib/utils/utils"
 
 interface OrderSummaryProps {
   order: Order

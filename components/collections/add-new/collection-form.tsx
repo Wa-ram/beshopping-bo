@@ -15,7 +15,7 @@ import { createFormData } from "@/lib/utils/form-data";
 interface CollectionFormProps {
   // onSubmit: (data: any) => Promise<void>;
   isLoading?: boolean;
-  initialData?: any;
+  //initialData?: CollectionFormValues;
 }
 
 const CollectionForm = ({

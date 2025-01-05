@@ -8,8 +8,8 @@ export function ThemeProvider({
   children,
   ...props
 }: {
-  children: any;
-}) // : ThemeProviderProps
-{
+  children: React.ReactNode;
+}) {
+  // : ThemeProviderProps
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 }

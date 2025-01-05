@@ -9,6 +9,9 @@ import { fetchCategories } from "@/lib/api/categories";
 import { fetchCollections } from "@/lib/api/collections";
 import { InteractiveSelect } from "@/components/ui/category-select";
 import { useFormikContext } from "formik";
+import { ProductFormValues } from "@/lib/types/product";
+import { APICollection } from "@/lib/types/collection";
+import { APICategory } from "@/lib/types/category";
 
 const ProductFormOrganisation = () => {
   const [tags, setTags] = useState<{ label: string; value: string }[]>([]);
@@ -24,7 +27,7 @@ const ProductFormOrganisation = () => {
     { label: "CSS", value: "css" },
   ];
 
-  const { setFieldValue, errors } = useFormikContext<any>();
+  const { setFieldValue, errors } = useFormikContext<ProductFormValues>();
 
   const [selectedCategory, setSelectedCategory] = useState<{
     id: number;
@@ -35,13 +38,19 @@ const ProductFormOrganisation = () => {
     data: categories,
     isLoading: isLoadingCategories,
     isError: isErrorCategories,
-  } = useQuery({ queryKey: ["categories"], queryFn: fetchCategories });
+  } = useQuery<APICategory[]>({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
 
   const {
     data: collections,
     isLoading: isLoadingCollections,
     isError: isErrorCollections,
-  } = useQuery({ queryKey: ["collections"], queryFn: fetchCollections });
+  } = useQuery<APICollection[]>({
+    queryKey: ["collections"],
+    queryFn: fetchCollections,
+  });
 
   const handleTagsChange = (
     updatedTags: { label: string; value: string }[]
@@ -71,31 +80,15 @@ const ProductFormOrganisation = () => {
       <CardContent className="space-y-4">
         <div className="space-y-1">
           <Label htmlFor="title">Catégorie</Label>
-          {isLoadingCategories ? (
-            <p>Chargement des catégories...</p>
-          ) : isErrorCategories ? (
-            <p>Une erreur est survenue lors du chargement des catégories.</p>
-          ) : (
+          {!isLoadingCategories && !isErrorCategories && categories && (
             <InteractiveSelect
               categories={categories}
               value={selectedCategory}
               onChange={(category) => {
                 setSelectedCategory(category);
-                // Update Formik value
                 setFieldValue("category", category.id);
               }}
             />
-            // <InteractiveSelect value={selectedItem} onChange={handleChange}>
-            //   <SelectList
-            //     list={categories.map((cat: any) => ({
-            //       label: cat.name,
-            //       value: cat.id,
-            //     }))}
-            //     onSelect={(item: { value: string; label: string }) => {
-            //       setSelectedItem({ value: item.value, label: item.label });
-            //     }}
-            //   />
-            // </InteractiveSelect>
           )}
           {errors.category && (
             <div className="text-red-500">{errors.category as ReactNode}</div>
@@ -126,20 +119,14 @@ const ProductFormOrganisation = () => {
 
         <div className="space-y-1">
           <Label htmlFor="title">Collection</Label>
-          {isLoadingCollections ? (
-            <p>Chargement des collections...</p>
-          ) : isErrorCollections ? (
-            <p>Une erreur est survenue lors du chargement des collections.</p>
-          ) : (
+          {!isLoadingCollections && !isErrorCollections && collections && (
             <TagInputOOTB
-              suggestions={collections.map((coll: any) => ({
+              suggestions={collections.map((coll) => ({
                 label: coll.name,
-                value: coll.id,
+                value: String(coll.id),
               }))}
               selectedTags={collectionsTags}
-              onTagsChange={(updatedTags) => {
-                handleCollectionsChange(updatedTags);
-              }}
+              onTagsChange={handleCollectionsChange}
               isAddPossible={false}
             />
           )}

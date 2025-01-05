@@ -9,6 +9,7 @@ import ProductFormPricingCard from "./product-form-pricing-card";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { ProductVariantCard } from "./product-variant-card";
 import { useFormikContext } from "formik";
+import { ProductFormValues } from "@/lib/types/product";
 
 const ProductPricingAndOptions = () => {
   return (
@@ -28,7 +29,7 @@ export default ProductPricingAndOptions;
 
 const ProductBasicsInfoCard = () => {
   const { values, errors, touched, handleChange, handleBlur } =
-    useFormikContext<any>();
+    useFormikContext<ProductFormValues>();
   return (
     <Card>
       <CardContent className="space-y-4 mt-4">
@@ -71,7 +72,7 @@ const ProductMediaCard = () => {
   //const [images, setImages] = useState<string[]>([]);
 
   const { values, setFieldValue } =
-    useFormikContext<any>();
+    useFormikContext<ProductFormValues>();
 
   return (
     <Card>

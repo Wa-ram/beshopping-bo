@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ProductFormValues } from "@/lib/types/product";
 import { useFormikContext } from "formik";
 import React, { ReactNode } from "react";
 
@@ -33,7 +34,7 @@ const ProductFormPublishingCard = () => {
   // };
 
   const { values, setFieldValue, handleChange, handleBlur, touched, errors } =
-    useFormikContext<any>();
+    useFormikContext<ProductFormValues>();
   return (
     <Card>
       <CardHeader>

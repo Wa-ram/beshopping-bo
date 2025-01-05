@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FormikCheckbox } from "@/components/ui/formik-checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ProductFormValues } from "@/lib/types/product";
 import { useField, useFormikContext } from "formik";
 import React, { ReactNode } from "react";
 
@@ -21,10 +22,10 @@ const ProductFormInventoryCard = () => {
   //   setIsSKUChecked((prevState) => !prevState);
   // };
   const { handleBlur, handleChange, errors, values, touched, setFieldValue } =
-    useFormikContext<any>();
+    useFormikContext<ProductFormValues>();
 
-  const [field, meta] = useField("is_tracking_quantity");
-  const [fieldSku, metaSku] = useField("has_sku");
+  const [field] = useField("is_tracking_quantity");
+  const [fieldSku] = useField("has_sku");
 
   // const handleTrackQuantityChange = (checked: boolean) => {
   //   setFieldValue("is_tracking_quantity", checked); // Met à jour Formik avec la nouvelle valeur

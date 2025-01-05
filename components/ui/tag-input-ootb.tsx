@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Input } from "./input";
 
 interface TagInputOOTBProps {
-  suggestions: { label: string; value: string }[]; // Liste des suggestions.
+  suggestions?: { label: string; value: string }[]; // Liste des suggestions.
   selectedTags: { label: string; value: string }[]; // Tags sélectionnés.
   onTagsChange: (tags: { label: string; value: string }[]) => void; // Callback pour mettre à jour les tags.
   isAddPossible: boolean; // Indique si l'utilisateur peut ajouter un nouveau tag.
@@ -15,7 +15,10 @@ export const TagInputOOTB: React.FC<TagInputOOTBProps> = ({
   isAddPossible,
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
-  const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
+  const [filteredSuggestions, setFilteredSuggestions] = useState(
+    suggestions || []
+  );
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -26,13 +29,12 @@ export const TagInputOOTB: React.FC<TagInputOOTBProps> = ({
     setInputValue(value);
     setIsDropdownOpen(true);
 
-    const filtered = suggestions.filter(
+    const filtered = suggestions?.filter(
       (s) =>
         s.label.toLowerCase().includes(value.toLowerCase()) &&
         !selectedTags.some((tag) => tag.value === s.value)
     );
-
-    setFilteredSuggestions(filtered);
+    if (filtered) setFilteredSuggestions(filtered);
   };
 
   // Ajoute un tag.
@@ -82,7 +84,7 @@ export const TagInputOOTB: React.FC<TagInputOOTBProps> = ({
       {/* Menu déroulant */}
       {isDropdownOpen && filteredSuggestions.length > 0 && (
         <div className="absolute z-10 bg-white border border-gray-300 rounded-md mt-12 w-full shadow-lg max-h-40 overflow-y-auto">
-          {filteredSuggestions.map((suggestion) => (
+          {filteredSuggestions?.map((suggestion) => (
             <div
               key={suggestion.value}
               onClick={() => addTag(suggestion)}
@@ -95,7 +97,7 @@ export const TagInputOOTB: React.FC<TagInputOOTBProps> = ({
       )}
 
       {/* Aucun résultat */}
-      {isDropdownOpen && filteredSuggestions.length === 0 && (
+      {isDropdownOpen && filteredSuggestions?.length === 0 && (
         <div className="absolute z-10 bg-white border border-gray-300 rounded-md mt-12 w-full shadow-lg">
           {isAddPossible && inputValue !== "" && (
             <div

@@ -10,15 +10,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ProductFormValues } from "@/lib/types/product";
 import { useField, useFormikContext } from "formik";
 import React, { ReactNode } from "react";
 
 const ProductFormShippingCard = () => {
   // État pour gérer la visibilité de l'input
   const { errors, values, touched, handleBlur, setFieldValue } =
-    useFormikContext<any>();
+    useFormikContext<ProductFormValues>();
 
-  const [fieldisPhysicalProduct, metaIsPhysicalProduct] =
+  const [fieldisPhysicalProduct] =
     useField("is_physical");
 
   return (

@@ -13,7 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { useOrderStore } from "@/lib/stores/order-store";
 import { Order } from "@/lib/types/order";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils/utils";
 
 interface OrderTableProps {
   orders: Order[];

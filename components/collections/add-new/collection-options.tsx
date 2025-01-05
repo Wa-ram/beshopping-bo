@@ -7,6 +7,7 @@ import CollectionFormPublishingCard from "./collection-form-publishing-card";
 // import { Checkbox } from "@/components/ui/checkbox";
 import { FormikCheckbox } from "@/components/ui/formik-checkbox";
 import { useFormikContext } from "formik";
+import { CollectionFormValues } from "@/lib/types/collection";
 
 const CollectionOptions = () => {
   return (
@@ -20,7 +21,7 @@ const CollectionOptions = () => {
 export default CollectionOptions;
 
 const CollectionSalesChannel = () => {
-  const { values } = useFormikContext<any>();
+  const { values } = useFormikContext<CollectionFormValues>();
   return (
     <Card>
       <CardHeader>

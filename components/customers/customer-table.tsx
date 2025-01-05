@@ -13,7 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 // import { Badge } from "@/components/ui/badge";
 import { useCustomerStore } from "@/lib/stores/customer-store";
 import { Customer } from "@/lib/types/customer";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils/utils";
 
 interface CustomerTableProps {
   customers: Customer[];

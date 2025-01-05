@@ -3,8 +3,9 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { ImageIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 import { ImagePreview } from "./image-preview";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface ImageUploadProps {
   values: File[];
@@ -23,22 +24,12 @@ export function ImageUpload({
   className,
   maxFiles = 5,
 }: ImageUploadProps) {
-  const [error, setError] = useState<string | null>(null); // added
+  const [error, setError] = useState<string | null>(null);
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      setError(null); // Réinitialiser les erreurs
+      setError(null);
 
-      // acceptedFiles.forEach((file) => {
-      //   if (values.length >= maxFiles) return;
-
-      //   const reader = new FileReader();
-      //   reader.onloadend = () => {
-      //     const base64String = reader.result as string;
-      //     onChange([...values, base64String]);
-      //   };
-      //   reader.readAsDataURL(file);
-      // });
       const filteredFiles = acceptedFiles.filter(
         (file) => file.size <= MAX_FILE_SIZE
       );
@@ -51,7 +42,6 @@ export function ImageUpload({
         );
       }
 
-      // Ajoute les nouveaux fichiers si le maxFiles n'est pas atteint
       const newFiles = [...values, ...filteredFiles].slice(0, maxFiles);
       onChange(newFiles);
     },
@@ -77,6 +67,11 @@ export function ImageUpload({
 
   return (
     <div className={cn("space-y-4 w-full", className)}>
+      {error && (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
       <div
         {...getRootProps()}
         className={cn(
@@ -98,7 +93,7 @@ export function ImageUpload({
           </div>
         </div>
         {values.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
             {values.map((file, index) => (
               <ImagePreview
                 key={index}

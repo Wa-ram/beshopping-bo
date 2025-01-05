@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CollectionFormValues } from "@/lib/types/collection";
 import { useFormikContext } from "formik";
 import React, { ReactNode } from "react";
 
@@ -34,7 +35,7 @@ const CollectionFormPublishingCard = () => {
   //};
 
   const { values, setFieldValue, handleChange, handleBlur, touched, errors } =
-    useFormikContext<any>();
+    useFormikContext<CollectionFormValues>();
   return (
     <Card>
       <CardHeader>

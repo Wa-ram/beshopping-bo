@@ -202,7 +202,7 @@ export function ProductForm(
 
     // Afficher uniquement les variantes
     console.log("Variants:");
-    for (let pair of formData.entries()) {
+    for (const pair of formData.entries()) {
       if (pair[0].startsWith("variants")) {
         console.log(pair[0], pair[1]);
       }

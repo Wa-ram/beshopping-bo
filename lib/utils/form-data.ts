@@ -1,33 +1,41 @@
-import { isPlainObject } from "../utils";
+import { isPlainObject } from "./utils";
 
-export const createFormData = (values: any): FormData => {
+type Primitive = string | number | boolean | null | undefined;
+type FormDataValue = File | Blob | Primitive | FormDataValue[] | FormDataObject;
+interface FormDataObject {
+  [key: string]: FormDataValue;
+}
+
+export const createFormData = (values: FormDataObject): FormData => {
   const formData = new FormData();
 
-  const appendToFormData = (data: any, prefix = '') => {
-    (Object.keys(data) as (keyof any)[]).forEach((key) => {
-      const value = data[key];
-      const fieldName = prefix ? `${prefix}[${String(key)}]` : String(key);
+  const appendToFormData = (
+    data: FormDataObject | FormDataValue[],
+    prefix = ""
+  ) => {
+    Object.entries(data).forEach(([key, value]) => {
+      const fieldName = prefix ? `${prefix}[${key}]` : key;
 
       if (value === null || value === undefined) {
-        formData.append(fieldName, '');
+        formData.append(fieldName, "");
         return;
       }
 
-      // Gestion des fichiers
+      // Handle files and blobs
       if (value instanceof File || value instanceof Blob) {
         formData.append(fieldName, value);
         return;
       }
 
-      // Gestion des tableaux
+      // Handle arrays
       if (Array.isArray(value)) {
         value.forEach((item, index) => {
           const arrayFieldName = `${fieldName}[${index}]`;
-          
+
           if (item instanceof File || item instanceof Blob) {
             formData.append(arrayFieldName, item);
           } else if (isPlainObject(item)) {
-            appendToFormData(item, arrayFieldName);
+            appendToFormData(item as FormDataObject, arrayFieldName);
           } else {
             formData.append(arrayFieldName, String(item));
           }
@@ -35,13 +43,13 @@ export const createFormData = (values: any): FormData => {
         return;
       }
 
-      // Gestion des objets
+      // Handle objects
       if (isPlainObject(value)) {
-        appendToFormData(value, fieldName);
+        appendToFormData(value as FormDataObject, fieldName);
         return;
       }
 
-      // Valeurs primitives
+      // Handle primitives
       formData.append(fieldName, String(value));
     });
   };

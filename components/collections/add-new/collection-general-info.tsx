@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { useFormikContext } from "formik";
+import { CollectionFormValues } from "@/lib/types/collection";
 
 const CollectionGeneralInfo = () => {
   return (
@@ -20,7 +21,7 @@ export default CollectionGeneralInfo;
 
 const CollectionBasicsInfoCard = () => {
   const { values, errors, touched, handleChange, handleBlur } =
-    useFormikContext<any>();
+    useFormikContext<CollectionFormValues>();
   return (
     <Card>
       <CardContent className="space-y-4 mt-4">
@@ -60,7 +61,7 @@ const CollectionBasicsInfoCard = () => {
 };
 
 const CollectionMediaCard = () => {
-  const { values, setFieldValue } = useFormikContext<any>();
+  const { values, setFieldValue } = useFormikContext<CollectionFormValues>();
 
   return (
     <Card>

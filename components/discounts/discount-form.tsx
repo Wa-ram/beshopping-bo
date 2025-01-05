@@ -8,13 +8,22 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Loader2 } from "lucide-react";
 
+// Define the shape of the discount data
+interface DiscountData {
+  type: "percentage" | "fixed";
+  code: string;
+  value: number;
+}
+
 interface DiscountFormProps {
-  onSubmit: (data: any) => Promise<void>;
+  onSubmit: (data: DiscountData) => Promise<void>;
   isLoading?: boolean;
 }
 
 export function DiscountForm({ onSubmit, isLoading }: DiscountFormProps) {
-  const [discountType, setDiscountType] = useState("percentage");
+  const [discountType, setDiscountType] = useState<"percentage" | "fixed">(
+    "percentage"
+  );
   const [code, setCode] = useState("");
   const [value, setValue] = useState("");
 
@@ -38,7 +47,9 @@ export function DiscountForm({ onSubmit, isLoading }: DiscountFormProps) {
             <Label>Discount Type</Label>
             <RadioGroup
               value={discountType}
-              onValueChange={setDiscountType}
+              onValueChange={(value) =>
+                setDiscountType(value as "percentage" | "fixed")
+              }
               className="flex gap-4"
             >
               <div className="flex items-center space-x-2">

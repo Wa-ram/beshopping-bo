@@ -27,8 +27,8 @@ export function ProductVariantCard() {
     if (!errors.variants) return null;
     if (typeof errors.variants === "string") return errors.variants;
 
-    const variantErrors = (errors.variants as any[])
-      ?.map((error: any, index: number) => {
+    const variantErrors = (errors.variants as Array<Record<string, string>>)
+      ?.map((error) => {
         if (typeof error === "string") return error;
         return Object.values(error || {}).filter(Boolean)[0];
       })
