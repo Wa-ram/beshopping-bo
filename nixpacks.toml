@@ -1,9 +1,8 @@
 [phases]
-install = "npm install"
-build = "npm run build"
-start = "npm run start"
+  install = { commands = ["npm install"] }
+  build = { commands = ["npm run build"] }
+  start = { commands = ["npm run start"] }
 
 [variables]
-# Example environment variables
-NEXT_PUBLIC_API_URL = "https://beshopping-bo.designtheflow.com"
-NODE_ENV = "production"
+  NEXT_PUBLIC_API_URL = "https://beshopping-bo.designtheflow.com"
+  NODE_ENV = "production"
