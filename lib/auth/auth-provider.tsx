@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import Cookies from "js-cookie";
 
 interface User {
   id: string;
@@ -38,7 +39,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           } catch (e) {
             // Invalid user data in localStorage
             console.error("Invalid user data in localStorage:", e);
-            localStorage.removeItem("token");
+            // localStorage.removeItem("token");
             localStorage.removeItem("user");
             if (
               !pathname.startsWith("/login") &&
@@ -68,6 +69,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.setItem("user", JSON.stringify(userData));
       setUser(userData);
+      Cookies.set("isLoggedIn", "true", {
+        expires: 45,
+        secure: true,
+        sameSite: "Strict",
+      });
     } catch (error) {
       console.error("Failed to store auth data:", error);
     }
@@ -77,6 +83,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.removeItem("user");
       setUser(null);
+      Cookies.remove("isLoggedIn");
       router.push("/login");
     } catch (error) {
       console.error("Failed to logout:", error);

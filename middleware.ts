@@ -2,17 +2,17 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get("token")?.value;
-  // const user = localStorage.getItem("user");
+  // const token = request.cookies.get("token")?.value;
+  const isLoggedIn = request.cookies.get("isLoggedIn")?.value === "true";
   const isAuthPage =
     request.nextUrl.pathname.startsWith("/login") ||
     request.nextUrl.pathname.startsWith("/register");
 
-  if (!token && !isAuthPage) {
+  if (!isLoggedIn && !isAuthPage) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (token && isAuthPage) {
+  if (isLoggedIn && isAuthPage) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
