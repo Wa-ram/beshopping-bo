@@ -1,8 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Order } from "@/lib/types/order"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Order } from "@/lib/types/order";
 
 interface OrderTimelineProps {
-  order: Order
+  order: Order;
 }
 
 export function OrderTimeline({ order }: OrderTimelineProps) {
@@ -10,21 +10,21 @@ export function OrderTimeline({ order }: OrderTimelineProps) {
     {
       date: order.createdAt,
       title: "Order placed",
-      description: `Order ${order.orderNumber} was placed by ${order.customerName}`
+      description: `Order ${order.orderNumber} was placed by ${order.customerName}`,
     },
     {
       date: order.updatedAt,
       title: "Payment confirmed",
-      description: "Payment was successfully processed"
-    }
-  ]
+      description: "Payment was successfully processed",
+    },
+  ];
 
   if (order.shippingDetails) {
     events.push({
       date: order.updatedAt,
       title: "Order fulfilled",
-      description: `Order was shipped via ${order.shippingDetails.carrier}`
-    })
+      description: `Order was shipped via ${order.shippingDetails.carrier}`,
+    });
   }
 
   return (
@@ -37,7 +37,7 @@ export function OrderTimeline({ order }: OrderTimelineProps) {
           {events.map((event, index) => (
             <div key={index} className="flex gap-4">
               <div className="w-24 text-sm text-muted-foreground">
-                {event.date.toLocaleDateString()}
+                {/* {event.date.toLocaleDateString()} */}
               </div>
               <div>
                 <div className="font-medium">{event.title}</div>
@@ -50,5 +50,5 @@ export function OrderTimeline({ order }: OrderTimelineProps) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,26 +1,26 @@
-"use client"
+"use client";
 
-import { useEffect } from "react"
-import { useCollectionStore } from "@/lib/stores/collection-store"
-import { CollectionTable } from "./collection-table"
-import { EmptyState } from "./empty-state"
-import { mockCollections } from "@/lib/mock/collections"
+// import { useEffect } from "react";
+// import { useCollectionStore } from "@/lib/stores/collection-store";
+import { CollectionTable } from "./collection-table";
+import { EmptyState } from "./empty-state";
+// import { mockCollections } from "@/lib/mock/collections";
+import { useCollections } from "@/hooks/use-collections";
 
 export function CollectionList() {
-  const { collections, setCollections } = useCollectionStore()
+  const { data: collections = [], isLoading, error } = useCollections();
 
-  useEffect(() => {
-    // Simulate API call
-    const fetchCollections = async () => {
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      setCollections(mockCollections)
-    }
-    fetchCollections()
-  }, [setCollections])
-
-  if (collections.length === 0) {
-    return <EmptyState />
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
-  return <CollectionTable collections={collections} />
+  if (error) {
+    return <div>Error loading collections</div>;
+  }
+
+  if (collections.length === 0) {
+    return <EmptyState />;
+  }
+
+  return <CollectionTable collections={collections} />;
 }

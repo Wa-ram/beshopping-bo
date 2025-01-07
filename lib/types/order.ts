@@ -1,6 +1,15 @@
-export type OrderStatus = 'pending' | 'processing' | 'fulfilled' | 'cancelled' | 'refunded';
-export type PaymentStatus = 'paid' | 'pending' | 'failed' | 'refunded';
-export type FulfillmentStatus = 'unfulfilled' | 'partially_fulfilled' | 'fulfilled' | 'cancelled';
+export type OrderStatus =
+  | "pending"
+  | "processing"
+  | "fulfilled"
+  | "cancelled"
+  | "refunded";
+export type PaymentStatus = "paid" | "pending" | "failed" | "refunded";
+export type FulfillmentStatus =
+  | "unfulfilled"
+  | "partially_fulfilled"
+  | "fulfilled"
+  | "cancelled";
 
 export interface OrderItem {
   id: string;
@@ -38,20 +47,37 @@ export interface Order {
   id: string;
   orderNumber: string;
   customerId: string;
-  customerEmail: string;
+  customerEmail?: string;
   customerName: string;
-  status: OrderStatus;
-  paymentStatus: PaymentStatus;
-  fulfillmentStatus: FulfillmentStatus;
-  items: OrderItem[];
+  status: string;
+  paymentStatus?: PaymentStatus;
+  fulfillmentStatus?: FulfillmentStatus;
+  items?: OrderItem[];
+  totalItems: number;
   subtotal: number;
-  shippingCost: number;
-  tax: number;
+  shippingCost?: number;
+  tax?: number;
   total: number;
-  shippingAddress: ShippingAddress;
+  shippingAddress?: ShippingAddress;
   shippingDetails?: ShippingDetails;
   notes?: string;
-  tags: string[];
-  createdAt: Date;
-  updatedAt: Date;
+  tags?: string[];
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface APIOrder {
+  id: string;
+  customer_id: string;
+  customer_type: string;
+  reference: string;
+  status: string;
+  total_amount: string;
+  created_at: string;
+  total_items: number;
+  customer: {
+    id: string;
+    firstname: string;
+    lastname: string;
+  };
 }

@@ -21,18 +21,18 @@ export function OrderInfo({ order }: OrderInfoProps) {
         <div>
           <div className="font-medium">Adresse de livraison</div>
           <div className="text-sm text-muted-foreground">
-            {order.shippingAddress.address1}
+            {order?.shippingAddress?.address1 || " Aucune adresse de livraison"}
             <br />
-            {order.shippingAddress.address2 && (
+            {order?.shippingAddress?.address2 && (
               <>
-                {order.shippingAddress.address2}
+                {order.shippingAddress.address2 || "--"}
                 <br />
               </>
             )}
-            {order.shippingAddress.city}, {order.shippingAddress.state}{" "}
-            {order.shippingAddress.postalCode}
+            {order?.shippingAddress?.city}, {order?.shippingAddress?.state}{" "}
+            {order?.shippingAddress?.postalCode}
             <br />
-            {order.shippingAddress.country}
+            {order?.shippingAddress?.country}
           </div>
         </div>
       </CardContent>

@@ -72,7 +72,7 @@ export function OrderTable({ orders }: OrderTableProps) {
                   <div className="text-sm text-muted-foreground"></div>
                 </div>
               </TableCell>
-              <TableCell>{order.createdAt.toLocaleDateString()}</TableCell>
+              <TableCell>{order?.createdAt?.toLocaleDateString()}</TableCell>
               <TableCell>
                 <div>
                   <div className="font-medium">{order.customerName}</div>
@@ -82,10 +82,10 @@ export function OrderTable({ orders }: OrderTableProps) {
                 </div>
               </TableCell>
               <TableCell>{formatCurrency(order.total)}</TableCell>
-              <TableCell>{order.items.length}</TableCell>
+              <TableCell>{order?.items?.length}</TableCell>
               <TableCell>
                 <Badge variant={getStatusBadgeVariant(order.fulfillmentStatus)}>
-                  {order.fulfillmentStatus.replace("_", " ")}
+                  {order?.fulfillmentStatus?.replace("_", " ")}
                 </Badge>
               </TableCell>
               <TableCell>

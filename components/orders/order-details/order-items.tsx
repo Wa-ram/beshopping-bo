@@ -14,7 +14,7 @@ export function OrderItems({ order }: OrderItemsProps) {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {order.items.map((item) => (
+          {order?.items?.map((item) => (
             <div key={item.id} className="flex items-center gap-4">
               <div className="h-16 w-16 rounded-md bg-muted" />
               <div className="flex-1">

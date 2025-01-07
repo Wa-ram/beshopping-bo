@@ -1,28 +1,28 @@
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Order } from "@/lib/types/order"
-import { useOrderStore } from "@/lib/stores/order-store"
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Order } from "@/lib/types/order";
+// import { useOrderStore } from "@/lib/stores/order-store"
 
 interface OrderFulfillmentProps {
-  order: Order
+  order: Order;
 }
 
 export function OrderFulfillment({ order }: OrderFulfillmentProps) {
-  const [carrier, setCarrier] = useState("")
-  const [trackingNumber, setTrackingNumber] = useState("")
-  const { updateShippingDetails } = useOrderStore()
+  const [carrier, setCarrier] = useState("");
+  const [trackingNumber, setTrackingNumber] = useState("");
+  // const { updateShippingDetails } = useOrderStore()
 
-  const handleFulfill = () => {
-    updateShippingDetails(order.id, {
-      carrier,
-      trackingNumber,
-      shippingMethod: "Standard",
-      shippingCost: order.shippingCost
-    })
-  }
+  // const handleFulfill = () => {
+  //   updateShippingDetails(order.id, {
+  //     carrier,
+  //     trackingNumber,
+  //     shippingMethod: "Standard",
+  //     shippingCost: order.shippingCost
+  //   })
+  // }
 
   if (order.fulfillmentStatus === "fulfilled") {
     return (
@@ -33,15 +33,17 @@ export function OrderFulfillment({ order }: OrderFulfillmentProps) {
         <CardContent>
           <div className="space-y-2">
             <div className="text-sm">
-              <span className="font-medium">Carrier:</span> {order.shippingDetails?.carrier}
+              <span className="font-medium">Carrier:</span>{" "}
+              {order.shippingDetails?.carrier}
             </div>
             <div className="text-sm">
-              <span className="font-medium">Tracking Number:</span> {order.shippingDetails?.trackingNumber}
+              <span className="font-medium">Tracking Number:</span>{" "}
+              {order.shippingDetails?.trackingNumber}
             </div>
           </div>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
@@ -69,11 +71,13 @@ export function OrderFulfillment({ order }: OrderFulfillmentProps) {
               placeholder="Enter tracking number"
             />
           </div>
-          <Button onClick={handleFulfill}>
+          <Button
+          // onClick={handleFulfill}
+          >
             Mark as Fulfilled
           </Button>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

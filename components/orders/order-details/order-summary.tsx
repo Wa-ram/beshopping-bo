@@ -1,9 +1,9 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Order } from "@/lib/types/order"
-import { formatCurrency } from "@/lib/utils/utils"
+import { Card, CardContent } from "@/components/ui/card";
+import { Order } from "@/lib/types/order";
+import { formatCurrency } from "@/lib/utils/utils";
 
 interface OrderSummaryProps {
-  order: Order
+  order: Order;
 }
 
 export function OrderSummary({ order }: OrderSummaryProps) {
@@ -20,11 +20,13 @@ export function OrderSummary({ order }: OrderSummaryProps) {
           </div>
           <div className="flex justify-between text-sm">
             <span>Shipping</span>
-            <span>{formatCurrency(order.shippingCost)}</span>
+            <span>
+              {order.shippingCost ? formatCurrency(order.shippingCost) : ""}
+            </span>
           </div>
           <div className="flex justify-between text-sm">
             <span>Tax</span>
-            <span>{formatCurrency(order.tax)}</span>
+            <span>{order.tax ? formatCurrency(order.tax) : ""}</span>
           </div>
           <div className="border-t pt-4">
             <div className="flex justify-between font-medium">
@@ -35,5 +37,5 @@ export function OrderSummary({ order }: OrderSummaryProps) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

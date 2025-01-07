@@ -1,10 +1,11 @@
 export interface Collection {
   id: string;
   title: string;
-  description?: string;
-  image?: string;
-  productsCount: number;
+  description: string;
+  slug: string;
   status: "active" | "draft" | "archived";
+  image: string | null;
+  productsCount: number;
   conditions?: CollectionCondition[];
   createdAt: Date;
   updatedAt: Date;
@@ -26,10 +27,13 @@ export interface CollectionFormValues {
 }
 
 export type APICollection = {
-  id: number;
+  id: string;
   name: string;
-  description: string | null;
-  slug: string | null;
+  description: string;
+  slug: string;
+  is_shown_in_store: boolean;
   created_at: string;
   updated_at: string;
+  total_products: number;
+  cover: string;
 };

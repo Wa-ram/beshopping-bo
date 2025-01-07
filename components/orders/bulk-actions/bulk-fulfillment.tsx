@@ -1,49 +1,53 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useOrderStore } from "@/lib/stores/order-store"
-import { Loader2 } from "lucide-react"
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useOrderStore } from "@/lib/stores/order-store";
+import { Loader2 } from "lucide-react";
 
 export function BulkFulfillment() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [carrier, setCarrier] = useState("")
-  const { selectedOrders, orders, updateShippingDetails } = useOrderStore()
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [carrier, setCarrier] = useState("");
+  const {
+    selectedOrders,
+    orders,
+    // , updateShippingDetails
+  } = useOrderStore();
 
   const handleFulfill = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      selectedOrders.forEach(orderId => {
-        const order = orders.find(o => o.id === orderId)
-        if (order && order.fulfillmentStatus !== "fulfilled") {
-          updateShippingDetails(orderId, {
-            carrier,
-            shippingMethod: "Standard",
-            shippingCost: order.shippingCost
-          })
-        }
-      })
-      
-      setIsOpen(false)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  if (selectedOrders.length === 0) return null
+      selectedOrders.forEach((orderId) => {
+        const order = orders.find((o) => o.id === orderId);
+        if (order && order.fulfillmentStatus !== "fulfilled") {
+          // updateShippingDetails(orderId, {
+          //   carrier,
+          //   shippingMethod: "Standard",
+          //   shippingCost: order.shippingCost
+          // })
+        }
+      });
+
+      setIsOpen(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (selectedOrders.length === 0) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -72,7 +76,7 @@ export function BulkFulfillment() {
               placeholder="Enter shipping carrier"
             />
           </div>
-          <Button 
+          <Button
             onClick={handleFulfill}
             disabled={isLoading || !carrier}
             className="w-full"
@@ -83,5 +87,5 @@ export function BulkFulfillment() {
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import { Order } from "@/lib/types/order"
+import { Order } from "@/lib/types/order";
 
 export const mockOrders: Order[] = [
   {
@@ -18,12 +18,12 @@ export const mockOrders: Order[] = [
         sku: "WT001",
         quantity: 2,
         price: 29.99,
-        totalPrice: 59.98
-      }
+        totalPrice: 59.98,
+      },
     ],
     subtotal: 59.98,
     shippingCost: 5.99,
-    tax: 6.00,
+    tax: 6.0,
     total: 71.97,
     shippingAddress: {
       firstName: "John",
@@ -33,11 +33,12 @@ export const mockOrders: Order[] = [
       state: "NY",
       postalCode: "10001",
       country: "USA",
-      phone: "+1 (555) 123-4567"
+      phone: "+1 (555) 123-4567",
     },
     tags: ["new"],
     createdAt: new Date("2024-03-20"),
-    updatedAt: new Date("2024-03-20")
+    updatedAt: new Date("2024-03-20"),
+    totalItems: 1,
   },
   {
     id: "2",
@@ -56,12 +57,12 @@ export const mockOrders: Order[] = [
         sku: "DJ001",
         quantity: 1,
         price: 89.99,
-        totalPrice: 89.99
-      }
+        totalPrice: 89.99,
+      },
     ],
     subtotal: 89.99,
     shippingCost: 7.99,
-    tax: 9.00,
+    tax: 9.0,
     total: 106.98,
     shippingAddress: {
       firstName: "Jane",
@@ -71,10 +72,11 @@ export const mockOrders: Order[] = [
       state: "CA",
       postalCode: "90001",
       country: "USA",
-      phone: "+1 (555) 987-6543"
+      phone: "+1 (555) 987-6543",
     },
     tags: ["priority"],
     createdAt: new Date("2024-03-19"),
-    updatedAt: new Date("2024-03-20")
-  }
-]
+    updatedAt: new Date("2024-03-20"),
+    totalItems: 1,
+  },
+];

@@ -8,7 +8,13 @@ import { AuthProvider } from "@/lib/auth/auth-provider";
 import { useEffect } from "react";
 import { getCsrfToken } from "@/lib/api/auth";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -30,8 +36,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-      <>{children}</>
-      <Toaster />
+        <>{children}</>
+        <Toaster />
       </AuthProvider>
     </QueryClientProvider>
   );

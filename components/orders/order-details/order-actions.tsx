@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
-import { Input } from "@/components/ui/input"
+// import { Input } from "@/components/ui/input"
 import { Order } from "@/lib/types/order"
 import { useOrderStore } from "@/lib/stores/order-store"
 import { MoreHorizontal, FileText, Tag, Ban, RefreshCw } from "lucide-react"
@@ -25,27 +25,27 @@ export function OrderActions({ order }: OrderActionsProps) {
   const [isNoteOpen, setIsNoteOpen] = useState(false)
   const [isTagOpen, setIsTagOpen] = useState(false)
   const [note, setNote] = useState(order.notes || "")
-  const [newTag, setNewTag] = useState("")
-  const { updateOrderNote, updateOrderTags } = useOrderStore()
+  // const [newTag, setNewTag] = useState("")
+  const { updateOrderNote } = useOrderStore()
 
   const handleUpdateNote = () => {
     updateOrderNote(order.id, note)
     setIsNoteOpen(false)
   }
 
-  const handleAddTag = () => {
-    if (newTag) {
-      updateOrderTags(order.id, [...order.tags, newTag])
-      setNewTag("")
-    }
-  }
+  // const handleAddTag = () => {
+  //   if (newTag) {
+  //     updateOrderTags(order.id, [...order.tags, newTag])
+  //     setNewTag("")
+  //   }
+  // }
 
-  const handleRemoveTag = (tagToRemove: string) => {
-    updateOrderTags(
-      order.id,
-      order.tags.filter(tag => tag !== tagToRemove)
-    )
-  }
+  // const handleRemoveTag = (tagToRemove: string) => {
+  //   updateOrderTags(
+  //     order.id,
+  //     order.tags.filter(tag => tag !== tagToRemove)
+  //   )
+  // }
 
   return (
     <div className="flex items-center gap-2">
@@ -105,7 +105,7 @@ export function OrderActions({ order }: OrderActionsProps) {
             </div>
           </DialogContent>
 
-          <DialogContent>
+          {/* <DialogContent>
             <DialogHeader>
               <DialogTitle>Manage Tags</DialogTitle>
             </DialogHeader>
@@ -135,7 +135,7 @@ export function OrderActions({ order }: OrderActionsProps) {
                 ))}
               </div>
             </div>
-          </DialogContent>
+          </DialogContent> */}
         </Dialog>
       </Dialog>
     </div>
