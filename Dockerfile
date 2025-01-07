@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Installer les dépendances
-RUN npm install --pomit=dev
+RUN npm install --omit=dev
 
 # Copier le reste des fichiers
 COPY . .
