@@ -1,4 +1,7 @@
-import { CollectionsResponse } from "@/lib/types/collection";
+import {
+  CollectionsResponse,
+  ProductCollectionsResponse,
+} from "@/lib/types/collection";
 import { api } from "..";
 
 export const fetchCollections = async (
@@ -9,6 +12,14 @@ export const fetchCollections = async (
   );
   return data;
 };
+
+export const getProductCollections =
+  async (): Promise<ProductCollectionsResponse> => {
+    const { data } = await api.get<ProductCollectionsResponse>(
+      "/api/product-collections"
+    );
+    return data;
+  };
 
 export async function addCollection(formData: FormData) {
   // : Promise<AuthResponse>

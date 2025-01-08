@@ -6,12 +6,11 @@ import React, { ReactNode, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCategories } from "@/lib/api/categories";
-import { fetchCollections } from "@/lib/api/collections";
 import { InteractiveSelect } from "@/components/ui/category-select";
 import { useFormikContext } from "formik";
 import { ProductFormValues } from "@/lib/types/product";
-import { APICollection } from "@/lib/types/collection";
 import { APICategory } from "@/lib/types/category";
+import { useProductCollections } from "@/hooks/useProductCollections";
 
 const ProductFormOrganisation = () => {
   const [tags, setTags] = useState<{ label: string; value: string }[]>([]);
@@ -47,10 +46,7 @@ const ProductFormOrganisation = () => {
     data: collections,
     isLoading: isLoadingCollections,
     isError: isErrorCollections,
-  } = useQuery<APICollection[]>({
-    queryKey: ["collections"],
-    queryFn: fetchCollections,
-  });
+  } = useProductCollections();
 
   const handleTagsChange = (
     updatedTags: { label: string; value: string }[]
@@ -121,10 +117,7 @@ const ProductFormOrganisation = () => {
           <Label htmlFor="title">Collection</Label>
           {!isLoadingCollections && !isErrorCollections && collections && (
             <TagInputOOTB
-              suggestions={collections.map((coll) => ({
-                label: coll.name,
-                value: String(coll.id),
-              }))}
+              suggestions={collections}
               selectedTags={collectionsTags}
               onTagsChange={handleCollectionsChange}
               isAddPossible={false}

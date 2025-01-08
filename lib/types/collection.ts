@@ -54,3 +54,5 @@ export interface PaginatedResponse<T> {
 }
 
 export type CollectionsResponse = PaginatedResponse<APICollection>;
+
+export type ProductCollectionsResponse = APICollection[];
