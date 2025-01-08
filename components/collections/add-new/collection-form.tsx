@@ -12,6 +12,7 @@ import { addCollection } from "@/lib/api/collections";
 import { CollectionFormValues } from "@/lib/types/collection";
 import { createFormData } from "@/lib/utils/form-data";
 import { useRouter } from "next/navigation";
+import { useCollections } from "@/hooks/use-collections";
 
 interface CollectionFormProps {
   // onSubmit: (data: any) => Promise<void>;
@@ -24,6 +25,7 @@ const CollectionForm = ({}: // onSubmit: handleSubmit,
 // initialData,
 CollectionFormProps) => {
   const router = useRouter();
+  const { invalidateCollections } = useCollections();
 
   const initialValues: CollectionFormValues = {
     name: "",
@@ -58,6 +60,8 @@ CollectionFormProps) => {
         title: "Succes",
         description: "Le produit a bien été ajouté",
       });
+      // Invalidate the products list to fetch the updated data
+      invalidateCollections();
       router.push("/dashboard/products/collections");
     },
     onError: () => {

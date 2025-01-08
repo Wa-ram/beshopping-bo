@@ -45,7 +45,7 @@ export function ProductVariants({ product, onChange }: ProductVariantsProps) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {product.variants.map((variant) => (
+            {product?.variants?.map((variant) => (
               <TableRow key={variant.id}>
                 <TableCell>{variant.title}</TableCell>
                 <TableCell>

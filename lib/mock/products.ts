@@ -11,8 +11,8 @@ export const mockProducts: Product[] = [
     compareAtPrice: 39.99,
     costPerItem: 10,
     chargeTax: true,
-    category: "Apparel",
-    type: "T-Shirt",
+    category_id: "Apparel",
+    // type: "T-Shirt",
     tags: ["cotton", "basics", "summer"],
     collections: ["Summer Essentials"],
     trackInventory: true,
@@ -33,11 +33,17 @@ export const mockProducts: Product[] = [
         ],
       },
     ],
-    seo: {
-      title: "Classic White T-Shirt | Your Brand",
-      description: "Premium cotton t-shirt for everyday comfort",
-      keywords: ["t-shirt", "cotton", "basics"],
-    },
+    is_taxed: true,
+    weight_unit: "kg",
+    is_published: true,
+    deleted_at: String(Date.now()),
+    created_at: String(Date.now()),
+    updated_at: String(Date.now()),
+    // seo: {
+    //   title: "Classic White T-Shirt | Your Brand",
+    //   description: "Premium cotton t-shirt for everyday comfort",
+    //   keywords: ["t-shirt", "cotton", "basics"],
+    // },
   },
   // Add more mock products as needed
 ];

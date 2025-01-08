@@ -11,6 +11,7 @@ import { addProduct } from "@/lib/api/products";
 import { ProductFormValues } from "@/lib/types/product";
 import { createFormData } from "@/lib/utils/form-data";
 import { useRouter } from "next/navigation";
+import { useProducts } from "@/hooks/use-products";
 
 {
   /*interface ProductFormProps {
@@ -32,6 +33,7 @@ export function ProductForm(
   //: ProductFormProps
 
   const router = useRouter();
+  const { invalidateProducts } = useProducts();
 
   const initialValues: ProductFormValues = {
     name: "",
@@ -178,6 +180,7 @@ export function ProductForm(
         title: "Succes",
         description: "Le produit a bien été ajouté",
       });
+      invalidateProducts();
       router.push("/dashboard/products");
     },
     onError: () => {

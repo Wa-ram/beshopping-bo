@@ -11,34 +11,6 @@ export interface Variant {
   sku: string; // SKU de la variante
 }
 
-export interface Product {
-  id: string;
-  title: string;
-  description: string;
-  status: "draft" | "active" | "archived";
-  publishDate?: Date;
-  media: string[];
-  price: number;
-  compareAtPrice?: number;
-  costPerItem?: number;
-  chargeTax: boolean;
-  category: string;
-  type: string;
-  tags: string[];
-  collections: string[];
-  trackInventory: boolean;
-  quantity?: number;
-  sku?: string;
-  weight?: number;
-  isPhysicalProduct: boolean;
-  variants: ProductVariant[];
-  seo: {
-    title: string;
-    description: string;
-    keywords: string[];
-  };
-}
-
 export interface ProductVariant {
   id: string;
   title: string;
@@ -103,3 +75,87 @@ export interface ProductFormValues {
   //profit: number;
   variants: Variant | [];
 }
+
+export interface PaginatedResponse<T> {
+  current_page: number;
+  data: T[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number;
+  total: number;
+}
+
+export interface APIProduct {
+  id: string;
+  category_id: string;
+  name: string;
+  description: string;
+  sku: string;
+  price: string;
+  comparison_price: string;
+  item_price: string;
+  benefit: string | null;
+  is_taxed: boolean;
+  is_physical: boolean;
+  weight: string;
+  slug: string;
+  weight_unit: string;
+  stock_quantity: number;
+  is_tracking_quantity: boolean;
+  status: string;
+  tax_percentage: string;
+  is_published: boolean;
+  published_at: string;
+  deleted_at: string | null;
+  created_at: string;
+  updated_at: string;
+  low_stock_threshold: number;
+  main_image_url: string;
+  media: Array<{
+    id: number;
+    original_url: string;
+  }>;
+}
+
+export interface Product {
+  id: string;
+  category_id: string;
+  title: string;
+  description: string;
+  sku?: string;
+  price: number;
+  chargeTax: boolean;
+  status: "draft" | "active" | "archived";
+  compareAtPrice?: number;
+  costPerItem?: number;
+  is_taxed: boolean;
+  isPhysicalProduct: boolean;
+  weight?: number;
+  weight_unit: string;
+  quantity?: number;
+  trackInventory: boolean;
+  is_published: boolean;
+  publishDate?: Date;
+  deleted_at: string | null;
+  created_at: string;
+  updated_at: string;
+  media: string[];
+  // category: string;
+  // type: string;
+  tags: string[];
+  collections?: string[];
+  variants?: ProductVariant[];
+  // seo: {
+  //   title: string;
+  //   description: string;
+  //   keywords: string[];
+  // };
+}
+
+export type ProductsResponse = PaginatedResponse<APIProduct>;

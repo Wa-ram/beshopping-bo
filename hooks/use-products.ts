@@ -1,18 +1,18 @@
 "use client";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchCollections } from "@/lib/api/collections";
-import { mapAPICollectionToCollection } from "@/lib/utils/mapAPICollectionToCollection";
+import { getProducts } from "@/lib/api/products";
+import { mapAPIProductToProduct } from "@/lib/utils/mapAPIProductToProduct";
 
-export function useCollections(page: number = 1) {
+export function useProducts(page: number = 1) {
   const queryClient = useQueryClient();
 
   const query = useQuery({
-    queryKey: ["collections", page],
+    queryKey: ["products", page],
     queryFn: async () => {
-      const response = await fetchCollections(page);
+      const response = await getProducts(page);
       return {
-        collections: response.data.map(mapAPICollectionToCollection),
+        products: response.data.map(mapAPIProductToProduct),
         pagination: {
           currentPage: response.current_page,
           totalPages: response.last_page,
@@ -26,24 +26,24 @@ export function useCollections(page: number = 1) {
 
   // Prefetch next page
   const prefetchNextPage = () => {
-    const currentPage = query?.data?.pagination?.currentPage ?? 0;
+    const currentPage = query.data?.pagination.currentPage ?? 0;
     const totalPages = query?.data?.pagination?.totalPages ?? 0;
 
     if (currentPage < totalPages) {
       queryClient.prefetchQuery({
-        queryKey: ["collections", page + 1],
-        queryFn: () => fetchCollections(page + 1),
+        queryKey: ["products", page + 1],
+        queryFn: () => getProducts(page + 1),
       });
     }
   };
 
-  const invalidateCollections = () => {
-    queryClient.invalidateQueries({ queryKey: ["collections"] });
+  const invalidateProducts = () => {
+    queryClient.invalidateQueries({ queryKey: ["products"] });
   };
 
   return {
     ...query,
     prefetchNextPage,
-    invalidateCollections,
+    invalidateProducts,
   };
 }
