@@ -130,7 +130,7 @@ export function ProductForm(
       .of(
         Yup.object().shape({
           id: Yup.string().required(),
-          combination: Yup.array().of(
+          combinations: Yup.array().of(
             Yup.object().shape({
               name: Yup.string().required("Option name is required"),
               value: Yup.string().required("Option value is required"),
@@ -162,8 +162,8 @@ export function ProductForm(
               variant.price &&
               variant.stock_quantity &&
               variant.sku &&
-              Array.isArray(variant.combination) && // Vérifie que combination est un tableau
-              variant.combination.length > 0
+              Array.isArray(variant.combinations) && // Vérifie que combination est un tableau
+              variant.combinations.length > 0
           );
         }
       ),

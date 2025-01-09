@@ -5,7 +5,7 @@ export interface VariantCombination {
 
 export interface Variant {
   id: string; // Identifiant unique de la variante
-  combination: VariantCombination[]; // Liste des combinaisons (options et valeurs)
+  combinations: VariantCombination[]; // Liste des combinaisons (options et valeurs)
   price: string; // Prix de la variante au format chaîne
   stock_quantity: string; // Quantité de stock au format chaîne
   sku: string; // SKU de la variante
@@ -35,7 +35,7 @@ export interface VariantCombinationItem {
 
 export interface VariantCombination {
   id: string;
-  combination: VariantCombinationItem[];
+  combinations: VariantCombinationItem[];
   price: string;
   stock_quantity: string;
   sku: string;

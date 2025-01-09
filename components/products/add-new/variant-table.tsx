@@ -42,7 +42,7 @@ export function VariantTable({ variants, onVariantUpdate }: VariantTableProps) {
               {variants.map((variant) => (
                 <TableRow key={variant.id}>
                   <TableCell className="min-w-[200px]">
-                    {variant.combination
+                    {variant.combinations
                       .map((item) => `${item.value}`)
                       .join(" / ")}
                   </TableCell>
