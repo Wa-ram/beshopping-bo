@@ -23,6 +23,7 @@ export function ProductList() {
   }
 
   const { products, pagination } = data;
+  const { current_page, total, per_page, last_page } = pagination;
 
   return (
     <div className="space-y-4">
@@ -30,13 +31,13 @@ export function ProductList() {
 
       <div className="flex items-center justify-between px-2">
         <div className="text-sm text-muted-foreground">
-          Showing {pagination.perPage} of {pagination.total} products
+          Showing {per_page} of {total} products
         </div>
 
         <div className="flex gap-2">
           <Button
             variant="outline"
-            disabled={page === 1}
+            disabled={current_page === 1}
             onClick={() => setPage((p) => p - 1)}
           >
             Previous
@@ -44,7 +45,7 @@ export function ProductList() {
 
           <Button
             variant="outline"
-            disabled={page >= pagination.totalPages}
+            disabled={current_page >= last_page}
             onClick={() => {
               setPage((p) => p + 1);
               prefetchNextPage();

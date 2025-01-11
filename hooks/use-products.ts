@@ -14,10 +14,10 @@ export function useProducts(page: number = 1) {
       return {
         products: response.data.map(mapAPIProductToProduct),
         pagination: {
-          currentPage: response.current_page,
-          totalPages: response.last_page,
+          current_page: response.current_page,
+          last_page: response.last_page,
           total: response.total,
-          perPage: response.per_page,
+          per_page: response.per_page,
         },
       };
     },
@@ -26,13 +26,14 @@ export function useProducts(page: number = 1) {
 
   // Prefetch next page
   const prefetchNextPage = () => {
-    const currentPage = query.data?.pagination.currentPage ?? 0;
-    const totalPages = query?.data?.pagination?.totalPages ?? 0;
+    if (!query.data) return;
 
-    if (currentPage < totalPages) {
+    const { current_page, last_page } = query.data.pagination;
+
+    if (current_page < last_page) {
       queryClient.prefetchQuery({
         queryKey: ["products", page + 1],
-        queryFn: () => getProducts(page + 1),
+        queryFn: async () => getProducts(page + 1),
       });
     }
   };
