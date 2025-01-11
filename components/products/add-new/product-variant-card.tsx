@@ -115,8 +115,8 @@ export function ProductVariantCard() {
     };
 
     const combinations = generateCombinations(currentOptions);
-    const newVariants = combinations.map((combination) => {
-      const variantId = combination
+    const newVariants = combinations.map((combinations) => {
+      const variantId = combinations
         .map((item) => `${item.name}-${item.value}`)
         .join("-");
       // Rechercher une variante existante avec le même ID
@@ -124,7 +124,7 @@ export function ProductVariantCard() {
 
       return {
         id: variantId,
-        combination,
+        combinations,
         // Préserver les valeurs existantes ou utiliser les valeurs par défaut
         price: existingVariant?.price || values.price || "",
         stock_quantity:
