@@ -33,7 +33,7 @@ export function OrderList() {
 
       <div className="flex items-center justify-between px-2">
         <div className="text-sm text-muted-foreground">
-          Showing {pagination.perPage} of {pagination.total} orders
+          Showing {pagination.per_page} of {pagination.total} orders
         </div>
 
         <div className="flex gap-2">
@@ -47,7 +47,7 @@ export function OrderList() {
 
           <Button
             variant="outline"
-            disabled={page >= pagination.totalPages}
+            disabled={page >= pagination.last_page}
             onClick={() => {
               setPage((p) => p + 1);
               prefetchNextPage();
