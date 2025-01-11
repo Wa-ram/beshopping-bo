@@ -18,7 +18,7 @@ export function CustomerList() {
     return <div>Error loading customers</div>;
   }
 
-  if (!data || data.customers.length === 0) {
+  if (!data?.customers || data.customers.length === 0) {
     return <EmptyState />;
   }
 

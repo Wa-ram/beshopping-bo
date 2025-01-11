@@ -27,13 +27,24 @@ export function useCustomers(page: number = 1) {
   // Prefetch next page
   const prefetchNextPage = () => {
     if (!query.data) return;
-    
+
     const { current_page, last_page } = query.data.pagination;
 
     if (current_page < last_page) {
       queryClient.prefetchQuery({
         queryKey: ["customers", page + 1],
-        queryFn: async () => fetchCustomers(page + 1),
+        queryFn: async () => {
+          const response = await fetchCustomers(page + 1);
+          return {
+            customers: response.data.map(mapAPICustomerToCustomer),
+            pagination: {
+              current_page: response.current_page,
+              last_page: response.last_page,
+              total: response.total,
+              per_page: response.per_page,
+            },
+          };
+        },
       });
     }
   };
