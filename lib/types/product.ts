@@ -73,7 +73,7 @@ export interface ProductFormValues {
   tags: string[];
   images: File[];
   //profit: number;
-  variants: Variant | [];
+  variants: Variant[];
 }
 
 export interface PaginatedResponse<T> {
