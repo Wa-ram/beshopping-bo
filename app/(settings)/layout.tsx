@@ -17,7 +17,7 @@ export default function SettingsLayout({
           </div>
           <UserNav />
         </div>
-        <div className="p-8 pt-6">{children}</div>
+        <div className="p-8 pt-6 w-full lg:w-8/12 xl:6/12 max-w-xl">{children}</div>
       </div>
     </div>
   );

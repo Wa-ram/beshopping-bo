@@ -72,25 +72,30 @@ export function UserNav() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <div className="">
-              {!pathname.startsWith("/dashboard") ? (
+              {!pathname.startsWith("/dashboard") && (
                 <DropdownMenuItem onClick={() => router.push("/dashboard")}>
                   Tableau de bord
                 </DropdownMenuItem>
-              ) : (
-                <>
-                  <DropdownMenuItem
-                    onClick={() => router.push("/store-details")}
-                  >
-                    Détails de la boutique
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push("/shipping")}>
-                    Expédition et livraison
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push("/taxes")}>
-                    Impôts et taxes
-                  </DropdownMenuItem>
-                </>
               )}
+              <>
+                <DropdownMenuItem
+                  onClick={() => router.push("/account-management")}
+                >
+                  Gestion du compte
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => router.push("/store-details")}
+                >
+                  Détails de la boutique
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push("/shipping")}>
+                  Expédition et livraison
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push("/taxes")}>
+                  Impôts et taxes
+                </DropdownMenuItem>
+              </>
+
 
               <DropdownMenuSeparator />
             </div>
