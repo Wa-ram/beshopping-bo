@@ -15,11 +15,11 @@ export function StoreDetailsForm() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="storeName">Store name</Label>
+            <Label htmlFor="storeName">Nom de la boutique</Label>
             <Input id="storeName" placeholder="Enter store name" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="storeEmail">Store email</Label>
+            <Label htmlFor="storeEmail">Email de la boutique</Label>
             <Input
               id="storeEmail"
               type="email"
@@ -27,7 +27,7 @@ export function StoreDetailsForm() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="storePhone">Phone number</Label>
+            <Label htmlFor="storePhone">Numéro de téléphone de la boutique</Label>
             <Input id="storePhone" type="tel" placeholder="+1 (555) 000-0000" />
           </div>
           <div className="space-y-2">

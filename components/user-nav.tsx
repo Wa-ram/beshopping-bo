@@ -21,8 +21,7 @@ import { getInitials } from "@/lib/utils/utils";
 export function UserNav() {
   const pathname = usePathname();
   const router = useRouter();
-  const { user } = useAuth();
-  const { logout: storageLogout } = useAuth();
+  const { user, logout: storageLogout } = useAuth();
 
   const mutation = useMutation({
     mutationFn: async () => {
@@ -91,9 +90,9 @@ export function UserNav() {
                 <DropdownMenuItem onClick={() => router.push("/shipping")}>
                   Expédition et livraison
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => router.push("/taxes")}>
+                {/* <DropdownMenuItem onClick={() => router.push("/taxes")}>
                   Impôts et taxes
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
               </>
 
 

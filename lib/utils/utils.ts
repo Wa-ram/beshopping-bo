@@ -23,7 +23,8 @@ export const isPlainObject = (
 
 export const getInitials = (name: string | undefined) => {
   if (typeof name !== "string") {
-    throw new Error("Input must be a string");
+    // throw new Error("Input must be a string");
+    name = " "
   }
 
   // Supprime les espaces inutiles et divise le nom en parties
