@@ -77,11 +77,13 @@ export function UserNav() {
                 </DropdownMenuItem>
               )}
               <>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={() => router.push("/account-management")}
                 >
                   Gestion du compte
                 </DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={() => router.push("/store-details")}
                 >
