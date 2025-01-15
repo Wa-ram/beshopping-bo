@@ -7,6 +7,8 @@ import Cookies from "js-cookie";
 interface User {
   id: string;
   name: string;
+  firstname: string;
+  lastname: string;
   email: string;
   phone_number: string;
 }

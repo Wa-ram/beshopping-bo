@@ -66,6 +66,13 @@ export function AccountManagementForm() {
         },
     });
 
+    const updateProfileInitialValues = {
+        firstname: user?.firstname,
+        lastname: user?.lastname,
+        email: user?.email,
+        phone_number: user?.phone_number,
+    }
+
     const updateProfileMutation = useMutation({
         mutationFn: async (values: User) => {
             const response = await axios.put("/api/user/profile-information", values);
@@ -123,7 +130,7 @@ export function AccountManagementForm() {
                 </CardHeader>
                 <CardContent>
                     <Formik
-                        initialValues={user}
+                        initialValues={updateProfileInitialValues}
                         validationSchema={profileValidationSchema}
                         enableReinitialize
                         onSubmit={(values) => {
