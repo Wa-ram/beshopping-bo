@@ -76,7 +76,7 @@ export function AccountManagementForm() {
 
     const updateProfileMutation = useMutation({
         mutationFn: async (values: User) => {
-            const response = await axios.put("/api/user/profile-information", values);
+            const response = await api.put("/api/user/profile-information", values);
             return response.data;
         },
         onSuccess: () => {
@@ -90,7 +90,7 @@ export function AccountManagementForm() {
 
     const updatePasswordMutation = useMutation({
         mutationFn: async (values: PasswordValues) => {
-            const response = await axios.put("/api/user/password", values);
+            const response = await api.put("/api/user/password", values);
             return response.data;
         },
         onSuccess: () => {
