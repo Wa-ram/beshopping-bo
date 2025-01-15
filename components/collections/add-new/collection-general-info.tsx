@@ -70,8 +70,8 @@ const CollectionMediaCard = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         <ImageUpload
-          values={values.images}
-          onChange={(newImages: File[]) => setFieldValue("images", newImages)}
+          values={values.image}
+          onChange={(newImage: File[]) => setFieldValue("image", newImage)}
           maxFiles={1}
         />
       </CardContent>

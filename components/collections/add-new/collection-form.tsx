@@ -33,7 +33,7 @@ CollectionFormProps) => {
     is_published: 1,
     published_at: "",
     is_shown_in_store: 0,
-    images: [],
+    image: [],
   };
 
   const validationSchema = Yup.object({
@@ -47,7 +47,7 @@ CollectionFormProps) => {
           "La date est obligatoire pour une publication programmée"
         ),
     }),
-    images: Yup.mixed().required("Au moins une image est requise"),
+    image: Yup.mixed().required("Au moins une image est requise"),
   });
 
   const mutation = useMutation({
