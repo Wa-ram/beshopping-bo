@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FormikCheckbox } from "@/components/ui/formik-checkbox";
+// import { FormikCheckbox } from "@/components/ui/formik-checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ProductFormValues } from "@/lib/types/product";
@@ -60,7 +60,7 @@ const ProductFormPricingCard = () => {
             )}
           </div>
         </div>
-        <div>
+        {/* <div>
           <Label>
             <FormikCheckbox
               name="is_taxed"
@@ -68,7 +68,7 @@ const ProductFormPricingCard = () => {
             />{" "}
             <span>Prélever la taxe sur ce produit</span>
           </Label>
-        </div>
+        </div> */}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1">
             <Label htmlFor="item_price">Coût par article</Label>

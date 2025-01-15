@@ -42,12 +42,12 @@ const ProductFormShippingCard = () => {
                 id="weight"
                 placeholder="0.0"
                 type="text"
-                value={values.weight}
+                value={values.weight_value}
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   const numericValue = inputValue.replace(/[^0-9]/g, ""); // Supprime tout sauf les chiffres
   
-                  setFieldValue("weight", numericValue);
+                  setFieldValue("weight_value", numericValue);
                 }}
                 onBlur={handleBlur}
                 className="w-60"
@@ -72,9 +72,9 @@ const ProductFormShippingCard = () => {
                   <SelectItem value="g">G</SelectItem>
                 </SelectContent>
               </Select>
-              {errors.weight && touched.weight && (
+              {errors.weight_value && touched.weight_value && (
                 <span className="text-red-500">
-                  {errors.weight as ReactNode}
+                  {errors.weight_value as ReactNode}
                 </span>
               )}
             </div>

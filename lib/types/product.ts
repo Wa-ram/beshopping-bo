@@ -56,13 +56,13 @@ export interface ProductFormValues {
   price: string;
   comparison_price?: string;
   item_price?: string;
-  is_taxed?: 1 | 0;
+  // is_taxed?: 1 | 0;
   is_tracking_quantity?: 1 | 0;
   stock_quantity?: number;
   has_sku?: 1 | 0;
   sku?: string;
   is_physical?: 1 | 0;
-  weight?: string;
+  weight_value?: string;
   weight_unit?: string;
   status: "active" | "archived" | "draft";
   is_published: 1 | 0;
@@ -134,7 +134,7 @@ export interface Product {
   status: "draft" | "active" | "archived";
   compareAtPrice?: number;
   costPerItem?: number;
-  is_taxed: boolean;
+  is_taxed?: boolean;
   isPhysicalProduct: boolean;
   weight?: number;
   weight_unit: string;

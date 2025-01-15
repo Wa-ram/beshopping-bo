@@ -41,13 +41,13 @@ export function ProductForm(
     price: "",
     comparison_price: "",
     item_price: "",
-    is_taxed: 0,
+    // is_taxed: 0,
     is_tracking_quantity: 0,
     stock_quantity: 0,
     has_sku: 0,
     sku: "",
     is_physical: 0,
-    weight: "",
+    weight_value: "",
     weight_unit: "kg",
     status: "active",
     is_published: 1,
@@ -91,7 +91,7 @@ export function ProductForm(
         return true; // Ne pas valider si cost_per_item est vide
       }
     ),
-    is_taxed: Yup.number().oneOf([1, 0]),
+    // is_taxed: Yup.number().oneOf([1, 0]),
     is_tracking_quantity: Yup.number().oneOf([1, 0]),
     stock_quantity: Yup.number().when("is_tracking_quantity", {
       is: true,
