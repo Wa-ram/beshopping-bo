@@ -137,7 +137,7 @@ export interface Product {
   deleted_at?: string | null;
   created_at: string;
   updated_at: string;
-  // media?: string[];
+  media?: string[];
   // category: string;
   // type: string;
   tags: string[];

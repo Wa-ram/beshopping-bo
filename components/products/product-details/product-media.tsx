@@ -32,7 +32,7 @@ export function ProductMedia({ product, onChange }: ProductMediaProps) {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
-          {product.media.map((url, index) => (
+          {product?.media?.map((url, index) => (
             <div key={index} className="relative group">
               <Image
                 src={url}

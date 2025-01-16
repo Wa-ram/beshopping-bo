@@ -5,6 +5,7 @@ export const mockProducts: Product[] = [
     id: "1",
     title: "Classic White T-Shirt",
     description: "A comfortable cotton t-shirt perfect for everyday wear.",
+    merchant_id: "enioje6468-aesde5-e54edsdf", slug: "classic-white-t-shirt", main_image_url: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab", category: { id: "ds54d-sds51sd-ds54dzs", name: "Téléphone" },
     status: "active",
     media: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"],
     price: 29.99,
