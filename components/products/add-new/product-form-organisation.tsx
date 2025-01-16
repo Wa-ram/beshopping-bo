@@ -82,12 +82,12 @@ const ProductFormOrganisation = () => {
               value={selectedCategory}
               onChange={(category) => {
                 setSelectedCategory(category);
-                setFieldValue("category", category.id);
+                setFieldValue("category_id", category.id);
               }}
             />
           )}
-          {errors.category && (
-            <div className="text-red-500">{errors.category as ReactNode}</div>
+          {errors.category_id && (
+            <div className="text-red-500">{errors.category_id as ReactNode}</div>
           )}
         </div>
 

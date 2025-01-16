@@ -88,8 +88,8 @@ export function ProductTable({ products }: ProductTableProps) {
               </TableCell>
               <TableCell>
                 {product.trackInventory
-                  ? `${product.quantity} in stock`
-                  : "Not tracked"}
+                  ? `${product.quantity} en stock`
+                  : "Pas répertorié"}
               </TableCell>
               <TableCell>{product.category.name}</TableCell>
             </TableRow>

@@ -67,7 +67,7 @@ export interface ProductFormValues {
   status: "active" | "archived" | "draft";
   is_published: 1 | 0;
   published_at?: string;
-  category: string;
+  category_id: string;
   //product_type: string;
   collections: string[];
   tags: string[];

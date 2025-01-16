@@ -52,7 +52,7 @@ export function ProductForm(
     status: "active",
     is_published: 1,
     published_at: "",
-    category: "",
+    category_id: "",
     //product_type: "",
     collections: [],
     tags: [],
@@ -123,7 +123,7 @@ export function ProductForm(
           "La date est obligatoire pour une publication programmée"
         ),
     }),
-    category: Yup.string().required("La catégorie est obligatoire"),
+    category_id: Yup.string().required("La catégorie est obligatoire"),
     collections: Yup.array().of(Yup.string()),
     tags: Yup.array().of(Yup.string()),
     variants: Yup.array()
