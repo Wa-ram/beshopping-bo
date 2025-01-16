@@ -12,7 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { useProductStore } from "@/lib/stores/product-store";
 import { Product } from "@/lib/types/product";
-import { formatCurrency } from "@/lib/utils/utils";
+// import { formatCurrency } from "@/lib/utils/utils";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
