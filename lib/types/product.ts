@@ -94,33 +94,23 @@ export interface PaginatedResponse<T> {
 export interface APIProduct {
   id: string;
   category_id: string;
+  merchant_id: string;
   name: string;
-  description: string;
-  sku: string;
-  price: string;
-  comparison_price: string;
-  item_price: string;
-  benefit: string | null;
-  is_taxed: boolean;
-  is_physical: boolean;
-  weight: string;
   slug: string;
-  weight_unit: string;
-  stock_quantity: number;
-  is_tracking_quantity: boolean;
+  description: string;
   status: string;
-  tax_percentage: string;
+  main_image_url: string;
+  is_physical: boolean;
   is_published: boolean;
   published_at: string;
-  deleted_at: string | null;
   created_at: string;
   updated_at: string;
-  low_stock_threshold: number;
-  main_image_url: string;
-  media: Array<{
-    id: number;
-    original_url: string;
-  }>;
+  // price: string;
+  // is_taxed: boolean;
+  stock_quantity: number;
+  // tax_percentage: string;
+  category: { id: string; name: string }
+
 }
 
 export interface Product {
@@ -128,24 +118,26 @@ export interface Product {
   category_id: string;
   title: string;
   description: string;
+  merchant_id: string;
   sku?: string;
-  price: number;
-  chargeTax: boolean;
+  price?: number;
+  chargeTax?: boolean;
+  slug: string;
   status: "draft" | "active" | "archived";
   compareAtPrice?: number;
   costPerItem?: number;
   is_taxed?: boolean;
   isPhysicalProduct: boolean;
   weight?: number;
-  weight_unit: string;
+  weight_unit?: string;
   quantity?: number;
-  trackInventory: boolean;
+  trackInventory?: boolean;
   is_published: boolean;
-  publishDate?: Date;
-  deleted_at: string | null;
+  publishDate?: string;
+  deleted_at?: string | null;
   created_at: string;
   updated_at: string;
-  media: string[];
+  // media?: string[];
   // category: string;
   // type: string;
   tags: string[];
@@ -156,6 +148,8 @@ export interface Product {
   //   description: string;
   //   keywords: string[];
   // };
+  main_image_url: string;
+  category: { id: string; name: string }
 }
 
 export type ProductsResponse = PaginatedResponse<APIProduct>;

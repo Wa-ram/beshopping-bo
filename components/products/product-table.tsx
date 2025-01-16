@@ -54,9 +54,9 @@ export function ProductTable({ products }: ProductTableProps) {
               </TableCell>
               <TableCell>
                 <div className="flex items-center gap-3">
-                  {product.media[0] && (
+                  {product.main_image_url && (
                     <Image
-                      src={product.media[0]}
+                      src={product.main_image_url}
                       alt={product.title}
                       className="h-10 w-10 rounded-md object-cover"
                       width={40}
@@ -79,8 +79,8 @@ export function ProductTable({ products }: ProductTableProps) {
                     product.status === "active"
                       ? "default"
                       : product.status === "draft"
-                      ? "secondary"
-                      : "destructive"
+                        ? "secondary"
+                        : "destructive"
                   }
                 >
                   {product.status}
@@ -91,7 +91,7 @@ export function ProductTable({ products }: ProductTableProps) {
                   ? `${product.quantity} in stock`
                   : "Not tracked"}
               </TableCell>
-              <TableCell>{formatCurrency(product.price)}</TableCell>
+              <TableCell>{product.category.name}</TableCell>
             </TableRow>
           ))}
         </TableBody>

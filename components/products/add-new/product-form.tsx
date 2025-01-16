@@ -123,7 +123,7 @@ export function ProductForm(
           "La date est obligatoire pour une publication programmée"
         ),
     }),
-    // category: Yup.string().required("La catégorie est obligatoire"),
+    category: Yup.string().required("La catégorie est obligatoire"),
     collections: Yup.array().of(Yup.string()),
     tags: Yup.array().of(Yup.string()),
     variants: Yup.array()
